@@ -34,7 +34,6 @@ import java.util.List;
 
 public class Login extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
-<<<<<<< HEAD:WHEN/app/src/main/java/com/example/ysm0622/app_when/login/Login.java
     private static final String TAG = "Login";
     private static final int mInputNum = 2;
     private EditText mEditText[];
@@ -44,9 +43,6 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     private String mAddress;
     private String mResult;
     private BackgroundTask mTask;
-=======
-    // 5.28
->>>>>>> 6a8ccff5be7fd85a9337fe63afdad00117bcbf61:WHEN/app/src/main/java/com/example/ysm0622/app_when/Login.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +59,6 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         mEditText = new EditText[mInputNum];
 
         // Create instance
-        mTask = new BackgroundTask();
 
         // View allocation
         mEditText[0] = (EditText) findViewById(R.id.EditText0); // Email
@@ -127,6 +122,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
             // Query - Select * from ACCOUNT-GROUPS WHERE USER_CODE = @@ (회원코드로 회원의 모임번호들 검색 / Intent 저장)
 
             //서버로 ID 전송
+            mTask = new BackgroundTask();
             mTask.execute();
         }
         if (v.getId() == mButton.getId()) {

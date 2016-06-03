@@ -12,6 +12,8 @@ import com.example.ysm0622.app_when.R;
 public class About extends Activity implements View.OnClickListener {
 
     private static final String TAG = "About";
+    private static final int mToolBtnNum = 1;
+
     private ImageView mToolbarAction[];
     private TextView mToolbarTitle;
 
@@ -35,9 +37,10 @@ public class About extends Activity implements View.OnClickListener {
         mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
         mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
 
-        for (int i = 0; i < Icon.length; i++) {
+        for (int i = 0; i < mToolBtnNum; i++) {
             mToolbarAction[i].setOnClickListener(this);
             mToolbarAction[i].setImageDrawable(Icon[i]);
+            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
         }
         mToolbarTitle.setText(Title);
     }

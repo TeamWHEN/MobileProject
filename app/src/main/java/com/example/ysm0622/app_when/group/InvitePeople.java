@@ -2,15 +2,15 @@ package com.example.ysm0622.app_when.group;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
 
@@ -20,45 +20,77 @@ import java.util.ArrayList;
  * Created by ysm0622 on 2016-05-19.
  */
 public class InvitePeople extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
-    private ImageButton toolbtn[] = new ImageButton[2];
-    private ImageView icon[] = new ImageView[2];
+
+    private static final String TAG = "InvitePeople";
+    private static final int mToolBtnNum = 2;
+
+    // Toolbar
+    private ImageView mToolbarAction[];
+    private TextView mToolbarTitle;
+
+    private ImageView mImageView[] = new ImageView[2];
+    private EditText mEditText;
     private ArrayList<String> Member = new ArrayList<String>();
-    private EditText edittext;
     private Intent mIntent;
     private Bundle mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite_people);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.invitepeople_main);
 
         // Receive intent
         mIntent = getIntent();
+        
+        Drawable[] toolbarIcon = new Drawable[2];
+        toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+        toolbarIcon[1] = getResources().getDrawable(R.drawable.ic_done_white);
+        String toolbarTitle = getResources().getString(R.string.title_activity_invite_people);
+
+        initToolbar(toolbarIcon, toolbarTitle);
+
+        initialize();
+    }
+    private void initialize() {
+
+        // Array allocation
+
+        // Create instance
 
         // View allocation
-        toolbtn[0] = (ImageButton) findViewById(R.id.toolbar_back);
-        toolbtn[1] = (ImageButton) findViewById(R.id.toolbar_done);
+        mImageView[0] = (ImageView) findViewById(R.id.ImageView0);
+        mImageView[1] = (ImageView) findViewById(R.id.ImageView1);
 
-        icon[0] = (ImageView) findViewById(R.id.ic_search);
-        icon[1] = (ImageView) findViewById(R.id.ic_clear);
+        mEditText = (EditText) findViewById(R.id.EditText0);
+        
+        // Add listener
+        mEditText.setOnFocusChangeListener(this);
+        mEditText.addTextChangedListener(this);
 
-        edittext = (EditText) findViewById(R.id.et_search);
+        // Default setting
 
-        // Listener setting
-        for (int i = 0; i < 2; i++) {
-            toolbtn[i].setOnClickListener(this);
-            edittext.addTextChangedListener(this);
-        }
     }
 
+    private void initToolbar(Drawable Icon[], String Title) {
+        mToolbarAction = new ImageView[2];
+        mToolbarAction[0] = (ImageView) findViewById(R.id.Toolbar_Action0);
+        mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
+        mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
+
+        for (int i = 0; i < mToolBtnNum; i++) {
+            mToolbarAction[i].setOnClickListener(this);
+            mToolbarAction[i].setImageDrawable(Icon[i]);
+            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
+        }
+        mToolbarTitle.setText(Title);
+    }
+    
     @Override
     public void onClick(View v) {
-        if (toolbtn[0].getId() == v.getId()) {
+        if (mToolbarAction[0].getId() == v.getId()) {
             super.onBackPressed();
         }
-        if (toolbtn[1].getId() == v.getId()) {
+        if (mToolbarAction[1].getId() == v.getId()) {
             mData = mIntent.getExtras();
             mData.putStringArrayList("Member", Member);
             mIntent.putExtras(mData);
@@ -74,10 +106,10 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (edittext.getText().toString().length() >= 1) {
-            icon[1].setVisibility(View.VISIBLE);
+        if (mEditText.getText().toString().length() >= 1) {
+            mImageView[1].setVisibility(View.VISIBLE);
         } else {
-            icon[1].setVisibility(View.INVISIBLE);
+            mImageView[1].setVisibility(View.INVISIBLE);
         }
     }
 
@@ -88,13 +120,12 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v.getId() == edittext.getId()) {
+        if (v.getId() == mEditText.getId()) {
+            mImageView[0].clearColorFilter();
             if (hasFocus) {
-                icon[0].clearColorFilter();
-                icon[0].setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                mImageView[0].setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
             } else {
-                icon[0].clearColorFilter();
-                icon[0].setColorFilter(getResources().getColor(R.color.grey7), PorterDuff.Mode.SRC_ATOP);
+                mImageView[0].setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
             }
         }
     }

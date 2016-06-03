@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,27 +13,44 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.Settings;
 
 import java.util.ArrayList;
 
-public class GroupList extends Activity implements NavigationView.OnNavigationItemSelectedListener {
+public class GroupList extends Activity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    private static final String TAG = "GroupList";
+    private static final int mToolBtnNum = 1;
+
+    // Toolbar
+    private ImageView mToolbarAction[];
+    private TextView mToolbarTitle;
+
+    private DrawerLayout mDrawer;
+    private NavigationView mNavView;
     private ArrayList<Group> groupData = new ArrayList<Group>();
     private GroupDataAdapter adapter;
     private Toolbar supportActionBar;
     private ListView mListView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.grouplist_drawer);
+
+        Drawable[] toolbarIcon = new Drawable[2];
+        toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
+        String toolbarTitle = getResources().getString(R.string.title_activity_group_list);
+
+        initToolbar(toolbarIcon, toolbarTitle);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,22 +60,28 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavView = (NavigationView) findViewById(R.id.nav_view);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, mDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavView.setNavigationItemSelectedListener(this);
 
         mListView = (ListView) findViewById(R.id.list);
         adapter = new GroupDataAdapter(this, R.layout.group_info, groupData);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(GroupList.this, GroupManage.class));
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Intent mIntent = new Intent(GroupList.this, GroupManage.class);
+                Bundle mBundle = new Bundle();
+                TextView mTextView = (TextView) v.findViewById(R.id.tv_GroupTitle);
+                String mTitle = mTextView.getText().toString();
+                mBundle.putString("Title", mTitle);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
             }
         });
 
@@ -66,6 +90,20 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         // Query - Select GROUP_CODE, USER_CODE, GROUP_NAME from GROUPS WHERE GROUP_CODE = @@ (Intent에서 받아온 GROUP_CODE로 그룹 Search)
 
         // Query - Select GROUP_CODE, COUNT(*) from ACCOUNT-GROUPS GROUP BY GROUP_CODE (그룹별 인원 추출 query)
+    }
+
+    private void initToolbar(Drawable Icon[], String Title) {
+        mToolbarAction = new ImageView[2];
+        mToolbarAction[0] = (ImageView) findViewById(R.id.Toolbar_Action0);
+        mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
+        mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
+
+        for (int i = 0; i < mToolBtnNum; i++) {
+            mToolbarAction[i].setOnClickListener(this);
+            mToolbarAction[i].setImageDrawable(Icon[i]);
+            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
+        }
+        mToolbarTitle.setText(Title);
     }
 
     @Override
@@ -117,5 +155,12 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
     public void setSupportActionBar(Toolbar supportActionBar) {
         this.supportActionBar = supportActionBar;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == mToolbarAction[0].getId()) { // back button
+            mDrawer.openDrawer(mNavView);
+        }
     }
 }

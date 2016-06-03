@@ -17,6 +17,8 @@ public class Notifications extends Activity implements View.OnClickListener, Com
 
     private static final String TAG = "Notifications";
     private static final int COUNT = 4;
+    private static final int mToolBtnNum = 1;
+
     private ImageView mToolbarAction[];
     private TextView mToolbarTitle;
     private LinearLayout mLinearLayout[];
@@ -44,9 +46,10 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
         mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
 
-        for (int i = 0; i < Icon.length; i++) {
+        for (int i = 0; i < mToolBtnNum; i++) {
             mToolbarAction[i].setOnClickListener(this);
             mToolbarAction[i].setImageDrawable(Icon[i]);
+            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
         }
         mToolbarTitle.setText(Title);
     }

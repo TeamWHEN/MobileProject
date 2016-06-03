@@ -56,7 +56,11 @@
 
     <string name="group_title_errmsg1">그룹명은 반드시 1글자 이상이어야 합니다</string>
 
+    <string name="meet_title_errmsg1">일정제목은 반드시 1글자 이상이어야 합니다</string>
+
     <string name="desc_errmsg1"></string>
+
+    <string name="location_errmsg1"></string>
 
     <string name="group_name_hint">그룹명</string>
     <string name="title_activity_group_manage">GroupManage</string>
@@ -143,6 +147,14 @@
     <string name="group">그룹</string>
     <string name="version_info">Version 1.00.1</string>
     <string name="developer_info">개발자 정보</string>
+    <string name="title_hint">제목</string>
+    <string name="group_desc_hint">그룹 설명</string>
+    <string name="desc_hint">설명</string>
+    <string name="location_hint">장소</string>
+    <string name="next_meet">다음 일정</string>
+    <string name="meet_list">일정 목록</string>
+    <string name="member">구성원</string>
+    <string name="create_meet">일정 생성</string>
 
 
 </resources>

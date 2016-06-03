@@ -21,8 +21,11 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
     private static final String TAG = "SignUp";
     private static final int mToolBtnNum = 2;
     private static final int mInputNum = 3;
+
+    // Toolbar
     private ImageView mToolbarAction[];
     private TextView mToolbarTitle;
+
     private TextInputLayout mTextInputLayout[];
     private ImageView mImageView[];
     private EditText mEditText[];
@@ -53,9 +56,10 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
         mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
         mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
 
-        for (int i = 0; i < Icon.length; i++) {
+        for (int i = 0; i < mToolBtnNum; i++) {
             mToolbarAction[i].setOnClickListener(this);
             mToolbarAction[i].setImageDrawable(Icon[i]);
+            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
         }
         mToolbarTitle.setText(Title);
     }
@@ -124,7 +128,6 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
         mErrMsg[0] = getResources().getString(R.string.name_errmsg1);
         mErrMsg[1] = getResources().getString(R.string.email_errmsg1);
         mErrMsg[2] = getResources().getString(R.string.pw_errmsg1);
-
 
     }
 
