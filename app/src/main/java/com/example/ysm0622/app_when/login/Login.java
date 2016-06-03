@@ -1,5 +1,7 @@
 package com.example.ysm0622.app_when.login;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -15,8 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.group.GroupList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,7 +36,8 @@ import java.util.List;
 
 public class Login extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
-<<<<<<< HEAD:WHEN/app/src/main/java/com/example/ysm0622/app_when/login/Login.java
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
     private static final String TAG = "Login";
     private static final int mInputNum = 2;
     private EditText mEditText[];
@@ -44,9 +47,6 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     private String mAddress;
     private String mResult;
     private BackgroundTask mTask;
-=======
-    // 5.28
->>>>>>> 6a8ccff5be7fd85a9337fe63afdad00117bcbf61:WHEN/app/src/main/java/com/example/ysm0622/app_when/Login.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +137,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     class BackgroundTask extends AsyncTask<Integer, Integer, Integer> {
         protected void onPreExecute() {
             mAddress = mURL;
+            showDialog(PROGRESS_DIALOG);
         }
 
         @Override
@@ -149,8 +150,14 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         protected void onPostExecute(Integer a) {
             Toast.makeText(getApplicationContext(), mResult, Toast.LENGTH_SHORT).show();
             Log.w(TAG, mResult);
+
+            if (progressDialog != null)
+                progressDialog.dismiss();
+
             if (mResult != "")
                 startActivity(new Intent(Login.this, GroupList.class));
+            else
+                Toast.makeText(getApplicationContext(), "로그인이 실패했습니다", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -174,5 +181,16 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
             e.printStackTrace();
         }
         return mResult;
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("로그인 중입니다.");
+
+            return progressDialog;
+        }
+        return null;
     }
 }

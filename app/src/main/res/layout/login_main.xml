@@ -55,7 +55,7 @@
                 android:hint="@string/email_hint"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:textColorHint="#32FFFFFF"/>
+                android:textColorHint="#32FFFFFF" />
 
         </LinearLayout>
 
