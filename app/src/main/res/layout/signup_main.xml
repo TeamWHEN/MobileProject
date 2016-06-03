@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:theme="@style/AlertDialog.AppCompat.Light"
+    tools:context="com.example.ysm0622.app_when.login.SignUp"
+    tools:showIn="@layout/signup_main">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <ImageView
+                    android:id="@+id/ImageView0"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_person" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/TextInputLayout0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp">
+
+                    <EditText
+                        android:id="@+id/EditText0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name_hint"
+                        android:imeOptions="actionNext"
+                        android:maxLength="20"
+                        android:singleLine="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TextView0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/TextView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAlignment="textEnd"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/ImageView1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_email" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/TextInputLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp">
+
+                    <EditText
+                        android:id="@+id/EditText1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_hint"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="128"
+                        android:singleLine="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/TextView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="5"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/TextView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAlignment="textEnd"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/ImageView2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_lock" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/TextInputLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp">
+
+                    <EditText
+                        android:id="@+id/EditText2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password_hint"
+                        android:inputType="textPassword"
+                        android:maxLength="64"
+                        android:singleLine="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/TextView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="5"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/TextView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAlignment="textEnd"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/divider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:gravity="center"
+                android:text="@string/copyright"
+                android:textColor="@color/textSecondary"
+                android:textSize="10sp"
+                android:typeface="serif" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

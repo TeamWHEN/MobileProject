@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    app:theme="@style/AppTheme2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_product" />
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="48dp"
+            android:src="@drawable/im_logo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_email_white" />
+
+            <EditText
+                android:id="@+id/EditText0"
+                android:layout_width="192dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/email_hint"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="#32FFFFFF"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_lock_white" />
+
+            <EditText
+                android:id="@+id/EditText1"
+                android:layout_width="192dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/password_hint"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="#32FFFFFF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/Fab0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/custom_btn"
+                android:src="@drawable/ic_forward_white_24dp"
+                app:backgroundTint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/Button0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_btn2"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:text="@string/create_account_hint"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+
+<resources>
+
+    <string name="app_name">WHEN</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">설정</string>
+
+    <string name="title_activity_in_group">InGroup</string>
+
+    <string name="title_activity_create_account">계정 생성</string>
+
+    <string name="title_activity_create_group">그룹 생성</string>
+
+    <string name="title_activity_invite_people">구성원 초대</string>
+
+    <string name="title_activity_group_list">그룹 목록</string>
+
+    <string name="copyright">Copyright ⓒ 2016 – 2016 Gachon Univ. All Rights Reserved.</string>
+
+    <string name="email_hint">이메일</string>
+
+    <string name="password_hint">비밀번호</string>
+
+    <string name="create_account_hint">계정 만들기</string>
+
+    <string name="name_hint">이름</string>
+
+    <string name="btn_signup">회원가입</string>
+
+    <string name="home">홈</string>
+
+    <string name="setting">설정</string>
+
+    <string name="rate">평가</string>
+
+    <string name="about">정보</string>
+
+    <string name="share">공유</string>
+
+    <string name="group_title_hint">그룹명</string>
+
+    <string name="btn_create_group">그룹 생성</string>
+
+    <string name="group_add_hint">구성원 초대</string>
+
+    <string name="name_errmsg1">이름은 반드시 1글자 이상이어야 합니다</string>
+
+    <string name="email_errmsg1">올바른 이메일을 입력하세요</string>
+
+    <string name="pw_errmsg1">비밀번호는 반드시 4글자 이상이어야 합니다</string>
+
+    <string name="group_title_errmsg1">그룹명은 반드시 1글자 이상이어야 합니다</string>
+
+    <string name="desc_errmsg1"></string>
+
+    <string name="group_name_hint">그룹명</string>
+    <string name="title_activity_group_manage">GroupManage</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_test">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="notifications">알림</string>
+    <string name="editprofile">프로필 수정</string>
+    <string name="sound">소리</string>
+    <string name="vibration">진동</string>
+    <string name="popup">팝업</string>
+    <string name="group">그룹</string>
+    <string name="version_info">Version 1.00.1</string>
+    <string name="developer_info">개발자 정보</string>
+
+
+</resources>
