@@ -14,7 +14,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_when_circle_elevation3"
+        android:icon="@drawable/ic_when_circle"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -39,11 +39,11 @@
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".group.InvitePeople"
+            android:name=".group.GroupManage"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".group.GroupManage"
+            android:name=".group.InvitePeople"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -56,6 +56,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".menu.About"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".meet.CreateMeet"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

@@ -11,7 +11,6 @@
         android:id="@+id/Toolbar_Action0"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:background="@drawable/selector_btn"
         android:padding="16dp" />
 
     <TextView
@@ -27,7 +26,6 @@
         android:id="@+id/Toolbar_Action1"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:background="@drawable/selector_btn"
         android:padding="16dp" />
 
 </LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".group.GroupManage">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".group.GroupList">
+
+        <include layout="@layout/toolbar" />
+
+        <include layout="@layout/tabbar"/>
+
+        <include
+            android:id="@+id/Include0"
+            layout="@layout/groupmanage_meetlist"/>
+        <include
+            android:id="@+id/Include1"
+            layout="@layout/groupmanage_recentmeet"/>
+        <include
+            android:id="@+id/Include2"
+            layout="@layout/groupmanage_member"/>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
