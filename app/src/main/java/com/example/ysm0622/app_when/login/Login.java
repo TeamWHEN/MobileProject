@@ -158,7 +158,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
             if (mResult != "")
                 startActivity(new Intent(Login.this, GroupList.class));
             else
-                Toast.makeText(getApplicationContext(), "로그인이 실패했습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.login_fail_msg, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -188,7 +188,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setMessage("로그인 중입니다.");
+            progressDialog.setMessage(getString(R.string.login_progress_msg));
 
             return progressDialog;
         }

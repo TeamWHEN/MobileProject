@@ -25,7 +25,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/ic_label" />
 
         <android.support.design.widget.TextInputLayout
@@ -85,7 +85,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/ic_short_text" />
 
 

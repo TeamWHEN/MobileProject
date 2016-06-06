@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.ysm0622.app_when.group.GroupMember xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/TabRoot2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,10 +10,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <ListView
+            android:id="@+id/ListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Member" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -25,4 +25,4 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add" />
 
-</android.support.design.widget.CoordinatorLayout>
+</com.example.ysm0622.app_when.group.GroupMember>

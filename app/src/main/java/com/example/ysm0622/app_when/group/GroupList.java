@@ -9,7 +9,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.Settings;
+import com.example.ysm0622.app_when.object.Group;
 
 import java.util.ArrayList;
 
@@ -37,7 +36,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private NavigationView mNavView;
     private ArrayList<Group> groupData = new ArrayList<Group>();
     private GroupDataAdapter adapter;
-    private Toolbar supportActionBar;
+    private TextView mTextView;
     private ListView mListView;
 
     @Override
@@ -69,15 +68,17 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         mNavView.setNavigationItemSelectedListener(this);
 
-        mListView = (ListView) findViewById(R.id.list);
-        adapter = new GroupDataAdapter(this, R.layout.group_info, groupData);
+        mTextView = (TextView) findViewById(R.id.TextView0);
+
+        mListView = (ListView) findViewById(R.id.ListView);
+        adapter = new GroupDataAdapter(this, R.layout.group_item, groupData);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent mIntent = new Intent(GroupList.this, GroupManage.class);
                 Bundle mBundle = new Bundle();
-                TextView mTextView = (TextView) v.findViewById(R.id.tv_GroupTitle);
+                TextView mTextView = (TextView) v.findViewById(R.id.TextView0);
                 String mTitle = mTextView.getText().toString();
                 mBundle.putString("Title", mTitle);
                 mIntent.putExtras(mBundle);
@@ -148,13 +149,11 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 G.setDesc(mBundle.getString("Desc"));
                 adapter.add(G);
                 adapter.notifyDataSetChanged();
+                mTextView.setVisibility(View.INVISIBLE);
+                mTextView.setEnabled(false);
+                mTextView.setHeight(0);
             }
         }
-    }
-
-
-    public void setSupportActionBar(Toolbar supportActionBar) {
-        this.supportActionBar = supportActionBar;
     }
 
     @Override

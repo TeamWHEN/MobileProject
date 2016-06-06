@@ -41,7 +41,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         // Receive intent
         mIntent = getIntent();
-        
+
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
         toolbarIcon[1] = getResources().getDrawable(R.drawable.ic_done_white);
@@ -51,6 +51,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         initialize();
     }
+
     private void initialize() {
 
         // Array allocation
@@ -62,12 +63,14 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         mImageView[1] = (ImageView) findViewById(R.id.ImageView1);
 
         mEditText = (EditText) findViewById(R.id.EditText0);
-        
+
         // Add listener
         mEditText.setOnFocusChangeListener(this);
         mEditText.addTextChangedListener(this);
+        mImageView[1].setOnClickListener(this);
 
         // Default setting
+        mImageView[1].setColorFilter(getResources().getColor(R.color.colorPrimary));
 
     }
 
@@ -84,7 +87,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         }
         mToolbarTitle.setText(Title);
     }
-    
+
     @Override
     public void onClick(View v) {
         if (mToolbarAction[0].getId() == v.getId()) {
@@ -96,6 +99,9 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
             mIntent.putExtras(mData);
             setResult(RESULT_OK, mIntent);
             finish();
+        }
+        if (mImageView[1].getId() == v.getId()) {
+            mEditText.setText("");
         }
     }
 

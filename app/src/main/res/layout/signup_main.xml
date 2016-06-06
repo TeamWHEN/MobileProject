@@ -7,8 +7,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:theme="@style/AlertDialog.AppCompat.Light"
-    tools:context="com.example.ysm0622.app_when.login.SignUp"
-    tools:showIn="@layout/signup_main">
+    tools:context="com.example.ysm0622.app_when.login.SignUp">
 
     <include layout="@layout/toolbar" />
 
@@ -16,26 +15,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
+                android:paddingRight="16dp">
 
                 <ImageView
                     android:id="@+id/ImageView0"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/ic_person" />
 
                 <android.support.design.widget.TextInputLayout
@@ -56,8 +54,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/TextView0"
@@ -70,7 +67,7 @@
 
                         <TextView
                             android:id="@+id/TextView1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="4dp"
                             android:layout_weight="1"
@@ -83,11 +80,9 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
@@ -96,7 +91,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/ic_email" />
 
 
@@ -147,7 +142,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
@@ -156,7 +150,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/ic_lock" />
 
 

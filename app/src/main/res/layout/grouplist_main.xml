@@ -16,20 +16,21 @@
 
         <include layout="@layout/toolbar" />
 
-        <ListView
-            android:id="@+id/list"
+        <TextView
+            android:id="@+id/TextView0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/grey3"
-            android:dividerHeight="10dp" />
-
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
             android:text="표시할 내용이 없습니다." />
+
+        <ListView
+            android:id="@+id/ListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/grey3"
+            android:dividerHeight="8dp" />
+
 
     </LinearLayout>
 

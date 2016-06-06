@@ -17,14 +17,14 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_product" />
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/im_icon_shadow" />
 
         <ImageView
             android:layout_width="128dp"
             android:layout_height="48dp"
-            android:src="@drawable/im_logo" />
+            android:src="@drawable/im_logo_shadow" />
 
     </LinearLayout>
 
@@ -95,7 +95,7 @@
                 android:id="@+id/Fab0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="12dp"
                 android:background="@drawable/custom_btn"
                 android:src="@drawable/ic_forward_white_24dp"
                 app:backgroundTint="@color/colorPrimary" />

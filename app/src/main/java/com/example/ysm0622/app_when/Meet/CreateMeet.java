@@ -35,7 +35,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
     private Intent mIntent;
-    private Bundle mData;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,11 +132,12 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
             super.onBackPressed();
         }
         if (mToolbarAction[1].getId() == v.getId()) {
-            mIntent = new Intent(CreateMeet.this, InvitePeople.class);
-            mData = new Bundle();
-            mData.putString("Title", mEditText[0].getText().toString());
-            mData.putString("Desc", mEditText[1].getText().toString());
-            mIntent.putExtras(mData);
+            mIntent = new Intent(CreateMeet.this, SelectDay.class);
+            mBundle = new Bundle();
+            mBundle.putString("Title", mEditText[0].getText().toString());
+            mBundle.putString("Desc", mEditText[1].getText().toString());
+            mBundle.putString("Location", mEditText[2].getText().toString());
+            mIntent.putExtras(mBundle);
 
             startActivityForResult(mIntent, 1001);
         }
