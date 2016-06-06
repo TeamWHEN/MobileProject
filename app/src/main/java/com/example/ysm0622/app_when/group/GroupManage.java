@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.meet.CreateMeet;
 import com.example.ysm0622.app_when.menu.About;
+import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
@@ -42,6 +43,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private DrawerLayout mDrawer;
     private NavigationView mNavView;
     private View mTabContent[];
+    private RateView mRateView;
 
     private FloatingActionButton mFab[];
 
@@ -55,6 +57,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
         String toolbarTitle = getResources().getString(R.string.meet_info);
+
+        mRateView = new RateView(this);
 
         initToolbar(toolbarIcon, toolbarTitle);
 
@@ -163,7 +167,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(GroupManage.this, Settings.class));
         } else if (id == R.id.nav_rate) {
-
+            mRateView.show();
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(GroupManage.this, About.class));
         } else if (id == R.id.nav_share) {

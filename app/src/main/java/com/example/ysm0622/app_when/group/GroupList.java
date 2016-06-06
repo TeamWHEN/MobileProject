@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.menu.About;
+import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.kakao.kakaolink.KakaoLink;
@@ -41,6 +42,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private GroupDataAdapter adapter;
     private TextView mTextView;
     private ListView mListView;
+    private RateView mRateView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             }
         });
 
+        mRateView = new RateView(this);
+
         // Login Activity에서 Intent 받아서 그룹정보 search
 
         // Query - Select GROUP_CODE, USER_CODE, GROUP_NAME from GROUPS WHERE GROUP_CODE = @@ (Intent에서 받아온 GROUP_CODE로 그룹 Search)
@@ -131,7 +135,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(GroupList.this, Settings.class));
         } else if (id == R.id.nav_rate) {
-
+            mRateView.show();
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(GroupList.this, About.class));
         } else if (id == R.id.nav_share) {
