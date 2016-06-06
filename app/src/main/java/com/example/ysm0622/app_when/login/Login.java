@@ -1,4 +1,4 @@
-﻿package com.example.ysm0622.app_when.login;
+package com.example.ysm0622.app_when.login;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
