@@ -23,7 +23,7 @@
             layout="@layout/groupmanage_meetlist"/>
         <include
             android:id="@+id/Include1"
-            layout="@layout/groupmanage_recentmeet"/>
+            layout="@layout/groupmanage_meetinfo"/>
         <include
             android:id="@+id/Include2"
             layout="@layout/groupmanage_member"/>

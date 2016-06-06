@@ -40,7 +40,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private NavigationView mNavView;
     private View mTabContent[];
 
-    private View mTabView[];
+    private FloatingActionButton mFab[];
+
+    private GroupMember mGroupMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +51,13 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
-        String toolbarTitle = getResources().getString(R.string.next_meet);
+        String toolbarTitle = getResources().getString(R.string.meet_info);
 
         initToolbar(toolbarIcon, toolbarTitle);
 
         initTabbar();
 
         initialize();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(GroupManage.this, CreateMeet.class), 1000);
-            }
-        });
-
-        mNavView = (NavigationView) findViewById(R.id.nav_view);
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         // Login Activity에서 Intent 받아서 그룹정보 search
 
@@ -85,12 +69,26 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private void initialize() {
 
         // Array allocation
+        mFab = new FloatingActionButton[2];
 
         // Create instance
 
         // View allocation
+        mFab[0] = (FloatingActionButton) mTabContent[0].findViewById(R.id.fab);
+        mFab[1] = (FloatingActionButton) mTabContent[2].findViewById(R.id.fab);
+
+        mNavView = (NavigationView) findViewById(R.id.nav_view);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.setDrawerListener(toggle);
+        toggle.syncState();
 
         // Add listener
+        for (int i = 0; i < 2; i++)
+            mFab[i].setOnClickListener(this);
+
+        mNavView.setNavigationItemSelectedListener(this);
 
         // Default setting
     }
@@ -114,7 +112,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mTabbarImage = new ImageView[mTabBtnNum];
         mTabbarLine = new View[mTabBtnNum];
         mTabContent = new View[mTabBtnNum];
-        mTabView = new View[mTabBtnNum];
 
         mTabbarAction[0] = (LinearLayout) findViewById(R.id.Tabbar_Tab0);
         mTabbarAction[1] = (LinearLayout) findViewById(R.id.Tabbar_Tab1);
@@ -131,10 +128,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mTabContent[0] = (View) findViewById(R.id.Include0);
         mTabContent[1] = (View) findViewById(R.id.Include1);
         mTabContent[2] = (View) findViewById(R.id.Include2);
-
-        mTabView[0] = (View) findViewById(R.id.TabRoot0);
-        mTabView[1] = (View) findViewById(R.id.TabRoot1);
-        mTabView[2] = (View) findViewById(R.id.TabRoot2);
 
         for (int i = 0; i < mTabBtnNum; i++) {
             mTabbarAction[i].setOnClickListener(this);
@@ -200,10 +193,16 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     mTabbarLine[i].setBackgroundColor(getResources().getColor(R.color.white));
                     mTabContent[i].setVisibility(View.VISIBLE);
                     if (i == 0) mToolbarTitle.setText(getResources().getString(R.string.meet_list));
-                    if (i == 1) mToolbarTitle.setText(getResources().getString(R.string.next_meet));
+                    if (i == 1) mToolbarTitle.setText(getResources().getString(R.string.meet_info));
                     if (i == 2) mToolbarTitle.setText(getResources().getString(R.string.member));
                 }
             }
+        }
+        if (v.equals(mFab[0])) {
+            startActivityForResult(new Intent(GroupManage.this, CreateMeet.class), 1000);
+        }
+        if (v.equals(mFab[1])) {
+            startActivityForResult(new Intent(GroupManage.this, InvitePeople.class), 1001);
         }
     }
 }
