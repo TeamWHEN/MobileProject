@@ -1,9 +1,9 @@
 package com.example.ysm0622.app_when.object;
 
-/**
- * Created by ysm0622 on 2016-05-23.
- */
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
     private static long AutoGenerateId = 0;
     private long Id;
     private String Name;
@@ -21,11 +21,31 @@ public class User {
         return Id;
     }
 
+    public void setId(long id) {
+        Id = id;
+    }
+
     public String getName() {
         return Name;
     }
 
+    public void setName(String name) {
+        Name = name;
+    }
+
     public String getEmail() {
         return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 }

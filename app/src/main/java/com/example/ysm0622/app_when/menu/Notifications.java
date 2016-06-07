@@ -15,12 +15,17 @@ import com.example.ysm0622.app_when.R;
 
 public class Notifications extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
+    // TAG
     private static final String TAG = "Notifications";
+
+    // Const
     private static final int COUNT = 4;
     private static final int mToolBtnNum = 1;
 
+    // Toolbar
     private ImageView mToolbarAction[];
     private TextView mToolbarTitle;
+
     private LinearLayout mLinearLayout[];
     private ImageView mImageView[];
     private TextView mTextView[];

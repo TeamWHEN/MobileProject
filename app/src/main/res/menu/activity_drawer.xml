@@ -31,6 +31,11 @@
             android:icon="@drawable/ic_share"
             android:title="@string/share" />
 
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_exit_to_app_white_24dp"
+            android:title="@string/logout" />
+
     </group>
 
 </menu>

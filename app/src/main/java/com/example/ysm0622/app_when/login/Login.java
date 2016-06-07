@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.group.GroupList;
 
 import org.apache.http.HttpEntity;
@@ -36,11 +37,18 @@ import java.util.List;
 
 public class Login extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
+    // TAG
+    private static final String TAG = "Login";
+
+    // Const
+    private static final int mInputNum = 2;
     public static final int PROGRESS_DIALOG = 1001;
+
+    // Intent
+    private Intent mIntent;
+
     public ProgressDialog progressDialog;
 
-    private static final String TAG = "Login";
-    private static final int mInputNum = 2;
     private EditText mEditText[];
     private FloatingActionButton mFab;
     private Button mButton;
@@ -155,9 +163,11 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
             if (progressDialog != null)
                 progressDialog.dismiss();
 
-            if (mResult != "")
-                startActivity(new Intent(Login.this, GroupList.class));
-            else
+            if (mResult != "") {
+                mIntent = new Intent(Login.this, GroupList.class);
+                mIntent.putExtra(Global.USER_EMAIL, mEditText[0].getText().toString());
+                startActivity(mIntent);
+            } else
                 Toast.makeText(getApplicationContext(), R.string.login_fail_msg, Toast.LENGTH_SHORT).show();
         }
     }

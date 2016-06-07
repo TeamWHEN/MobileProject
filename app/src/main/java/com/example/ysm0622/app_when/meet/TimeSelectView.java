@@ -13,8 +13,12 @@ import com.example.ysm0622.app_when.R;
 
 public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callback {
 
+    // TAG
     private static final String TAG = "TimeSelectView";
+
+    // Const
     private static final int DIVISION = 8;
+
     private Context mContext;
     private SurfaceHolder mHolder;
     public DrawThread mDrawThread;

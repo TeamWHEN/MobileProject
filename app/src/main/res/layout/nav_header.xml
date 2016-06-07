@@ -13,12 +13,13 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/MyProfile"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/profile_circle_v3" />
+        android:src="@drawable/ic_account_circle_black_48dp" />
 
     <TextView
+        android:id="@+id/MyName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -26,7 +27,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/MyEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ysm0622@gmail.com" />

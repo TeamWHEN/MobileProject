@@ -14,29 +14,28 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/grey2">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/LinearLayout0"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#F5F5F5"
             android:padding="4dp">
 
-            <include layout="@layout/invitepeople_miniprofile" />
+            <TextView
+                android:id="@+id/EmptyMsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="120dp"
+                android:gravity="center"
+                android:text="구성원이 없습니다." />
 
-            <include layout="@layout/invitepeople_miniprofile" />
-
-            <include layout="@layout/invitepeople_miniprofile" />
-
-            <include layout="@layout/invitepeople_miniprofile" />
-
-            <include layout="@layout/invitepeople_miniprofile" />
-
-            <include layout="@layout/invitepeople_miniprofile" />
-
-            <include layout="@layout/invitepeople_miniprofile" />
-
-            <include layout="@layout/invitepeople_miniprofile" />
+            <include
+                android:id="@+id/Init"
+                layout="@layout/invitepeople_miniprofile"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -85,7 +84,7 @@
         android:background="@color/divider" />
 
     <ListView
-        android:id="@+id/people_list"
+        android:id="@+id/ListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

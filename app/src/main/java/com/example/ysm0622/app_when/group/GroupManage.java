@@ -10,26 +10,41 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.meet.CreateMeet;
 import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
+import com.example.ysm0622.app_when.object.Group;
+import com.example.ysm0622.app_when.object.Meet;
+import com.example.ysm0622.app_when.object.User;
+
+import java.util.ArrayList;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
 
 public class GroupManage extends Activity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    // TAG
     private static final String TAG = "GroupList";
+
+    // Const
     private static final int mToolBtnNum = 1;
     private static final int mTabBtnNum = 3;
+
+    // Intent
+    private Intent mIntent;
 
     // Toolbar
     private ImageView mToolbarAction[];
@@ -49,10 +64,24 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     private GroupMember mGroupMember;
 
+    // List View
+    private ListView mListView[];
+
+    // Adapter
+    private UserDataAdapter UserAdapter;
+    private MeetDataAdapter MeetAdapter;
+
+    // Data
+    private Group G;
+    private ArrayList<User> userData = new ArrayList<>();
+    private ArrayList<Meet> meetData = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groupmanage_drawer);
+
+        mIntent = getIntent();
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
@@ -63,6 +92,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         initToolbar(toolbarIcon, toolbarTitle);
 
         initTabbar();
+
+        initNavigationView();
 
         initialize();
 
@@ -77,14 +108,19 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         // Array allocation
         mFab = new FloatingActionButton[2];
+        mListView = new ListView[2];
 
         // Create instance
+        UserAdapter = new UserDataAdapter(this, R.layout.member_item, userData);
+        MeetAdapter = new MeetDataAdapter(this, R.layout.meet_item, meetData);
 
         // View allocation
         mFab[0] = (FloatingActionButton) mTabContent[0].findViewById(R.id.fab);
         mFab[1] = (FloatingActionButton) mTabContent[2].findViewById(R.id.fab);
 
-        mNavView = (NavigationView) findViewById(R.id.nav_view);
+        mListView[0] = (ListView) mTabContent[0].findViewById(R.id.ListView);
+        mListView[1] = (ListView) mTabContent[2].findViewById(R.id.ListView);
+
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -95,9 +131,48 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         for (int i = 0; i < 2; i++)
             mFab[i].setOnClickListener(this);
 
-        mNavView.setNavigationItemSelectedListener(this);
-
         // Default setting
+        mListView[0].setAdapter(MeetAdapter);
+        mListView[0].setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
+        mListView[1].setAdapter(UserAdapter);
+        mListView[1].setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        G = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        userData = G.getMember();
+        for (int i = 0; i < userData.size(); i++) {
+            UserAdapter.add(G.getMember(i));
+        }
+        UserAdapter.notifyDataSetChanged();
+    }
+
+    private void initNavigationView() {
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+        float mScale = getResources().getDisplayMetrics().density;
+        int width = (int) (dm.widthPixels - (56 * mScale + 0.5f));
+        mNavView = (NavigationView) findViewById(R.id.nav_view);
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        param.height = (int) (width * 9.0 / 16.0);
+        mNavView.getHeaderView(0).setLayoutParams(param);
+        ImageView ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
+        ImageView0.setColorFilter(getResources().getColor(R.color.white));
+        TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
+        TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
+        User user = (User) mIntent.getSerializableExtra(Global.USER);
+        TextView0.setText(user.getName());
+        TextView1.setText(user.getEmail());
+        mNavView.setNavigationItemSelectedListener(this);
     }
 
     private void initToolbar(Drawable Icon[], String Title) {
@@ -138,10 +213,11 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         for (int i = 0; i < mTabBtnNum; i++) {
             mTabbarAction[i].setOnClickListener(this);
-            mTabbarImage[i].setColorFilter(getResources().getColor(R.color.grey4), PorterDuff.Mode.SRC_ATOP);
+            mTabbarImage[i].setColorFilter(getResources().getColor(R.color.grey4));
             mTabContent[i].setVisibility(View.GONE);
         }
 
+        mTabbarImage[1].setColorFilter(getResources().getColor(R.color.white));
         mTabbarLine[1].setBackgroundColor(getResources().getColor(R.color.white));
         mTabContent[1].setVisibility(View.VISIBLE);
     }
@@ -201,9 +277,22 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
+        if (requestCode == 1000) {
+            if (resultCode == RESULT_OK) {
+                Meet M = new Meet();
+                Bundle mBundle = intent.getExtras();
+                M.setTitle(mBundle.getString("Title"));
+                M.setDesc(mBundle.getString("Desc"));
+                M.setLocation(mBundle.getString("Location"));
+                MeetAdapter.add(M);
+                MeetAdapter.notifyDataSetChanged();
+                TextView mTextView = (TextView) mTabContent[0].findViewById(R.id.TextView0);
+                mTextView.setVisibility(View.INVISIBLE);
+                mTextView.setEnabled(false);
+                mTextView.setHeight(0);
+            }
+        }
     }
-
 
     @Override
     public void onClick(View v) {

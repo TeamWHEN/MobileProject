@@ -14,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.group.InvitePeople;
 
 public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
+    // TAG
     private static final String TAG = "CreateMeet";
+
+    // Const
     private static final int mInputNum = 3;
     private static final int mToolBtnNum = 2;
 

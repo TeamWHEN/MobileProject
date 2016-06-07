@@ -11,10 +11,14 @@ import com.example.ysm0622.app_when.R;
 
 public class About extends Activity implements View.OnClickListener {
 
+    // TAG
     private static final String TAG = "About";
+
+    // Const
     private static final int COUNT = 3;
     private static final int mToolBtnNum = 1;
 
+    // Toolbar
     private ImageView mToolbarAction[];
     private TextView mToolbarTitle;
 
