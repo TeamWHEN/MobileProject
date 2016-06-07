@@ -1,5 +1,6 @@
 package com.example.ysm0622.app_when.login;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,12 +16,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.group.GroupList;
+import com.example.ysm0622.app_when.object.User;
 
 public class SignUp extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
+    // TAG
     private static final String TAG = "SignUp";
+
+    // Const
     private static final int mToolBtnNum = 2;
     private static final int mInputNum = 3;
+
+    // Intent
+    private Intent mIntent;
 
     // Toolbar
     private ImageView mToolbarAction[];
@@ -220,7 +230,14 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             // 중복이없다면 가입 (테이블에 Tuple add)
 
             // Query - Insert into ACCOUNT values('회원번호', '이메일', '비밀번호', '이름', '가입날짜');
-            super.onBackPressed();
+            String name = mEditText[0].getText().toString();
+            String email = mEditText[1].getText().toString();
+            String password = mEditText[2].getText().toString();
+            User user = new User(name, email, password);
+            mIntent = new Intent(SignUp.this, GroupList.class);
+            mIntent.putExtra(Global.USER, user);
+            startActivity(mIntent);
+            finish();
         }
     }
 }

@@ -14,12 +14,17 @@ import com.example.ysm0622.app_when.R;
 
 public class Settings extends Activity implements View.OnClickListener {
 
+    // TAG
     private static final String TAG = "Settings";
+
+    // Const
     private static final int COUNT = 2;
     private static final int mToolBtnNum = 1;
 
+    // Toolbar
     private ImageView mToolbarAction[];
     private TextView mToolbarTitle;
+
     private LinearLayout mLinearLayout[];
     private ImageView mImageView[];
 

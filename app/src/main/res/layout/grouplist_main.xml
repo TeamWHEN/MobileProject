@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:padding="16dp"
-            android:text="표시할 내용이 없습니다." />
+            android:text="@string/group_empty_msg" />
 
         <ListView
             android:id="@+id/ListView"

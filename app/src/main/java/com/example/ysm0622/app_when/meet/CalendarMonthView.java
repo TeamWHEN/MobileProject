@@ -15,10 +15,14 @@ import java.util.Calendar;
 
 public class CalendarMonthView extends LinearLayout implements View.OnClickListener {
 
+    // TAG
     private static final String TAG = "CalendarMonthView";
+
+    // Const
     private static final int mRow = 6;
     private static final int mCol = 7;
     private static float mScale;
+
     private Context mContext;
     private LinearLayout mLinearLayout[];
     private LinearLayout.LayoutParams mParam[];

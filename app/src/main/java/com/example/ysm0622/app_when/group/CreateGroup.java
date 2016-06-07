@@ -14,12 +14,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
 
 public class CreateGroup extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
+    // TAG
     private static final String TAG = "CreateGroup";
+
+    // Const
     private static final int mInputNum = 2;
     private static final int mToolBtnNum = 2;
+
+    // Intent
+    private Intent mIntent;
 
     // Toolbar
     private ImageView mToolbarAction[];
@@ -33,8 +40,6 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
     private int mMinLength[] = new int[mInputNum];
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
-    private Intent mIntent;
-    private Bundle mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +128,10 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
             super.onBackPressed();
         }
         if (mToolbarAction[1].getId() == v.getId()) {
-            mIntent = new Intent(CreateGroup.this, InvitePeople.class);
-            mData = new Bundle();
-            mData.putString("Title", mEditText[0].getText().toString());
-            mData.putString("Desc", mEditText[1].getText().toString());
-            mIntent.putExtras(mData);
-
-            startActivityForResult(mIntent, 1001);
+            mIntent.setClass(CreateGroup.this, InvitePeople.class);
+            mIntent.putExtra(Global.GROUP_TITLE, mEditText[0].getText().toString());
+            mIntent.putExtra(Global.GROUP_DESC, mEditText[1].getText().toString());
+            startActivityForResult(mIntent, 1000);
         }
     }
 
@@ -201,7 +203,7 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 1001) {
+        if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, intent);
                 finish();

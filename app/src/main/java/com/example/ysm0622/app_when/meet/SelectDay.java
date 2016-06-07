@@ -17,10 +17,16 @@ import java.util.Calendar;
 
 public class SelectDay extends AppCompatActivity implements View.OnClickListener {
 
+    // TAG
     private static final String TAG = "SelectDay";
+
+    // Const
     private static final int mInputNum = 2;
     private static final int mToolBtnNum = 2;
     private static final int mSelectViewNum = 3;
+
+    // Intent
+    private Intent mIntent;
 
     // Toolbar
     private ImageView mToolbarAction[];
@@ -35,8 +41,6 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
     private int mYear;
     private int mMonth;
     private String mCtitle;
-    private Intent mIntent;
-    private Bundle mBundle;
 
     private TimeSelectView mTimeSelectView[] = new TimeSelectView[mSelectViewNum];
 
@@ -124,13 +128,10 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
             super.onBackPressed();
         }
         if (mToolbarAction[1].getId() == v.getId()) {
-            mIntent = new Intent(SelectDay.this, SelectDay.class);
-            mBundle = new Bundle();
-            mIntent.putExtras(mBundle);
-            ArrayList<Calendar> DataData = mCalendarView.getDateData();
-//            mIntent.putParcelableArrayListExtra()
-//            mBundle.putParcelableArrayList("Date", (Parcelable)DataData);
-            setResult(1001, mIntent);
+            ArrayList<Calendar> DateData = mCalendarView.getDateData();
+            //mBundle.putSerializable("DateData", DateData);
+            setResult(RESULT_OK, mIntent);
+            finish();
         }
         if (mImageView[0].getId() == v.getId()) {
             mCurrent.add(Calendar.MONTH, -1);

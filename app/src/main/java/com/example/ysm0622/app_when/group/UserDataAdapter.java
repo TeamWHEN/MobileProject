@@ -31,10 +31,10 @@ public class UserDataAdapter extends ArrayAdapter<User> {
         View v = convertView;
         if (v == null) {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.group_item, null);
+            v = vi.inflate(R.layout.member_item, null);
         }
-        User g = values.get(position);
-        if (g != null) {
+        User u = values.get(position);
+        if (u != null) {
             TextView mTextView[] = new TextView[COUNT];
             ImageView mImageViewProfile;
 
@@ -45,12 +45,8 @@ public class UserDataAdapter extends ArrayAdapter<User> {
 
             mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
 
-            //mTextView[0].setText(g.getTitle());
-            //TextView[1].setText(g.getMaster().getName());
-            //TextView[2].setText(g.getMemberNum());
-
-            //mTextView[1].setText("ysm0622");
-            //mTextView[2].setText("10");
+            mTextView[0].setText(u.getName());
+            mTextView[1].setText(u.getEmail());
         }
         return v;
     }
