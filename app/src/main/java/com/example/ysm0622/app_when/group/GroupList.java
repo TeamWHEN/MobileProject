@@ -22,9 +22,13 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.menu.About;
+import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
+import com.kakao.util.KakaoParameterException;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private GroupDataAdapter adapter;
     private TextView mTextView;
     private ListView mListView;
+    private RateView mRateView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 startActivity(mIntent);
             }
         });
+
+        mRateView = new RateView(this);
 
         // Login Activity에서 Intent 받아서 그룹정보 search
 
@@ -156,11 +163,32 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(GroupList.this, Settings.class));
         } else if (id == R.id.nav_rate) {
-
+            mRateView.show();
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(GroupList.this, About.class));
         } else if (id == R.id.nav_share) {
+            try {
+                final KakaoLink kakaoLink = KakaoLink.getKakaoLink(this);
+                final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
 
+            /*메시지 추가*/
+                //kakaoBuilder.addText("편리한 시간 관리 앱 WHEN");
+
+            /*이미지 가로/세로 사이즈는 80px 보다 커야하며, 이미지 용량은 500kb 이하로 제한된다.*/
+                String url = "http://upload2.inven.co.kr/upload/2015/09/27/bbs/i12820605286.jpg";
+                kakaoBuilder.addImage(url, 1080, 1920);
+            /*앱 실행버튼 추가*/
+                kakaoBuilder.addAppButton("설치");
+
+            /*앱 링크 추가*/
+                kakaoBuilder.addAppLink("편리한 시간 관리 앱 WHEN");
+
+                kakaoBuilder.build();
+            /*메시지 발송*/
+                kakaoLink.sendMessage(kakaoBuilder, this);
+            } catch (KakaoParameterException e) {
+                e.printStackTrace();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

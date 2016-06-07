@@ -104,7 +104,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+
                 }
             });
         }
