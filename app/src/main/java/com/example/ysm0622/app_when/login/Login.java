@@ -69,6 +69,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         setContentView(R.layout.login_main);
 
         mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
 
         initialize();
     }
@@ -177,6 +178,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
                 if (isExistEmail(email) >= 0) {
                     if (isRightPassword(password, isExistEmail(email))) {
                         mIntent.putExtra(Global.USER, Global.getUser(isExistEmail(email)));
+                        setAutoLogin(email, password);
                         startActivity(mIntent);
                         mEditText[0].setText("");
                         mEditText[1].setText("");
@@ -206,6 +208,13 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         } else {
             return false;
         }
+    }
+
+    //Set email, password in Shared Preferences
+    private void setAutoLogin(String email, String password) {
+        mEdit.putString(Global.USER_EMAIL, email);
+        mEdit.putString(Global.USER_PASSWORD, password);
+        mEdit.commit();
     }
 
     private String request(String urlStr) {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -243,7 +242,6 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                         endTime.get(startTime.size() - 1).set(Calendar.DATE, timeInfo.get(j));
                     }
                 }
-                Log.w(TAG,)
             }
         }
         for (int i = 0; i < 42; i++) {

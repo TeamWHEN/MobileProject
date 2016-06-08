@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -76,10 +77,17 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private ArrayList<User> userData = new ArrayList<>();
     private ArrayList<Meet> meetData = new ArrayList<>();
 
+    //Shared Preferences
+    private SharedPreferences mSharedPref;
+    private SharedPreferences.Editor mEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groupmanage_drawer);
+
+        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
 
@@ -276,6 +284,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 e.printStackTrace();
             }
         } else if (id == R.id.nav_logout) {
+            logout();
             setResult(RESULT_OK);
             finish();
         }
@@ -328,5 +337,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             mIntent.setClass(GroupManage.this, InvitePeople.class);
             startActivityForResult(mIntent, 1001);
         }
+    }
+    //Remove Shared Preferences of LOGIN_DATA
+    public void logout(){
+        mEdit.clear();
+        mEdit.commit();
     }
 }

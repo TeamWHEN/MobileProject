@@ -44,6 +44,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         setContentView(R.layout.notification_main);
 
         mSharedPref = getSharedPreferences(Global.FILE_NAME_NOTICE, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -168,7 +169,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
     }
 
     public void setNotice(int index, boolean state) {
-        mEdit = mSharedPref.edit();
+
         if (index == 0) {
             mEdit.putBoolean(Global.NOTICE_CHECK, state);
             Toast.makeText(getApplicationContext(), "NOTICE_CHECK : " + mSharedPref.getBoolean(Global.NOTICE_CHECK, false), Toast.LENGTH_SHORT).show();
