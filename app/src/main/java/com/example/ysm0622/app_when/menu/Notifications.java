@@ -1,6 +1,7 @@
 package com.example.ysm0622.app_when.menu;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
 
 public class Notifications extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -31,11 +34,16 @@ public class Notifications extends Activity implements View.OnClickListener, Com
     private TextView mTextView[];
     private Switch mSwitch[];
 
+    // Shared Preferences
+    SharedPreferences mSharedPref;
+    SharedPreferences.Editor mEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_main);
 
+        mSharedPref = getSharedPreferences(Global.FILE_NAME_NOTICE, MODE_PRIVATE);
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
         String toolbarTitle = getResources().getString(R.string.notifications);
@@ -148,6 +156,31 @@ public class Notifications extends Activity implements View.OnClickListener, Com
                     mSwitch[i].setEnabled(false);
                 }
             }
+            setNotice(0, !isChecked);
+        } else if (v.equals(mSwitch[1])) {
+            setNotice(1, !isChecked);
+        } else if (v.equals(mSwitch[2])) {
+            setNotice(2, !isChecked);
+        } else {
+            setNotice(3, !isChecked);
         }
+    }
+
+    public void setNotice(int index, boolean state) {
+        mEdit = mSharedPref.edit();
+        if (index == 0) {
+            mEdit.putBoolean(Global.NOTICE_CHECK, state);
+            Toast.makeText(getApplicationContext(), "NOTICE_CHECK : " + mSharedPref.getBoolean(Global.NOTICE_CHECK, false), Toast.LENGTH_SHORT).show();
+        } else if (index == 1) {
+            mEdit.putBoolean(Global.NOTICE_SOUND, state);
+            Toast.makeText(getApplicationContext(), "NOTICE_SOUND : " + mSharedPref.getBoolean(Global.NOTICE_SOUND, false), Toast.LENGTH_SHORT).show();
+        } else if (index == 2) {
+            mEdit.putBoolean(Global.NOTICE_VIBRATION, state);
+            Toast.makeText(getApplicationContext(), "NOTICE_VIBRATION : " + mSharedPref.getBoolean(Global.NOTICE_VIBRATION, false), Toast.LENGTH_SHORT).show();
+        } else {
+            mEdit.putBoolean(Global.NOTICE_POPUP, state);
+            Toast.makeText(getApplicationContext(), "NOTICE_POPUP : " + mSharedPref.getBoolean(Global.NOTICE_POPUP, false), Toast.LENGTH_SHORT).show();
+        }
+        mEdit.commit();
     }
 }
