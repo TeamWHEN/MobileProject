@@ -5,11 +5,15 @@ import java.util.ArrayList;
 
 public class Group implements Serializable {
 
+    // TAG
+    private static final String TAG = Group.class.getName();
+
+    // Variables
     private long Id;
     private String Title;
     private String Desc;
     private User Master;
-    private ArrayList<User> Member = new ArrayList<User>();
+    private ArrayList<User> Member;
 
     public Group() {
 

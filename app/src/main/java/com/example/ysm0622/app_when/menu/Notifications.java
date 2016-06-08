@@ -16,7 +16,7 @@ import com.example.ysm0622.app_when.R;
 public class Notifications extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     // TAG
-    private static final String TAG = "Notifications";
+    private static final String TAG = Notifications.class.getName();
 
     // Const
     private static final int COUNT = 4;

@@ -4,17 +4,19 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
 
 public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callback {
 
     // TAG
-    private static final String TAG = "TimeSelectView";
+    private static final String TAG = TimeSelectView.class.getName();
 
     // Const
     private static final int DIVISION = 8;
@@ -30,8 +32,15 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
     private Bitmap mBuffer;
     private Paint mPrimaryPaint;
     private Paint mWhitePaint;
+    private Paint mAccentPaint;
+    private int mStroke;
+    private int mScale;
 
     private boolean mDraw;
+
+    private boolean sw;
+
+    private boolean mInputMode;
 
     private boolean mSelected[] = new boolean[DIVISION];
 
@@ -65,6 +74,7 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
 
     int lastX, lastY, currX, currY;
     boolean isDeleting;
+    Point p = new Point();
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -73,16 +83,89 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
         boolean del = false;
         switch (action & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
-                lastX = (int) event.getX();
-                lastY = (int) event.getY();
-                mDraw = true;
+                p.x = (int) event.getX();
+                p.y = (int) event.getY();
+                if (getTouchIndex(p) >= 0) {
+                    if (mSelected[getTouchIndex(p)]) sw = false;
+                    else sw = true;
+                    drawRectIndex(getTouchIndex(p));
+                    mDraw = true;
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (isDeleting) break;
+                p.x = (int) event.getX();
+                p.y = (int) event.getY();
+                drawRectIndex(getTouchIndex(p));
                 mDraw = true;
                 break;
             case MotionEvent.ACTION_UP:
-                mDraw = false;
+        }
+        return true;
+    }
+
+    private int getTouchIndex(Point point) {
+        for (int i = 0; i < DIVISION; i++) {
+            if (point.x > (i * mScale) + mStroke / 2.0 && point.x < ((i + 1) * mScale) - mStroke / 2.0 &&
+                    point.y > 0 && point.y < mHeight) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void drawRectIndex(int i) {
+        if (i < 0) return;
+        if (sw)
+            mCanvas.drawRect(i * mScale, mStroke, (i + 1) * mScale, mHeight - mStroke, mAccentPaint);
+        else
+            mCanvas.drawRect(i * mScale, mStroke, (i + 1) * mScale, mHeight - mStroke, mWhitePaint);
+        mSelected[i] = sw;
+        drawBorder();
+    }
+
+    private void drawBorder() {
+        mStroke = (int) (2 * Global.DENSITY + 0.5f);
+        mPrimaryPaint.setStrokeWidth(mStroke);
+        mCanvas.drawLine(0, 0, mWidth, 0, mPrimaryPaint);
+        mCanvas.drawLine(0, mHeight, mWidth, mHeight, mPrimaryPaint);
+        mCanvas.drawLine(0, 0, 0, mHeight, mPrimaryPaint);
+        mCanvas.drawLine(mWidth, 0, mWidth, mHeight, mPrimaryPaint);
+        mStroke = (int) (1 * Global.DENSITY + 0.5f);
+        mPrimaryPaint.setStrokeWidth(mStroke);
+        for (int i = 0; i < DIVISION + 1; i++) {
+            mCanvas.drawLine(mScale * i, 0, mScale * i, mHeight, mPrimaryPaint);
+        }
+    }
+
+    public void setDraw(boolean v) {
+        mDraw = v;
+    }
+
+    public void setAll(boolean v) {
+        if (v) {
+            mCanvas.drawRect(0, 0, mWidth, mHeight, mPrimaryPaint);
+            mCanvas.drawRect(mStroke, mStroke, mWidth - mStroke, mHeight - mStroke, mAccentPaint);
+            for (int i = 0; i < DIVISION; i++) {
+                mCanvas.drawLine(mScale * i, 0, mScale * i, mHeight, mPrimaryPaint);
+                mSelected[i] = v;
+            }
+        } else {
+            mCanvas.drawRect(0, 0, mWidth, mHeight, mPrimaryPaint);
+            mCanvas.drawRect(mStroke, mStroke, mWidth - mStroke, mHeight - mStroke, mWhitePaint);
+            for (int i = 0; i < DIVISION; i++) {
+                mCanvas.drawLine(mScale * i, 0, mScale * i, mHeight, mPrimaryPaint);
+                mSelected[i] = v;
+            }
+        }
+    }
+
+    public boolean[] getSelected() {
+        return mSelected;
+    }
+
+    public boolean isAllSelcted() {
+        for (int i = 0; i < DIVISION; i++) {
+            if (!mSelected[i]) return false;
         }
         return true;
     }
@@ -100,18 +183,18 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
 
         mPrimaryPaint = new Paint();
         mWhitePaint = new Paint();
+        mAccentPaint = new Paint();
         mPrimaryPaint.setColor(getResources().getColor(R.color.colorPrimary));
         mWhitePaint.setColor(getResources().getColor(R.color.white));
+        mAccentPaint.setColor(getResources().getColor(R.color.colorAccent));
 
-        int scale = mWidth / DIVISION;
-        int stroke = 3;
-        mPrimaryPaint.setStrokeWidth(stroke);
+        mScale = mWidth / DIVISION;
+        mStroke = (int) (2 * Global.DENSITY + 0.5f);
+        mPrimaryPaint.setStrokeWidth(mStroke);
 
-        mCanvas.drawRect(0, 0, mWidth, mHeight, mPrimaryPaint);
-        mCanvas.drawRect(stroke, stroke, mWidth - stroke, mHeight - stroke, mWhitePaint);
-        for (int i = 0; i < DIVISION; i++) {
-            mCanvas.drawLine(scale * i, 0, scale * i, mHeight, mPrimaryPaint);
-        }
+        mCanvas.drawColor(getResources().getColor(R.color.white));
+        drawBorder();
+
         mDrawThread.setRunning(true);
         mDrawThread.start();
 
@@ -126,6 +209,7 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
         mDrawThread.setRunning(false);
+        mDraw = false;
         while (retry) {
             try {
                 mDrawThread.join();

@@ -23,7 +23,7 @@ import com.example.ysm0622.app_when.object.User;
 public class SignUp extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
     // TAG
-    private static final String TAG = "SignUp";
+    private static final String TAG = SignUp.class.getName();
 
     // Const
     private static final int mToolBtnNum = 2;
@@ -236,6 +236,7 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             User user = new User(name, email, password);
             mIntent = new Intent(SignUp.this, GroupList.class);
             mIntent.putExtra(Global.USER, user);
+            Global.addUser(user);
             startActivity(mIntent);
             finish();
         }

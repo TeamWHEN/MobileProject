@@ -80,7 +80,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="12dp"
-                        android:src="@drawable/ic_group"/>
+                        android:src="@drawable/ic_group" />
 
                     <TextView
                         android:id="@+id/TextView2"
@@ -103,7 +103,7 @@
                         android:id="@+id/ImageView3"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_event_available"/>
+                        android:src="@drawable/ic_event_available" />
 
                     <TextView
                         android:id="@+id/TextView3"

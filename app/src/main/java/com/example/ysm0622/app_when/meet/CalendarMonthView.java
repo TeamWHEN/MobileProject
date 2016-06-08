@@ -1,27 +1,32 @@
 package com.example.ysm0622.app_when.meet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.object.Meet;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class CalendarMonthView extends LinearLayout implements View.OnClickListener {
+public class CalendarMonthView extends LinearLayout {
 
     // TAG
-    private static final String TAG = "CalendarMonthView";
+    private static final String TAG = CalendarMonthView.class.getName();
 
     // Const
     private static final int mRow = 6;
     private static final int mCol = 7;
-    private static float mScale;
+    private int MODE;
+
+    // Intent
+    private Intent mIntent;
 
     private Context mContext;
     private LinearLayout mLinearLayout[];
@@ -58,6 +63,14 @@ public class CalendarMonthView extends LinearLayout implements View.OnClickListe
         init();
     }
 
+    public int getMODE() {
+        return MODE;
+    }
+
+    public void setMODE(int MODE) {
+        this.MODE = MODE;
+    }
+
     @Override
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
@@ -66,11 +79,11 @@ public class CalendarMonthView extends LinearLayout implements View.OnClickListe
         float h = mHeight / mRow;
         float w = mWidth / mCol;
         Log.w(TAG, "W = " + w + " H = " + h);
-        h -= (int) (2 * mScale + 0.5f);
+        h -= (int) (2 * Global.DENSITY + 0.5f);
         w = w - h;
         w /= 2;
-        mParam[1].setMargins((int) w, (int) (1 * mScale + 0.5f), (int) w, (int) (1 * mScale + 0.5f));
-        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * mScale + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
+        mParam[1].setMargins((int) w, (int) (1 * Global.DENSITY + 0.5f), (int) w, (int) (1 * Global.DENSITY + 0.5f));
+        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * Global.DENSITY + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
     }
 
 
@@ -102,12 +115,9 @@ public class CalendarMonthView extends LinearLayout implements View.OnClickListe
         // View allocation
 
         // Add listener
-        for (int i = 0; i < mRow * mCol; i++) {
-            mTextView[i].setOnClickListener(this);
-        }
 
         // Default setting
-        mScale = mContext.getResources().getDisplayMetrics().density;
+        Global.DENSITY = mContext.getResources().getDisplayMetrics().density;
         for (int i = 0; i < mRow; i++) {
             mLinearLayout[i].setLayoutParams(mParam[0]);
         }
@@ -130,16 +140,22 @@ public class CalendarMonthView extends LinearLayout implements View.OnClickListe
         }
     }
 
-    private void selectTextView(int i, int n) { // n -> 0 normal , 1 -> selected , 2 -> today
+    private void selectTextView(int i, int n) { // n -> 0 normal , 1 today , 2 selected , 3 now   //    MODE 1   4 ring
         if (n == 0) {
             mTextView[i].setBackground(mContext.getResources().getDrawable(R.drawable.selector_circle));
             mTextView[i].setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         } else if (n == 1) {
+            mTextView[i].setBackground(mContext.getResources().getDrawable(R.drawable.selector_circle_today));
+            mTextView[i].setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        } else if (n == 2) {
             mTextView[i].setBackground(mContext.getResources().getDrawable(R.drawable.selector_circle_selected));
             mTextView[i].setTextColor(mContext.getResources().getColor(R.color.white));
-        } else if (n == 2) {
-            mTextView[i].setBackground(mContext.getResources().getDrawable(R.drawable.selector_circle_today));
+        } else if (n == 3) {
+            mTextView[i].setBackground(mContext.getResources().getDrawable(R.drawable.selector_circle_now));
             mTextView[i].setTextColor(mContext.getResources().getColor(R.color.white));
+        } else if (n == 4) {
+            mTextView[i].setBackground(mContext.getResources().getDrawable(R.drawable.selector_circle_ring));
+            mTextView[i].setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         }
     }
 
@@ -177,18 +193,36 @@ public class CalendarMonthView extends LinearLayout implements View.OnClickListe
             if (mCalendarArray[i].get(Calendar.MONTH) != curMonth) {
                 mTextView[i].setTextColor(mContext.getResources().getColor(R.color.alpha2));
             }
-            if(mCalendarArray[i].compareTo(mToday)<0){
+            if (mCalendarArray[i].compareTo(mToday) < 0) {
                 mTextView[i].setTextColor(mContext.getResources().getColor(R.color.alpha2));
                 mTextView[i].setEnabled(false);
             }
             if (isEqual(mToday, mCalendarArray[i])) {
-                selectTextView(i, 2);
+                selectTextView(i, 1);
             }
-            for (int j = 0; j < mDateData.size(); j++) {
-                if (isEqual(mCalendarArray[i], mDateData.get(j))) {
-                    selectTextView(i, 1);
+            if (MODE == 0) {
+                for (int j = 0; j < mDateData.size(); j++) {
+                    if (isEqual(mCalendarArray[i], mDateData.get(j))) {
+                        if (j == mDateData.size() - 1) selectTextView(i, 3);
+                        else selectTextView(i, 2);
+                        mSelected[i] = true;
+                        break;
+                    }
+                }
+            } else if (MODE == 1) {
+                mTextView[i].setTextColor(mContext.getResources().getColor(R.color.alpha2));
+                mTextView[i].setEnabled(false);
+                Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                for (int j = 0; j < m.getSelectedDate().size(); j++) {
+                    if (isEqual(mCalendarArray[i], m.getSelectedDate().get(j))) {
+                        selectTextView(i, 4);
+                        mTextView[i].setEnabled(true);
+                        break;
+                    }
+                }
+                if (mDateData.size() != 0 && isEqual(mCalendarArray[i], mDateData.get(0))) {
+                    selectTextView(i, 3);
                     mSelected[i] = true;
-                    break;
                 }
             }
             mTextView[i].setText(String.valueOf(mCalendarArray[i].get(Calendar.DATE)));
@@ -219,33 +253,15 @@ public class CalendarMonthView extends LinearLayout implements View.OnClickListe
         return mSelected;
     }
 
+    public void setSelected(boolean[] b) {
+        mSelected = b;
+    }
+
     public Calendar[] getCalendarArray() {
         return mCalendarArray;
     }
 
-    @Override
-    public void onClick(View v) {
-        for (int i = 0; i < mRow * mCol; i++) {
-            if (v.equals(mTextView[i])) {
-                if (mSelected[i]) {
-                    for (int n = 0; n < mDateData.size(); n++) {
-                        if (isEqual(mCalendarArray[i], mDateData.get(n))) {
-                            mDateData.remove(n);
-                            break;
-                        }
-                    }
-                    for (int n = 0; n < mDateData.size(); n++) {
-                        Log.w(TAG, mDateData.get(n).get(Calendar.YEAR) + "년 " + (mDateData.get(n).get(Calendar.MONTH) + 1) + "월 " + mDateData.get(n).get(Calendar.DATE) + "일");
-                    }
-                    reDisplay(mCurrent);
-                } else {
-                    mDateData.add(makeClone(mCalendarArray[i]));
-                    for (int n = 0; n < mDateData.size(); n++) {
-                        Log.w(TAG, mDateData.get(n).get(Calendar.YEAR) + "년 " + (mDateData.get(n).get(Calendar.MONTH) + 1) + "월 " + mDateData.get(n).get(Calendar.DATE) + "일");
-                    }
-                    reDisplay(mCurrent);
-                }
-            }
-        }
+    public void setmIntent(Intent mIntent) {
+        this.mIntent = mIntent;
     }
 }

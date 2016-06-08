@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,7 +34,7 @@ import java.util.ArrayList;
 public class GroupList extends Activity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     // TAG
-    private static final String TAG = "GroupList";
+    private static final String TAG = GroupList.class.getName();
 
     // Const
     private static final int mToolBtnNum = 1;
@@ -94,10 +93,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 mIntent.setClass(GroupList.this, GroupManage.class);
-                Log.w(TAG, "GroupDataSize : " + groupData.size());
                 mIntent.putExtra(Global.GROUP, groupData.get(position));
-                mIntent.putExtra(Global.TAB_NUMBER,1);
-                startActivity(mIntent);
+                mIntent.putExtra(Global.TAB_NUMBER, 1);
+                startActivityForResult(mIntent, 1001);
             }
         });
 
@@ -189,6 +187,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             } catch (KakaoParameterException e) {
                 e.printStackTrace();
             }
+        } else if (id == R.id.nav_logout) {
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -205,6 +205,11 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 mTextView.setVisibility(View.INVISIBLE);
                 mTextView.setEnabled(false);
                 mTextView.setHeight(0);
+            }
+        }
+        if (requestCode == 1001) {
+            if (resultCode == RESULT_OK) {
+                finish();
             }
         }
     }

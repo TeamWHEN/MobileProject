@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class GroupMember extends CoordinatorLayout {
 
     // TAG
-    private static final String TAG = "GroupMember";
+    private static final String TAG = GroupMember.class.getName();
 
     private ArrayList<User> userData = new ArrayList<>();
 

@@ -1,6 +1,7 @@
 package com.example.ysm0622.app_when.group;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,21 @@ import java.util.ArrayList;
 
 public class UserDataAdapter extends ArrayAdapter<User> {
 
+    // TAG
+    private static final String TAG = UserDataAdapter.class.getName();
+
+    // Const
     private static final int COUNT = 2;
+
+    // Intent
+    private Intent mIntent;
+
+    // Context
     private final Context mContext;
+
+    // Data
     private ArrayList<User> values = new ArrayList<>();
+    private User u;
 
 
     public UserDataAdapter(Context context, int resource, ArrayList<User> values) {
@@ -33,7 +46,7 @@ public class UserDataAdapter extends ArrayAdapter<User> {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.member_item, null);
         }
-        User u = values.get(position);
+        u = values.get(position);
         if (u != null) {
             TextView mTextView[] = new TextView[COUNT];
             ImageView mImageViewProfile;

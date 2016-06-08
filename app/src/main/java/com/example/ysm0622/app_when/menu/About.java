@@ -12,7 +12,7 @@ import com.example.ysm0622.app_when.R;
 public class About extends Activity implements View.OnClickListener {
 
     // TAG
-    private static final String TAG = "About";
+    private static final String TAG = About.class.getName();
 
     // Const
     private static final int COUNT = 3;
