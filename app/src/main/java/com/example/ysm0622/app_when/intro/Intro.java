@@ -13,6 +13,7 @@ import com.example.ysm0622.app_when.login.Login;
 
 public class Intro extends AppCompatActivity {
 
+    //Shared Preferences
     SharedPreferences mSharedPref;
     SharedPreferences.Editor mEdit;
 

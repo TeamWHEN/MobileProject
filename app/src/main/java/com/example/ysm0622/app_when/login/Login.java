@@ -3,6 +3,7 @@ package com.example.ysm0622.app_when.login;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,6 +48,10 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     // Intent
     private Intent mIntent;
 
+    //Shared Preferences
+    SharedPreferences mSharedPref;
+    SharedPreferences.Editor mEdit;
+
     public ProgressDialog progressDialog;
 
     private EditText mEditText[];
@@ -62,6 +67,8 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_main);
+
+        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
 
         initialize();
     }

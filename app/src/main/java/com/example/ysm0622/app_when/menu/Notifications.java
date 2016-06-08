@@ -44,6 +44,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         setContentView(R.layout.notification_main);
 
         mSharedPref = getSharedPreferences(Global.FILE_NAME_NOTICE, MODE_PRIVATE);
+
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
         String toolbarTitle = getResources().getString(R.string.notifications);
