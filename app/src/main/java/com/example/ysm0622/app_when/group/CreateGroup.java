@@ -19,7 +19,7 @@ import com.example.ysm0622.app_when.global.Global;
 public class CreateGroup extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
     // TAG
-    private static final String TAG = "CreateGroup";
+    private static final String TAG = CreateGroup.class.getName();
 
     // Const
     private static final int mInputNum = 2;

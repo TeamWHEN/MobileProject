@@ -15,7 +15,7 @@ import com.example.ysm0622.app_when.R;
 public class Settings extends Activity implements View.OnClickListener {
 
     // TAG
-    private static final String TAG = "Settings";
+    private static final String TAG = Settings.class.getName();
 
     // Const
     private static final int COUNT = 2;

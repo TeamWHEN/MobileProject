@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class GroupDataAdapter extends ArrayAdapter<Group> {
 
     // TAG
-    private static final String TAG = "GroupDataAdapter";
+    private static final String TAG = GroupDataAdapter.class.getName();
 
     // Const
     private static final int TEXT_NUM = 4;

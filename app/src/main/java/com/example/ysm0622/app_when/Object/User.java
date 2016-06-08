@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
+    // TAG
+    private static final String TAG = User.class.getName();
+
+    // Variables
     private static long AutoGenerateId = 0;
     private long Id;
     private String Name;

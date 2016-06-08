@@ -15,6 +15,11 @@ import android.widget.Toast;
  * Created by JungHan on 2016-06-07.
  */
 public class RateView extends AlertDialog {
+
+    // TAG
+    private static final String TAG = RateView.class.getName();
+
+
     private RatingBar rateBar;
     private LinearLayout linear;
     private Button btn;

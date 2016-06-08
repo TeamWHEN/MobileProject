@@ -39,7 +39,7 @@ import java.util.List;
 public class Login extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
     // TAG
-    private static final String TAG = "Login";
+    private static final String TAG = Login.class.getName();
 
     // Const
     private static final int mInputNum = 2;
@@ -164,7 +164,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         }
 
         protected void onPostExecute(Integer a) {
-            Toast.makeText(getApplicationContext(), mResult, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), mResult, Toast.LENGTH_SHORT).show();
             Log.w(TAG, mResult);
 
             if (progressDialog != null)
@@ -172,10 +172,39 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
 
             if (mResult != "") {
                 mIntent = new Intent(Login.this, GroupList.class);
-                mIntent.putExtra(Global.USER_EMAIL, mEditText[0].getText().toString());
-                startActivity(mIntent);
+                String email = mEditText[0].getText().toString();
+                String password = mEditText[1].getText().toString();
+                if (isExistEmail(email) >= 0) {
+                    if (isRightPassword(password, isExistEmail(email))) {
+                        mIntent.putExtra(Global.USER, Global.getUser(isExistEmail(email)));
+                        startActivity(mIntent);
+                        mEditText[0].setText("");
+                        mEditText[1].setText("");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "비밀번호를 잘못 입력하셨습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "존재하지 않는 이메일입니다.", Toast.LENGTH_SHORT).show();
+                }
             } else
                 Toast.makeText(getApplicationContext(), R.string.login_fail_msg, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int isExistEmail(String s) {
+        for (int i = 0; i < Global.getUserCount(); i++) {
+            if (Global.getUser(i).getEmail().equals(s)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean isRightPassword(String s, int i) {
+        if (Global.getUser(i).getPassword().equals(s)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

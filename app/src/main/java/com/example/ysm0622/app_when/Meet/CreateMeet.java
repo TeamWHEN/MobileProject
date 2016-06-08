@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.map.Item;
 import com.example.ysm0622.app_when.map.OnFinishSearchListener;
 import com.example.ysm0622.app_when.map.Searcher;
@@ -41,11 +42,14 @@ import java.util.List;
 public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     // TAG
-    private static final String TAG = "CreateMeet";
+    private static final String TAG = CreateMeet.class.getName();
 
     // Const
     private static final int mInputNum = 3;
     private static final int mToolBtnNum = 2;
+
+    // Intent
+    private Intent mIntent;
 
     // Toolbar
     private ImageView mToolbarAction[];
@@ -60,8 +64,6 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private int mMinLength[] = new int[mInputNum];
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
-    private Intent mIntent;
-    private Bundle mBundle;
 
     //다음 지도
     private MapView mMapView;
@@ -171,14 +173,11 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
             super.onBackPressed();
         }
         if (mToolbarAction[1].getId() == v.getId()) {
-            mIntent = new Intent(CreateMeet.this, SelectDay.class);
-            mBundle = new Bundle();
-            mBundle.putString("Title", mEditText[0].getText().toString());
-            mBundle.putString("Desc", mEditText[1].getText().toString());
-            mBundle.putString("Location", mEditText[2].getText().toString());
-            mIntent.putExtras(mBundle);
-
-            startActivityForResult(mIntent, 1001);
+            mIntent.setClass(CreateMeet.this, SelectDay.class);
+            mIntent.putExtra(Global.MEET_TITLE, mEditText[0].getText().toString());
+            mIntent.putExtra(Global.MEET_DESC, mEditText[1].getText().toString());
+            mIntent.putExtra(Global.MEET_LOCATION, mEditText[2].getText().toString());
+            startActivityForResult(mIntent, 1000);
         }
     }
 
@@ -250,7 +249,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 1001) {
+        if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, intent);
                 finish();

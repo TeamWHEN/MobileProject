@@ -13,6 +13,10 @@ import com.example.ysm0622.app_when.login.Login;
 
 public class Intro extends AppCompatActivity {
 
+
+    // TAG
+    private static final String TAG = Intro.class.getName();
+
     //Shared Preferences
     SharedPreferences mSharedPref;
     SharedPreferences.Editor mEdit;
@@ -37,6 +41,8 @@ public class Intro extends AppCompatActivity {
             }
         }.start();
 
+        Global.initialize(this);
+        Global.setUsers();
         // Preferences 이용 -> Login한 기록이 있다면 자동로그인
 
     }
@@ -51,6 +57,6 @@ public class Intro extends AppCompatActivity {
         mEdit.putBoolean(Global.NOTICE_SOUND, false);
         mEdit.putBoolean(Global.NOTICE_VIBRATION, false);
         mEdit.putBoolean(Global.NOTICE_POPUP, false);
-        mEdit.commit();
+        mEdit.apply();
     }
 }

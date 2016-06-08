@@ -28,16 +28,16 @@ import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.User;
-
-import java.util.ArrayList;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
 
+import java.util.ArrayList;
+
 public class GroupManage extends Activity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     // TAG
-    private static final String TAG = "GroupList";
+    private static final String TAG = GroupManage.class.getName();
 
     // Const
     private static final int mToolBtnNum = 1;
@@ -85,13 +85,19 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
-        String toolbarTitle = getResources().getString(R.string.meet_info);
+        String toolbarTitle = "";
+        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 0)
+            toolbarTitle = getResources().getString(R.string.meet_list);
+        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 1)
+            toolbarTitle = getResources().getString(R.string.meet_info);
+        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 2)
+            toolbarTitle = getResources().getString(R.string.member);
 
         mRateView = new RateView(this);
 
         initToolbar(toolbarIcon, toolbarTitle);
 
-        initTabbar();
+        initTabbar(mIntent.getIntExtra(Global.TAB_NUMBER, 1));
 
         initNavigationView();
 
@@ -112,7 +118,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         // Create instance
         UserAdapter = new UserDataAdapter(this, R.layout.member_item, userData);
-        MeetAdapter = new MeetDataAdapter(this, R.layout.meet_item, meetData);
+        MeetAdapter = new MeetDataAdapter(this, R.layout.meet_item, meetData, mIntent);
 
         // View allocation
         mFab[0] = (FloatingActionButton) mTabContent[0].findViewById(R.id.fab);
@@ -189,7 +195,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mToolbarTitle.setText(Title);
     }
 
-    private void initTabbar() {
+    private void initTabbar(int v) {
         mTabbarAction = new LinearLayout[mTabBtnNum];
         mTabbarImage = new ImageView[mTabBtnNum];
         mTabbarLine = new View[mTabBtnNum];
@@ -217,9 +223,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             mTabContent[i].setVisibility(View.GONE);
         }
 
-        mTabbarImage[1].setColorFilter(getResources().getColor(R.color.white));
-        mTabbarLine[1].setBackgroundColor(getResources().getColor(R.color.white));
-        mTabContent[1].setVisibility(View.VISIBLE);
+        mTabbarImage[v].setColorFilter(getResources().getColor(R.color.white));
+        mTabbarLine[v].setBackgroundColor(getResources().getColor(R.color.white));
+        mTabContent[v].setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -261,7 +267,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 kakaoBuilder.addAppButton("설치");
 
             /*앱 링크 추가*/
-                kakaoBuilder.addAppLink("편리한 시간 관리 앱 WHEN");
+                kakaoBuilder.addAppLink("편리한 그룹 일정 관리 앱 WHEN");
 
                 kakaoBuilder.build();
             /*메시지 발송*/
@@ -269,6 +275,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             } catch (KakaoParameterException e) {
                 e.printStackTrace();
             }
+        } else if (id == R.id.nav_logout) {
+            setResult(RESULT_OK);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -279,12 +288,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
-                Meet M = new Meet();
-                Bundle mBundle = intent.getExtras();
-                M.setTitle(mBundle.getString("Title"));
-                M.setDesc(mBundle.getString("Desc"));
-                M.setLocation(mBundle.getString("Location"));
-                MeetAdapter.add(M);
+                MeetAdapter.add((Meet) intent.getSerializableExtra(Global.MEET));
                 MeetAdapter.notifyDataSetChanged();
                 TextView mTextView = (TextView) mTabContent[0].findViewById(R.id.TextView0);
                 mTextView.setVisibility(View.INVISIBLE);
@@ -316,10 +320,13 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             }
         }
         if (v.equals(mFab[0])) {
-            startActivityForResult(new Intent(GroupManage.this, CreateMeet.class), 1000);
+            mIntent.setClass(GroupManage.this, CreateMeet.class);
+            mIntent.putExtra(Global.SELECT_DAY_MODE, 0);
+            startActivityForResult(mIntent, 1000);
         }
         if (v.equals(mFab[1])) {
-            startActivityForResult(new Intent(GroupManage.this, InvitePeople.class), 1001);
+            mIntent.setClass(GroupManage.this, InvitePeople.class);
+            startActivityForResult(mIntent, 1001);
         }
     }
 }

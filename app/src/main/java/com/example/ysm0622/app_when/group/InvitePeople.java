@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class InvitePeople extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
 
     // TAG
-    private static final String TAG = "InvitePeople";
+    private static final String TAG = InvitePeople.class.getName();
 
     // Const
     private static final int mToolBtnNum = 2;
@@ -51,13 +51,11 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     // Adapter
     private UserDataAdapter mAdapter;
 
-
     private ArrayList<User> Member = new ArrayList<>();
 
     // Test Data
-    private ArrayList<User> testAllUser = new ArrayList<>();
+    private ArrayList<User> testAllUser;
     private ArrayList<User> searchUser = new ArrayList<>();
-    private static final int TEST_NUM = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,26 +74,9 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         initialize();
 
-        //test
-        test();
+        testAllUser = Global.getUsers();
     }
 
-    //test
-    private void test() {
-        User testuser[] = new User[TEST_NUM];
-        testuser[0] = new User("양성민", "ysm0622@gmail.com", "");
-        testuser[1] = new User("지정한", "ysm0622@gmail.com", "");
-        testuser[2] = new User("조동현", "ysm0622@gmail.com", "");
-        testuser[3] = new User("조서형", "ysm0622@gmail.com", "");
-        testuser[4] = new User("김영송", "ysm0622@gmail.com", "");
-        testuser[5] = new User("장영준", "ysm0622@gmail.com", "");
-        testuser[6] = new User("유영준", "ysm0622@gmail.com", "");
-        testuser[7] = new User("양영선", "ysm0622@gmail.com", "");
-        testuser[8] = new User("이수현", "ysm0622@gmail.com", "");
-        testuser[9] = new User("박정호", "ysm0622@gmail.com", "");
-        for (int i = 0; i < testuser.length; i++)
-            testAllUser.add(testuser[i]);
-    }
 
     private void initialize() {
 

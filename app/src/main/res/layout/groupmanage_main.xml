@@ -16,17 +16,19 @@
 
         <include layout="@layout/toolbar" />
 
-        <include layout="@layout/tabbar"/>
+        <include layout="@layout/tabbar" />
 
         <include
             android:id="@+id/Include0"
-            layout="@layout/groupmanage_meetlist"/>
+            layout="@layout/groupmanage_meetlist" />
+
         <include
             android:id="@+id/Include1"
-            layout="@layout/groupmanage_meetinfo"/>
+            layout="@layout/groupmanage_meetinfo" />
+
         <include
             android:id="@+id/Include2"
-            layout="@layout/groupmanage_member"/>
+            layout="@layout/groupmanage_member" />
 
     </LinearLayout>
 

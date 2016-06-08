@@ -1,17 +1,24 @@
 package com.example.ysm0622.app_when.object;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Meet implements Serializable {
 
+    // TAG
+    private static final String TAG = Meet.class.getName();
+
+    // Variables
     private long Id;
     private Group Group;
     private User Master;
     private String Title;
     private String Desc;
-    private Date CreateDate;
     private String Location;
+    private Date CreateDate;
+    private ArrayList<Calendar> SelectedDate;
 
     public Meet() {
 
@@ -71,5 +78,17 @@ public class Meet implements Serializable {
 
     public void setLocation(String location) {
         Location = location;
+    }
+
+    public ArrayList<Calendar> getSelectedDate() {
+        return SelectedDate;
+    }
+
+    public void setSelectedDate(ArrayList<Calendar> selectedDate) {
+        SelectedDate = selectedDate;
+    }
+
+    public int getDateNum() {
+        return SelectedDate.size();
     }
 }
