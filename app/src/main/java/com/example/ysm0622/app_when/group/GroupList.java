@@ -218,6 +218,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         }
         if (requestCode == 1001) {
             if (resultCode == RESULT_OK) {
+
                 finish();
             }
         }

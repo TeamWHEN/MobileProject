@@ -1,17 +1,20 @@
 package com.example.ysm0622.app_when.menu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
@@ -35,8 +38,14 @@ public class Notifications extends Activity implements View.OnClickListener, Com
     private Switch mSwitch[];
 
     // Shared Preferences
-    SharedPreferences mSharedPref;
-    SharedPreferences.Editor mEdit;
+    private SharedPreferences mSharedPref;
+    private SharedPreferences.Editor mEdit;
+
+    //Sample Notice
+    private boolean mSampleInit;
+    private int mSoundId, mStreamId;
+    private SoundPool mSound;
+    private Vibrator mVibe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,11 @@ public class Notifications extends Activity implements View.OnClickListener, Com
 
         mSharedPref = getSharedPreferences(Global.FILE_NAME_NOTICE, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
+        mSampleInit = false;
+        mSound = new SoundPool(1, AudioManager.STREAM_ALARM, 0);// maxStreams, streamType, srcQuality
+        mSoundId = mSound.load(this, R.raw.metal_clang, 1);
+        mVibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -101,7 +115,9 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         for (int i = 0; i < COUNT; i++) {
             mLinearLayout[i].setOnClickListener(this);
             mSwitch[i].setOnCheckedChangeListener(this);
+            mSwitch[i].setChecked(getNotice(i));
         }
+        mSampleInit = true;
 
         // Default setting
         for (int i = 0; i < COUNT; i++) {
@@ -158,13 +174,13 @@ public class Notifications extends Activity implements View.OnClickListener, Com
                     mSwitch[i].setEnabled(false);
                 }
             }
-            setNotice(0, !isChecked);
+            setNotice(0, isChecked);
         } else if (v.equals(mSwitch[1])) {
-            setNotice(1, !isChecked);
+            setNotice(1, isChecked);
         } else if (v.equals(mSwitch[2])) {
-            setNotice(2, !isChecked);
+            setNotice(2, isChecked);
         } else {
-            setNotice(3, !isChecked);
+            setNotice(3, isChecked);
         }
     }
 
@@ -172,17 +188,41 @@ public class Notifications extends Activity implements View.OnClickListener, Com
 
         if (index == 0) {
             mEdit.putBoolean(Global.NOTICE_CHECK, state);
-            Toast.makeText(getApplicationContext(), "NOTICE_CHECK : " + mSharedPref.getBoolean(Global.NOTICE_CHECK, false), Toast.LENGTH_SHORT).show();
         } else if (index == 1) {
             mEdit.putBoolean(Global.NOTICE_SOUND, state);
-            Toast.makeText(getApplicationContext(), "NOTICE_SOUND : " + mSharedPref.getBoolean(Global.NOTICE_SOUND, false), Toast.LENGTH_SHORT).show();
         } else if (index == 2) {
             mEdit.putBoolean(Global.NOTICE_VIBRATION, state);
-            Toast.makeText(getApplicationContext(), "NOTICE_VIBRATION : " + mSharedPref.getBoolean(Global.NOTICE_VIBRATION, false), Toast.LENGTH_SHORT).show();
         } else {
             mEdit.putBoolean(Global.NOTICE_POPUP, state);
-            Toast.makeText(getApplicationContext(), "NOTICE_POPUP : " + mSharedPref.getBoolean(Global.NOTICE_POPUP, false), Toast.LENGTH_SHORT).show();
         }
         mEdit.commit();
+        sampleNotice(index, state);
+    }
+
+    public boolean getNotice(int index) {
+        boolean result;
+        if (index == 0) {
+            result = mSharedPref.getBoolean(Global.NOTICE_CHECK, false);
+        } else if (index == 1) {
+            result = mSharedPref.getBoolean(Global.NOTICE_SOUND, false);
+        } else if (index == 2) {
+            result = mSharedPref.getBoolean(Global.NOTICE_VIBRATION, false);
+        } else {
+            result = mSharedPref.getBoolean(Global.NOTICE_POPUP, false);
+        }
+        return result;
+    }
+
+    public void sampleNotice(int index, boolean state) {
+        if (state && getNotice(0) && mSampleInit) {
+            if (index == 0) {//소리, 진동, 팝업
+            } else if (index == 1) {//소리
+                mStreamId = mSound.play(mSoundId, 1.0F, 1.0F, 1, 0, 1.0F);
+                //mSound.stop(mStreamId); 소리 정지
+            } else if (index == 2) {//진동
+                mVibe.vibrate(500);
+            } else {//팝업
+            }
+        }
     }
 }
