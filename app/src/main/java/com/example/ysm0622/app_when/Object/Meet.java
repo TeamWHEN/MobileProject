@@ -11,7 +11,6 @@ public class Meet implements Serializable {
     private static final String TAG = Meet.class.getName();
 
     // Variables
-    private long Id;
     private Group Group;
     private User Master;
     private String Title;
@@ -19,17 +18,10 @@ public class Meet implements Serializable {
     private String Location;
     private Date CreateDate;
     private ArrayList<Calendar> SelectedDate;
+    private DateTime DateTime;
 
     public Meet() {
 
-    }
-
-    public long getId() {
-        return Id;
-    }
-
-    public void setId(long id) {
-        Id = id;
     }
 
     public Group getGroup() {
@@ -90,5 +82,13 @@ public class Meet implements Serializable {
 
     public int getDateNum() {
         return SelectedDate.size();
+    }
+
+    public com.example.ysm0622.app_when.object.DateTime getDateTime() {
+        return DateTime;
+    }
+
+    public void setDateTime(com.example.ysm0622.app_when.object.DateTime dateTime) {
+        DateTime = dateTime;
     }
 }

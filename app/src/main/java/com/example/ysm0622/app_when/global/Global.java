@@ -33,9 +33,23 @@ public class Global extends Application {
     public static final String MEET_CREATEDATE = "MEET_CREATEDATE";
     public static final String MEET_LOCATION = "MEET_LOCATION";
     public static final String MEET_SELECTEDDATE = "MEET_SELECTEDDATE";
+    public static final String MEET_DATETIME = "MEET_DATETIME";
+
+    public static final String DATETIME_USER = "DATETIME_USER";
+    public static final String DATETIME_STARTTIME = "DATETIME_STARTTIME";
+    public static final String DATETIME_ENDTIME = "DATETIME_ENDTIME";
 
     public static final String TAB_NUMBER = "TAB_NUMBER";
     public static final String SELECT_DAY_MODE = "SELECT_DAY_MODE";
+
+    // Request code
+    public static final int GROUPLIST_CREATEGROUP = 1000;
+    public static final int GROUPLIST_GROUPMANAGE = 1001;
+    public static final int CREATEGROUP_INVITEPEOPLE = 1002;
+    public static final int GROUPMANAGE_CREATEMEET = 1003;
+    public static final int GROUPMANAGE_INVITEPEOPLE = 1004;
+    public static final int GROUPMANAGE_SELECTDAY = 1005;
+    public static final int CREATEMEET_SELECTDAY = 1006;
 
     public static Context CONTEXT;
     public static float DENSITY;
@@ -82,7 +96,7 @@ public class Global extends Application {
         USERS.add(user);
     }
 
-    //Shared Preferences
+    // Shared Preferences
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
     public static final String FILE_NAME_LOGIN = "LOGIN_DATA";
     public static final String NOTICE_CHECK ="CHECK";

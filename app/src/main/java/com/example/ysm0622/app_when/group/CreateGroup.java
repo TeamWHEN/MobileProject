@@ -131,7 +131,7 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
             mIntent.setClass(CreateGroup.this, InvitePeople.class);
             mIntent.putExtra(Global.GROUP_TITLE, mEditText[0].getText().toString());
             mIntent.putExtra(Global.GROUP_DESC, mEditText[1].getText().toString());
-            startActivityForResult(mIntent, 1000);
+            startActivityForResult(mIntent, Global.CREATEGROUP_INVITEPEOPLE);
         }
     }
 
@@ -203,7 +203,7 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 1000) {
+        if (requestCode == Global.CREATEGROUP_INVITEPEOPLE) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, intent);
                 finish();

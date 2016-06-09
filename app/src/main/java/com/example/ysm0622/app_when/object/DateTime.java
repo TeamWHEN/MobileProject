@@ -10,22 +10,12 @@ public class DateTime implements Serializable {
     private static final String TAG = DateTime.class.getName();
 
     // Variables
-    private long Id;
     private User User;
-    private Meet Meet;
     private ArrayList<Calendar> StartTime;
     private ArrayList<Calendar> EndTime;
 
     public DateTime() {
 
-    }
-
-    public long getId() {
-        return Id;
-    }
-
-    public void setId(long id) {
-        Id = id;
     }
 
     public com.example.ysm0622.app_when.object.User getUser() {
@@ -34,14 +24,6 @@ public class DateTime implements Serializable {
 
     public void setUser(com.example.ysm0622.app_when.object.User user) {
         User = user;
-    }
-
-    public com.example.ysm0622.app_when.object.Meet getMeet() {
-        return Meet;
-    }
-
-    public void setMeet(com.example.ysm0622.app_when.object.Meet meet) {
-        Meet = meet;
     }
 
     public ArrayList<Calendar> getStartTime() {

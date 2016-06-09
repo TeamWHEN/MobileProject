@@ -51,6 +51,9 @@ public class CalendarMonthView extends LinearLayout {
     private ArrayList<Calendar> mDateData;
     private Calendar mCalendarArray[];
 
+    private ArrayList<ArrayList<Calendar>> savedData = new ArrayList<>();
+
+
     public CalendarMonthView(Context context) {
         super(context);
         mContext = context;
@@ -220,6 +223,11 @@ public class CalendarMonthView extends LinearLayout {
                         break;
                     }
                 }
+                for (int j = 0; j < savedData.size(); j += 2) {
+                    if (isEqual(mCalendarArray[i], savedData.get(j).get(0))) {
+                        selectTextView(i,2);
+                    }
+                }
                 if (mDateData.size() != 0 && isEqual(mCalendarArray[i], mDateData.get(0))) {
                     selectTextView(i, 3);
                     mSelected[i] = true;
@@ -240,6 +248,8 @@ public class CalendarMonthView extends LinearLayout {
             }
         }
     }
+
+
 
     public ArrayList<Calendar> getDateData() {
         return mDateData;
@@ -263,5 +273,9 @@ public class CalendarMonthView extends LinearLayout {
 
     public void setmIntent(Intent mIntent) {
         this.mIntent = mIntent;
+    }
+
+    public void setSavedData(ArrayList<ArrayList<Calendar>> savedData) {
+        this.savedData = savedData;
     }
 }

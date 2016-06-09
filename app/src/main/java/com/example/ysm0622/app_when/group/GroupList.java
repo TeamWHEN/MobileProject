@@ -82,7 +82,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             @Override
             public void onClick(View v) {
                 mIntent.setClass(GroupList.this, CreateGroup.class);
-                startActivityForResult(mIntent, 1000);
+                startActivityForResult(mIntent, Global.GROUPLIST_CREATEGROUP);
             }
         });
 
@@ -103,7 +103,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 mIntent.setClass(GroupList.this, GroupManage.class);
                 mIntent.putExtra(Global.GROUP, groupData.get(position));
                 mIntent.putExtra(Global.TAB_NUMBER, 1);
-                startActivityForResult(mIntent, 1001);
+                startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
             }
         });
 
@@ -170,7 +170,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(GroupList.this, Settings.class));
@@ -211,7 +211,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 1000) {
+        if (requestCode == Global.GROUPLIST_CREATEGROUP) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 adapter.add((Group) mIntent.getSerializableExtra(Global.GROUP));
@@ -221,9 +221,11 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 mTextView.setHeight(0);
             }
         }
-        if (requestCode == 1001) {
+        if (requestCode == Global.GROUPLIST_GROUPMANAGE) {
             if (resultCode == RESULT_OK) {
-
+                mIntent = intent;
+            }
+            if(resultCode == RESULT_CANCELED){
                 finish();
             }
         }
