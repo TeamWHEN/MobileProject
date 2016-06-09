@@ -291,7 +291,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         });
     }
 
-    //지도 접기/펴기
+    //지도 유동적으로 보여주기
     public void showMap(View v) {
         if (mShowMap) {
             mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);

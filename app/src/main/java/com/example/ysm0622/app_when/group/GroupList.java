@@ -116,6 +116,12 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         // Query - Select GROUP_CODE, COUNT(*) from ACCOUNT-GROUPS GROUP BY GROUP_CODE (그룹별 인원 추출 query)
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNavView.setCheckedItem(R.id.nav_home);//nav item home으로 초기화
+    }
+
     private void initNavigationView() {
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
         float mScale = getResources().getDisplayMetrics().density;
@@ -199,7 +205,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             logout();
             finish();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -230,9 +235,11 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             mDrawer.openDrawer(mNavView);
         }
     }
+
     //Remove Shared Preferences of LOGIN_DATA
-    public void logout(){
+    public void logout() {
         mEdit.clear();
         mEdit.commit();
     }
+
 }

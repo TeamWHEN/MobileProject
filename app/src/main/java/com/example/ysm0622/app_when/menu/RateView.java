@@ -62,6 +62,7 @@ public class RateView extends AlertDialog {
             public void onClick(View v) {
                 //서버로 전송
                 Toast.makeText(getContext(), "" + rateBar.getRating(), Toast.LENGTH_SHORT).show();
+
                 cancel();
             }
         });
