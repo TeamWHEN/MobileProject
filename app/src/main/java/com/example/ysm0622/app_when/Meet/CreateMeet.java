@@ -66,6 +66,8 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private String mErrMsg[] = new String[mInputNum];
 
     //다음 지도
+    private boolean mShowMap;
+    private ImageView mMapViewImageView;
     private MapView mMapView;
     private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
     private static final String MAP_API_KEY = "d54628685d0b9999e49659e12912739a";
@@ -82,6 +84,8 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         //mMapView.setPOIItemEventListener(this);
         mMapContainer = (LinearLayout) findViewById(R.id.map_view);
         mMapContainer.addView(mMapView);
+        mMapView.setVisibility(View.INVISIBLE);
+        mShowMap = false;
 
         // Receive intent
         mIntent = getIntent();
@@ -110,6 +114,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         mImageView[0] = (ImageView) findViewById(R.id.ImageView0);
         mImageView[1] = (ImageView) findViewById(R.id.ImageView1);
         mImageView[2] = (ImageView) findViewById(R.id.ImageView2);
+        mMapViewImageView = (ImageView) findViewById(R.id.map_imageview);
 
         mEditText[0] = (EditText) findViewById(R.id.EditText0);
         mEditText[1] = (EditText) findViewById(R.id.EditText1);
@@ -284,6 +289,21 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
                 Toast.makeText(getApplicationContext(), "API_KEY의 제한 트래픽이 초과되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    //지도 접기/펴기
+    public void showMap(View v) {
+        if (mShowMap) {
+            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+            mMapView.setVisibility(View.INVISIBLE);
+            //MapContainer.removeView(mMapView);
+            mShowMap = false;
+        } else {
+            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+            mMapView.setVisibility(View.VISIBLE);
+            //mMapContainer.addView(mMapView);
+            mShowMap = true;
+        }
     }
 
     public void onMapViewInitialized(MapView mapView) {

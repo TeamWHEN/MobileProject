@@ -9,23 +9,32 @@ import android.view.Window;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.login.Login;
 
 public class Intro extends AppCompatActivity {
 
+
     // TAG
     private static final String TAG = Intro.class.getName();
 
-    SharedPreferences mSharedPref;
-    SharedPreferences.Editor mEdit;
+    // Intent
+    private Intent mIntent;
+
+    //Shared Preferences
+    private SharedPreferences mSharedPref;
+    private SharedPreferences.Editor mEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPref = getSharedPreferences(Global.FILE_NAME_NOTICE, MODE_PRIVATE);
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
+
+        mSharedPref = getSharedPreferences(Global.FILE_NAME_NOTICE, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
 
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -34,7 +43,11 @@ public class Intro extends AppCompatActivity {
             }
 
             public void onFinish() {
-                startActivity(new Intent(Intro.this, Login.class));
+                if (PRF_AUTO_LOGIN()) {
+                    startActivity(mIntent);
+                } else
+                    startActivity(new Intent(Intro.this, Login.class));
+
                 finish();
             }
         }.start();
@@ -50,11 +63,34 @@ public class Intro extends AppCompatActivity {
     }
 
     public void noticeInit() {
-        mEdit = mSharedPref.edit();
         mEdit.putBoolean(Global.NOTICE_CHECK, false);
         mEdit.putBoolean(Global.NOTICE_SOUND, false);
         mEdit.putBoolean(Global.NOTICE_VIBRATION, false);
         mEdit.putBoolean(Global.NOTICE_POPUP, false);
         mEdit.apply();
+    }
+
+    public boolean PRF_AUTO_LOGIN() {
+        String email, password;
+
+        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+
+        //로그인 상태
+        if (mSharedPref != null && mSharedPref.contains(Global.USER_EMAIL)) {
+            email = mSharedPref.getString(Global.USER_EMAIL, "DEFAULT");
+            password = mSharedPref.getString(Global.USER_PASSWORD, "DEFAULT");
+            mIntent.putExtra(Global.USER, Global.getUser(isExistEmail(email)));
+            return true;
+        }
+        return false;
+    }
+
+    private int isExistEmail(String s) {
+        for (int i = 0; i < Global.getUserCount(); i++) {
+            if (Global.getUser(i).getEmail().equals(s)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

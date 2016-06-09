@@ -98,7 +98,8 @@ public class Global extends Application {
 
     // Shared Preferences
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
-    public static final String NOTICE_CHECK = "CHECK";
+    public static final String FILE_NAME_LOGIN = "LOGIN_DATA";
+    public static final String NOTICE_CHECK ="CHECK";
     public static final String NOTICE_SOUND = "SOUND";
     public static final String NOTICE_VIBRATION = "VIBRATION";
     public static final String NOTICE_POPUP = "POPUP";

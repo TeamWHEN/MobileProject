@@ -1,5 +1,6 @@
 package com.example.ysm0622.app_when.group;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -89,7 +90,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
                     mIntent.setClass(mContext, GroupManage.class);
                     mIntent.putExtra(Global.GROUP, g);
                     mIntent.putExtra(Global.TAB_NUMBER, 0);
-                    mContext.startActivity(mIntent);
+                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
@@ -98,7 +99,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
                     mIntent.setClass(mContext, GroupManage.class);
                     mIntent.putExtra(Global.GROUP, g);
                     mIntent.putExtra(Global.TAB_NUMBER, 2);
-                    mContext.startActivity(mIntent);
+                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {

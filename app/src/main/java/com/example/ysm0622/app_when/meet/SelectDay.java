@@ -241,7 +241,6 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                     mSwitch.setChecked(false);
                     mSwitch.setOnCheckedChangeListener(this);
                 }
-
                 saveData();
             }
         }

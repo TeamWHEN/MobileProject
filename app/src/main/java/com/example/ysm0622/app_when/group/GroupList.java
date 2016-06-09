@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -54,10 +55,17 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private ListView mListView;
     private RateView mRateView;
 
+    //Shared Preferences
+    private SharedPreferences mSharedPref;
+    private SharedPreferences.Editor mEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grouplist_drawer);
+
+        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
 
@@ -188,6 +196,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 e.printStackTrace();
             }
         } else if (id == R.id.nav_logout) {
+            logout();
             finish();
         }
 
@@ -211,6 +220,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
             }
+            if(resultCode == RESULT_CANCELED){
+                finish();
+            }
         }
     }
 
@@ -219,5 +231,10 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (v.getId() == mToolbarAction[0].getId()) { // back button
             mDrawer.openDrawer(mNavView);
         }
+    }
+    //Remove Shared Preferences of LOGIN_DATA
+    public void logout(){
+        mEdit.clear();
+        mEdit.commit();
     }
 }
