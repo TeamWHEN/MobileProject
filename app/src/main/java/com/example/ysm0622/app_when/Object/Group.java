@@ -9,7 +9,6 @@ public class Group implements Serializable {
     private static final String TAG = Group.class.getName();
 
     // Variables
-    private long Id;
     private String Title;
     private String Desc;
     private User Master;
@@ -23,14 +22,6 @@ public class Group implements Serializable {
         this.Title = Title;
         this.Desc = Desc;
         this.Master = Master;
-    }
-
-    public long getId() {
-        return Id;
-    }
-
-    public void setId(long id) {
-        Id = id;
     }
 
     public String getTitle() {

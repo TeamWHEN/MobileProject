@@ -85,4 +85,9 @@ public class RateView extends AlertDialog {
     public void setView(View view) {
         super.setView(view);
     }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+    }
 }

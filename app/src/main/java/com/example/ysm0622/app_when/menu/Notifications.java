@@ -161,7 +161,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
             setNotice(1, !isChecked);
         } else if (v.equals(mSwitch[2])) {
             setNotice(2, !isChecked);
-        } else {
+        } else if (v.equals(mSwitch[3])) {
             setNotice(3, !isChecked);
         }
     }
@@ -177,10 +177,10 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         } else if (index == 2) {
             mEdit.putBoolean(Global.NOTICE_VIBRATION, state);
             Toast.makeText(getApplicationContext(), "NOTICE_VIBRATION : " + mSharedPref.getBoolean(Global.NOTICE_VIBRATION, false), Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (index == 3) {
             mEdit.putBoolean(Global.NOTICE_POPUP, state);
             Toast.makeText(getApplicationContext(), "NOTICE_POPUP : " + mSharedPref.getBoolean(Global.NOTICE_POPUP, false), Toast.LENGTH_SHORT).show();
         }
-        mEdit.commit();
+        mEdit.apply();
     }
 }

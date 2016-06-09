@@ -177,7 +177,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
             mIntent.putExtra(Global.MEET_TITLE, mEditText[0].getText().toString());
             mIntent.putExtra(Global.MEET_DESC, mEditText[1].getText().toString());
             mIntent.putExtra(Global.MEET_LOCATION, mEditText[2].getText().toString());
-            startActivityForResult(mIntent, 1000);
+            startActivityForResult(mIntent, Global.CREATEMEET_SELECTDAY);
         }
     }
 
@@ -249,7 +249,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 1000) {
+        if (requestCode == Global.CREATEMEET_SELECTDAY) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, intent);
                 finish();

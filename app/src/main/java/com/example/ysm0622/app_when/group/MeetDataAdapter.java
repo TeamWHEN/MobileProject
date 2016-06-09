@@ -1,5 +1,6 @@
 package com.example.ysm0622.app_when.group;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -99,7 +100,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     mIntent.setClass(mContext, SelectDay.class);
                     mIntent.putExtra(Global.MEET, m);
                     mIntent.putExtra(Global.SELECT_DAY_MODE, 1);
-                    mContext.startActivity(mIntent);
+                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPMANAGE_SELECTDAY);
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {

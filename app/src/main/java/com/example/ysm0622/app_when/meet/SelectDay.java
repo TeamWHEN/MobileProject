@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.User;
@@ -48,14 +48,19 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
     private View mInclude[];
     private Calendar mToday;
     private Calendar mCurrent;
+    private Calendar mSelect;
     private int mYear;
     private int mMonth;
     private String mCtitle;
 
     private TimeSelectView mTimeSelectView[] = new TimeSelectView[mSelectViewNum];
 
-    ArrayList<Calendar> startTime = new ArrayList<>();
-    ArrayList<Calendar> endTime = new ArrayList<>();
+    private ArrayList<Calendar> startTime = new ArrayList<>();
+    private ArrayList<Calendar> endTime = new ArrayList<>();
+
+    private boolean time[] = new boolean[24];
+
+    public ArrayList<ArrayList<Calendar>> savedData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         // Create instance
         mCurrent = Calendar.getInstance();
         mToday = Calendar.getInstance();
+        mSelect = Calendar.getInstance();
 
         // View allocation
         mImageView[0] = (ImageView) findViewById(R.id.ImageView0);
@@ -180,17 +186,35 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
             super.onBackPressed();
         }
         if (mToolbarAction[1].getId() == v.getId()) {
-            mIntent.putExtra(Global.MEET_SELECTEDDATE, mCalendarView.getDateData());
-            Meet M = new Meet();
-            M.setGroup((Group) mIntent.getSerializableExtra(Global.GROUP));
-            M.setMaster((User) mIntent.getSerializableExtra(Global.USER));
-            M.setTitle(mIntent.getStringExtra(Global.MEET_TITLE));
-            M.setDesc(mIntent.getStringExtra(Global.MEET_DESC));
-            M.setLocation(mIntent.getStringExtra(Global.MEET_LOCATION));
-            M.setSelectedDate(mCalendarView.getDateData());
-            mIntent.putExtra(Global.MEET, M);
-            setResult(RESULT_OK, mIntent);
-            finish();
+            if (MODE == 0) {
+                mIntent.putExtra(Global.MEET_SELECTEDDATE, mCalendarView.getDateData());
+                Meet M = new Meet();
+                M.setGroup((Group) mIntent.getSerializableExtra(Global.GROUP));
+                M.setMaster((User) mIntent.getSerializableExtra(Global.USER));
+                M.setTitle(mIntent.getStringExtra(Global.MEET_TITLE));
+                M.setDesc(mIntent.getStringExtra(Global.MEET_DESC));
+                M.setLocation(mIntent.getStringExtra(Global.MEET_LOCATION));
+                M.setSelectedDate(mCalendarView.getDateData());
+                mIntent.putExtra(Global.MEET, M);
+                setResult(RESULT_OK, mIntent);
+                finish();
+            } else if (MODE == 1) {
+                startTime.clear();
+                endTime.clear();
+                for (int i = 0; i < savedData.size(); i += 2) {
+                    startTime.addAll(savedData.get(i));
+                    endTime.addAll(savedData.get(i + 1));
+                }
+                DateTime D = new DateTime();
+                D.setUser((User) mIntent.getSerializableExtra(Global.USER));
+                D.setStartTime(startTime);
+                D.setEndTime(endTime);
+                Meet M = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                M.setDateTime(D);
+                mIntent.putExtra(Global.MEET, M);
+                setResult(RESULT_OK, mIntent);
+                finish();
+            }
         }
         if (mImageView[0].getId() == v.getId()) {
             mCurrent.add(Calendar.MONTH, -1);
@@ -218,32 +242,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                     mSwitch.setOnCheckedChangeListener(this);
                 }
 
-                boolean time[] = new boolean[24];
-                for (int j = 0; j < mSelectViewNum; j++) {
-                    for (int k = 0; k < 8; k++) {
-                        time[j * 8 + k] = mTimeSelectView[j].getSelected()[k];
-                    }
-                }
-                ArrayList<Integer> timeInfo = new ArrayList<>();
-                for (int j = 0; j < time.length - 1; j++) {
-                    if (time[j] != time[j + 1]) {
-                        timeInfo.add(j + 1);
-                    }
-                }
-                Calendar c = Calendar.getInstance();
-                c = makeClone(mCurrent);
-                startTime = new ArrayList<>();
-                endTime = new ArrayList<>();
-                for (int j = 0; j < timeInfo.size(); j++) {
-                    if (j % 2 == 0) {
-                        startTime.add(makeClone(c));
-                        startTime.get(startTime.size() - 1).set(Calendar.DATE, timeInfo.get(j));
-                    } else {
-                        endTime.add(makeClone(c));
-                        endTime.get(startTime.size() - 1).set(Calendar.DATE, timeInfo.get(j));
-                    }
-                }
-                Log.w(TAG,)
+                saveData();
             }
         }
         for (int i = 0; i < 42; i++) {
@@ -251,7 +250,8 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                 boolean mSelected[] = mCalendarView.getSelected();
                 ArrayList<Calendar> mDateData = mCalendarView.getDateData();
                 Calendar mCalendarArray[] = mCalendarView.getCalendarArray();
-                mCurrent.set(Calendar.DATE, mCalendarArray[i].get(Calendar.DATE));
+                mSelect = makeClone(mCalendarArray[i]);
+                mSelect.set(Calendar.DATE, mCalendarArray[i].get(Calendar.DATE));
                 if (MODE == 0) {
                     if (mSelected[i]) {
                         for (int n = 0; n < mDateData.size(); n++) {
@@ -288,15 +288,136 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                             mTimeSelectView[j].setDraw(true);
                         }
                     }
+                    // Clear field
+                    for (int j = 0; j < mSelectViewNum; j++) {
+                        mTimeSelectView[j].setAll(false);
+                    }
+                    // Data save
+                    startTime.clear();
+                    endTime.clear();
+                    for (int j = 0; j < savedData.size(); j += 2) {
+                        if (isEqual(savedData.get(j).get(0), mSelect)) {
+                            startTime = makeClone(savedData.get(j));
+                            endTime = makeClone(savedData.get(j + 1));
+                            savedData.remove(j);
+                            savedData.remove(j);
+                        }
+                    }
+                    mCalendarView.setSavedData(savedData);
+                    // Draw
+                    if (startTime.size() > 0) {
+                        ArrayList<Integer> timeInfo = new ArrayList<>();
+                        for (int j = 0; j < startTime.size(); j++) {
+                            timeInfo.add(startTime.get(j).get(Calendar.HOUR_OF_DAY));
+                            if (endTime.get(j).get(Calendar.HOUR_OF_DAY) == 0) timeInfo.add(24);
+                            else timeInfo.add(endTime.get(j).get(Calendar.HOUR_OF_DAY));
+                        }
+                        for (int j = 0; j < time.length; j++) {
+                            time[j] = false;
+                        }
+                        for (int j = 0; j < timeInfo.size() - 1; j += 2) {
+                            for (int k = timeInfo.get(j); k < timeInfo.get(j + 1); k++) {
+                                time[k] = true;
+                            }
+                        }
+                        if (isAllSelected(time)) {
+                            mSwitch.setOnCheckedChangeListener(null);
+                            mSwitch.setChecked(true);
+                            mSwitch.setOnCheckedChangeListener(this);
+                        } else {
+                            mSwitch.setOnCheckedChangeListener(null);
+                            mSwitch.setChecked(false);
+                            mSwitch.setOnCheckedChangeListener(this);
+                        }
+                        boolean tmp[] = new boolean[8];
+                        for (int j = 0; j < time.length; j++) {
+                            tmp[j % 8] = time[j];
+                            if (j % 8 == 7) {
+                                mTimeSelectView[j / 8 % 3].drawRectByArray(tmp);
+                            }
+                        }
+
+                    } else {
+                        mSwitch.setOnCheckedChangeListener(null);
+                        mSwitch.setChecked(false);
+                        mSwitch.setOnCheckedChangeListener(this);
+                    }
+
                     mCalendarView.reDisplay(mCurrent);
                 }
             }
         }
     }
 
+    private boolean isAllSelected(boolean arr[]) {
+        for (int i = 0; i < arr.length; i++) {
+            if (!arr[i]) return false;
+        }
+        return true;
+    }
+
+    private void saveData() {
+        for (int j = 0; j < mSelectViewNum; j++) {
+            for (int k = 0; k < 8; k++) {
+                time[j * 8 + k] = mTimeSelectView[j].getSelected()[k];
+            }
+        }
+        ArrayList<Integer> timeInfo = new ArrayList<>();
+        if (time[0]) {
+            timeInfo.add(0);
+        }
+        for (int j = 0; j < time.length - 1; j++) {
+            if (time[j] != time[j + 1]) {
+                timeInfo.add(j + 1);
+            }
+        }
+        if (time[23]) {
+            timeInfo.add(24);
+        }
+        Calendar c = makeClone(mSelect);
+        startTime.clear();
+        endTime.clear();
+        for (int j = 0; j < timeInfo.size(); j++) {
+            if (j % 2 == 0) {
+                c.set(Calendar.HOUR_OF_DAY, timeInfo.get(j));
+                startTime.add(makeClone(c));
+            } else {
+                c.set(Calendar.HOUR_OF_DAY, timeInfo.get(j));
+                endTime.add(makeClone(c));
+            }
+        }
+        for (int j = 0; j < savedData.size(); j += 2) {
+            if (isEqual(savedData.get(j).get(0), mSelect)) {
+                savedData.remove(j);
+                savedData.remove(j);
+            }
+        }
+        if (startTime.size() > 0) {
+            savedData.add(makeClone(startTime));
+            savedData.add(makeClone(endTime));
+        }
+        if (savedData.size() > 0) {
+            mToolbarAction[1].setVisibility(View.VISIBLE);
+        } else {
+            mToolbarAction[1].setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private boolean isEqual(Calendar A, Calendar B) {
+        if (A.get(Calendar.YEAR) == B.get(Calendar.YEAR) && A.get(Calendar.MONTH) == B.get(Calendar.MONTH) && A.get(Calendar.DATE) == B.get(Calendar.DATE)) {
+            return true;
+        } else return false;
+    }
+
     private Calendar makeClone(Calendar A) {
         Calendar New = Calendar.getInstance();
         New.set(A.get(Calendar.YEAR), A.get(Calendar.MONTH), A.get(Calendar.DATE), A.get(Calendar.HOUR_OF_DAY), 0);
+        return New;
+    }
+
+    private ArrayList<Calendar> makeClone(ArrayList<Calendar> A) {
+        ArrayList<Calendar> New = new ArrayList<>();
+        New.addAll(A);
         return New;
     }
 
@@ -314,6 +435,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                     mTimeSelectView[i].setAll(false);
                 }
             }
+            saveData();
         }
     }
 

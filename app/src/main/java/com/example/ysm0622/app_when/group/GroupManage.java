@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class GroupManage extends Activity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -244,7 +246,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(GroupManage.this, Settings.class));
@@ -286,14 +288,27 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 1000) {
+        if (requestCode == Global.GROUPMANAGE_CREATEMEET) {
             if (resultCode == RESULT_OK) {
+                mIntent = intent;
                 MeetAdapter.add((Meet) intent.getSerializableExtra(Global.MEET));
                 MeetAdapter.notifyDataSetChanged();
                 TextView mTextView = (TextView) mTabContent[0].findViewById(R.id.TextView0);
                 mTextView.setVisibility(View.INVISIBLE);
                 mTextView.setEnabled(false);
                 mTextView.setHeight(0);
+            }
+        }
+        if (requestCode == Global.GROUPMANAGE_INVITEPEOPLE) {
+            mIntent = intent;
+        }
+        if (requestCode == Global.GROUPMANAGE_SELECTDAY) {
+            mIntent = intent;
+            Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+            ArrayList<Calendar> startTime = m.getDateTime().getStartTime();
+            ArrayList<Calendar> endTime = m.getDateTime().getEndTime();
+            for (int i = 0; i < startTime.size(); i++) {
+                Log.w(TAG, startTime.get(i).get(Calendar.MONTH) + "/" + startTime.get(i).get(Calendar.DATE) + " " + startTime.get(i).get(Calendar.HOUR_OF_DAY) + "시 ~ " + endTime.get(i).get(Calendar.MONTH) + "/" + endTime.get(i).get(Calendar.DATE) + "일 " + endTime.get(i).get(Calendar.HOUR_OF_DAY) + "시");
             }
         }
     }
@@ -322,11 +337,11 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (v.equals(mFab[0])) {
             mIntent.setClass(GroupManage.this, CreateMeet.class);
             mIntent.putExtra(Global.SELECT_DAY_MODE, 0);
-            startActivityForResult(mIntent, 1000);
+            startActivityForResult(mIntent, Global.GROUPMANAGE_CREATEMEET);
         }
         if (v.equals(mFab[1])) {
             mIntent.setClass(GroupManage.this, InvitePeople.class);
-            startActivityForResult(mIntent, 1001);
+            startActivityForResult(mIntent, Global.GROUPMANAGE_INVITEPEOPLE);
         }
     }
 }
