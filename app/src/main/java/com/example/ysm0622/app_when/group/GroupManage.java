@@ -35,7 +35,6 @@ import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class GroupManage extends Activity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -64,8 +63,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private RateView mRateView;
 
     private FloatingActionButton mFab[];
-
-    private GroupMember mGroupMember;
 
     // List View
     private ListView mListView[];
@@ -171,6 +168,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             UserAdapter.add(G.getMember(i));
         }
         UserAdapter.notifyDataSetChanged();
+
     }
 
     private void initNavigationView() {
@@ -287,7 +285,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             }
         } else if (id == R.id.nav_logout) {
             logout();
-            setResult(RESULT_CANCELED);
+            setResult(Global.RESULT_LOGOUT);
             finish();
         }
 
@@ -309,15 +307,29 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             }
         }
         if (requestCode == Global.GROUPMANAGE_INVITEPEOPLE) {
-            mIntent = intent;
+            if (resultCode == RESULT_OK) {
+                mIntent = intent;
+                Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+                userData = g.getMember();
+                UserAdapter.notifyDataSetChanged();
+                for (int i = 0; g!=null && i < g.getMemberNum(); i++) {
+                    Log.w(TAG, "User(" + i + ") : " + g.getMember(i));
+                }
+            }
         }
         if (requestCode == Global.GROUPMANAGE_SELECTDAY) {
-            mIntent = intent;
-            Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
-            ArrayList<Calendar> startTime = m.getDateTime().getStartTime();
-            ArrayList<Calendar> endTime = m.getDateTime().getEndTime();
-            for (int i = 0; i < startTime.size(); i++) {
-                Log.w(TAG, startTime.get(i).get(Calendar.MONTH) + "/" + startTime.get(i).get(Calendar.DATE) + " " + startTime.get(i).get(Calendar.HOUR_OF_DAY) + "시 ~ " + endTime.get(i).get(Calendar.MONTH) + "/" + endTime.get(i).get(Calendar.DATE) + "일 " + endTime.get(i).get(Calendar.HOUR_OF_DAY) + "시");
+            if (resultCode == RESULT_OK) {
+                mIntent = intent;
+                Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                for (int i = 0; i < meetData.size(); i++) {
+                    if (meetData.get(i).getId() == m.getId()) {
+                        int index = meetData.indexOf(meetData.get(i));
+                        meetData.remove(meetData.get(i));
+                        meetData.add(index, m);
+                        break;
+                    }
+                }
+                MeetAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -350,11 +362,13 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         }
         if (v.equals(mFab[1])) {
             mIntent.setClass(GroupManage.this, InvitePeople.class);
+            mIntent.putExtra(Global.INVITE_MODE, 1);
             startActivityForResult(mIntent, Global.GROUPMANAGE_INVITEPEOPLE);
         }
     }
+
     //Remove Shared Preferences of LOGIN_DATA
-    public void logout(){
+    public void logout() {
         mEdit.clear();
         mEdit.commit();
     }

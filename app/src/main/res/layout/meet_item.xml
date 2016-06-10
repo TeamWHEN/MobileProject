@@ -147,9 +147,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:orientation="horizontal">
-
         <ImageView
             android:id="@+id/ImageView5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_btn"
+            android:clickable="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_poll" />
+        <ImageView
+            android:id="@+id/ImageView6"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -159,7 +167,7 @@
             android:src="@drawable/ic_event_note" />
 
         <ImageView
-            android:id="@+id/ImageView6"
+            android:id="@+id/ImageView7"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -169,7 +177,7 @@
             android:src="@drawable/ic_group" />
 
         <ImageView
-            android:id="@+id/ImageView7"
+            android:id="@+id/ImageView8"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"

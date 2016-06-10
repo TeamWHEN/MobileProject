@@ -164,7 +164,7 @@
     <string name="ysm_email">ysm0622@gmail.com</string>
     <string name="jdh_email">ehdguso@naver.com</string>
     <string name="jjh_email">wlwjdgks123@gmail.com</string>
-    <string name="search_hint">이름, 이메일 검색</string>
+    <string name="search_hint">이름(초성), 이메일 검색</string>
     <string name="SUN">일</string>
     <string name="MON">월</string>
     <string name="TUE">화</string>

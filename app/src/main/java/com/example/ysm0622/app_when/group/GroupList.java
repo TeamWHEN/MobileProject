@@ -220,7 +220,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
             }
-            if(resultCode == RESULT_CANCELED){
+            if (resultCode == Global.RESULT_LOGOUT) {
                 finish();
             }
         }
@@ -232,8 +232,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             mDrawer.openDrawer(mNavView);
         }
     }
+
     //Remove Shared Preferences of LOGIN_DATA
-    public void logout(){
+    public void logout() {
         mEdit.clear();
         mEdit.commit();
     }

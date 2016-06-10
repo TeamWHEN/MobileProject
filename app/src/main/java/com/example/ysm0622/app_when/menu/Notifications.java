@@ -179,9 +179,9 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         } else if (v.equals(mSwitch[1])) {
             setNotice(1, isChecked);
         } else if (v.equals(mSwitch[2])) {
-            setNotice(2, !isChecked);
+            setNotice(2, isChecked);
         } else if (v.equals(mSwitch[3])) {
-            setNotice(3, !isChecked);
+            setNotice(3, isChecked);
         }
     }
 

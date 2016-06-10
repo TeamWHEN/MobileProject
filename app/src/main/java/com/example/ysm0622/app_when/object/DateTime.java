@@ -11,8 +11,7 @@ public class DateTime implements Serializable {
 
     // Variables
     private User User;
-    private ArrayList<Calendar> StartTime;
-    private ArrayList<Calendar> EndTime;
+    private ArrayList<ArrayList<Calendar>> SelectTime;
 
     public DateTime() {
 
@@ -26,19 +25,11 @@ public class DateTime implements Serializable {
         User = user;
     }
 
-    public ArrayList<Calendar> getStartTime() {
-        return StartTime;
+    public ArrayList<ArrayList<Calendar>> getSelectTime() {
+        return SelectTime;
     }
 
-    public void setStartTime(ArrayList<Calendar> startTime) {
-        StartTime = startTime;
-    }
-
-    public ArrayList<Calendar> getEndTime() {
-        return EndTime;
-    }
-
-    public void setEndTime(ArrayList<Calendar> endTime) {
-        EndTime = endTime;
+    public void setSelectTime(ArrayList<ArrayList<Calendar>> selectTime) {
+        SelectTime = selectTime;
     }
 }

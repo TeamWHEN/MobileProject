@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<com.example.ysm0622.app_when.group.GroupMember xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/TabRoot2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -25,4 +25,4 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add" />
 
-</com.example.ysm0622.app_when.group.GroupMember>
+</android.support.design.widget.CoordinatorLayout>

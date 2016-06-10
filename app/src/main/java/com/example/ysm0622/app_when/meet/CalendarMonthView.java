@@ -3,7 +3,6 @@ package com.example.ysm0622.app_when.meet;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +50,7 @@ public class CalendarMonthView extends LinearLayout {
     private ArrayList<Calendar> mDateData;
     private Calendar mCalendarArray[];
 
-    private ArrayList<ArrayList<Calendar>> savedData = new ArrayList<>();
+    private ArrayList<ArrayList<Calendar>> allData;
 
 
     public CalendarMonthView(Context context) {
@@ -81,12 +80,12 @@ public class CalendarMonthView extends LinearLayout {
         mHeight = getHeight();
         float h = mHeight / mRow;
         float w = mWidth / mCol;
-        Log.w(TAG, "W = " + w + " H = " + h);
+//        Log.w(TAG, "W = " + w + " H = " + h);
         h -= (int) (2 * Global.DENSITY + 0.5f);
         w = w - h;
         w /= 2;
         mParam[1].setMargins((int) w, (int) (1 * Global.DENSITY + 0.5f), (int) w, (int) (1 * Global.DENSITY + 0.5f));
-        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * Global.DENSITY + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
+//        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * Global.DENSITY + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
     }
 
 
@@ -174,6 +173,22 @@ public class CalendarMonthView extends LinearLayout {
         return New;
     }
 
+//    public void setSavedData(Intent intent) {
+//        mIntent = intent;
+//        User u = (User) mIntent.getSerializableExtra(Global.USER);
+//        Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+//        for (int i = 0; i < m.getDateTimeNum(); i++) {
+//            if (m.getDateTime().get(i).getUser().getId() == u.getId()) {
+//                for (int j = 0; j < m.getDateTime().get(i).getStartTime().size(); j++) {
+//                    savedData.add(m.getDateTime().get(i).getStartTime());
+//                    savedData.add(m.getDateTime().get(i).getEndTime());
+//                }
+//            }
+//        }
+//        Log.w(TAG, "m.getDateTime Num : " + m.getDateTimeNum());
+//        Log.w(TAG, "savedData Num : " + savedData.size());
+//    }
+
     public void reDisplay(Calendar C) {
         curYear = C.get(Calendar.YEAR);
         curMonth = C.get(Calendar.MONTH);
@@ -223,9 +238,9 @@ public class CalendarMonthView extends LinearLayout {
                         break;
                     }
                 }
-                for (int j = 0; j < savedData.size(); j += 2) {
-                    if (isEqual(mCalendarArray[i], savedData.get(j).get(0))) {
-                        selectTextView(i,2);
+                for (int j = 0; allData != null && j < allData.size(); j++) {
+                    if (isEqual(mCalendarArray[i], allData.get(j).get(0))) {
+                        selectTextView(i, 2);
                     }
                 }
                 if (mDateData.size() != 0 && isEqual(mCalendarArray[i], mDateData.get(0))) {
@@ -249,7 +264,9 @@ public class CalendarMonthView extends LinearLayout {
         }
     }
 
-
+    public void setAllData(ArrayList<ArrayList<Calendar>> arrayLists) {
+        this.allData = arrayLists;
+    }
 
     public ArrayList<Calendar> getDateData() {
         return mDateData;
@@ -271,11 +288,11 @@ public class CalendarMonthView extends LinearLayout {
         return mCalendarArray;
     }
 
-    public void setmIntent(Intent mIntent) {
+    public void setIntent(Intent mIntent) {
         this.mIntent = mIntent;
     }
 
-    public void setSavedData(ArrayList<ArrayList<Calendar>> savedData) {
-        this.savedData = savedData;
-    }
+//    public void setSavedData(ArrayList<ArrayList<Calendar>> savedData) {
+//        this.savedData = savedData;
+//    }
 }
