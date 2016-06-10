@@ -18,7 +18,7 @@ public class Settings extends Activity implements View.OnClickListener {
     private static final String TAG = Settings.class.getName();
 
     // Const
-    private static final int COUNT = 2;
+    private static final int COUNT = 3;
     private static final int mToolBtnNum = 1;
 
     // Toolbar
@@ -27,6 +27,7 @@ public class Settings extends Activity implements View.OnClickListener {
 
     private LinearLayout mLinearLayout[];
     private ImageView mImageView[];
+    private ImageView mImageViewArrow[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +62,20 @@ public class Settings extends Activity implements View.OnClickListener {
         // Array allocation
         mLinearLayout = new LinearLayout[COUNT];
         mImageView = new ImageView[COUNT];
+        mImageViewArrow = new ImageView[COUNT];
 
         // Create instance
 
         // View allocation
         mLinearLayout[0] = (LinearLayout) findViewById(R.id.LinearLayout0);
         mLinearLayout[1] = (LinearLayout) findViewById(R.id.LinearLayout1);
+        mLinearLayout[2] = (LinearLayout) findViewById(R.id.LinearLayout2);
         mImageView[0] = (ImageView) findViewById(R.id.ImageView0);
         mImageView[1] = (ImageView) findViewById(R.id.ImageView1);
+        mImageView[2] = (ImageView) findViewById(R.id.ImageView2);
+        mImageViewArrow[0] = (ImageView) findViewById(R.id.ImageView_Arrow0);
+        mImageViewArrow[1] = (ImageView) findViewById(R.id.ImageView_Arrow1);
+        mImageViewArrow[2] = (ImageView) findViewById(R.id.ImageView_Arrow2);
 
         // Add listener
         for (int i = 0; i < COUNT; i++) {
@@ -78,6 +85,7 @@ public class Settings extends Activity implements View.OnClickListener {
         // Default setting
         for (int i = 0; i < COUNT; i++) {
             mImageView[i].setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+            mImageViewArrow[i].setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         }
 
     }
@@ -92,6 +100,9 @@ public class Settings extends Activity implements View.OnClickListener {
         }
         if (v.equals(mLinearLayout[1])) {
             startActivity(new Intent(Settings.this, Notifications.class));
+        }
+        if (v.equals(mLinearLayout[2])) {
+            startActivity(new Intent(Settings.this, Language.class));
         }
     }
 }

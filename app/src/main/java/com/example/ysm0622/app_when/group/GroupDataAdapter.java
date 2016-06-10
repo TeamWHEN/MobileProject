@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
@@ -112,7 +109,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    createDialogBox();
+                    createDialogBox(g);
                 }
             });
         }
@@ -120,35 +117,36 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
     }
 
     //탈퇴 다이어로그
-    public void createDialogBox() {
+    public void createDialogBox(final Group g) {
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.drop_alert, null);
 
         TextView Title = (TextView) view.findViewById(R.id.drop_title);
-        Title.setText("그룹을 탈퇴하시겠습니까?");
-        Title.setTextColor(Color.BLACK);
         TextView Content = (TextView) view.findViewById(R.id.drop_content);
-        Content.setText("그룹 탈퇴시 모든 입력 기록이 삭제되며, 구성원에게 초대 받기 전까지 다시 그룹에 가입할 수 없습니다.");
+        TextView Btn1 = (TextView) view.findViewById(R.id.drop_btn1);
+        TextView Btn2 = (TextView) view.findViewById(R.id.drop_btn2);
 
-        Button Btn1 = (Button) view.findViewById(R.id.drop_btn1);
-        Btn1.setText("탈퇴");
+        Title.setText(R.string.Leave_the_group);
+        Content.setText(R.string.Leave_group_warn_msg);
+        Btn1.setText(R.string.cancel);
+        Btn2.setText(R.string.leave);
+
         Btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "탈퇴", Toast.LENGTH_SHORT).show();
-                mDialBox.cancel();
-            }
-        });//탈퇴
-        Button Btn2 = (Button) view.findViewById(R.id.drop_btn2);
-        Btn2.setText("취소");
-        Btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "취소", Toast.LENGTH_SHORT).show();
                 mDialBox.cancel();
             }
         });//취소
+
+        Btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+                values.remove(g);
+                GroupDataAdapter.this.notifyDataSetInvalidated();
+            }
+        });//탈퇴
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(view);
