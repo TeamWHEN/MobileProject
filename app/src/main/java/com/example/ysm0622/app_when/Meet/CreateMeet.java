@@ -44,27 +44,12 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
 
-    //다음 지도
-//    private boolean mShowMap;
-//    private ImageView mMapViewImageView;
-//    private MapView mMapView;
-//    private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
-//    private static final String MAP_API_KEY = "d54628685d0b9999e49659e12912739a";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createmeet_main);
-
-        //다음 지도
-//        mMapView = new MapView(this);
-//        mMapView.setDaumMapApiKey(MAP_API_KEY);
-//        //mMapView.setMapViewEventListener(this);
-//        //mMapView.setPOIItemEventListener(this);
-//        mMapContainer = (LinearLayout) findViewById(R.id.map_view);
-//        mMapContainer.addView(mMapView);
-//        mMapView.setVisibility(View.INVISIBLE);
-//        mShowMap = false;
 
         // Receive intent
         mIntent = getIntent();
@@ -93,7 +78,6 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         mImageView[0] = (ImageView) findViewById(R.id.ImageView0);
         mImageView[1] = (ImageView) findViewById(R.id.ImageView1);
         mImageView[2] = (ImageView) findViewById(R.id.ImageView2);
-//        mMapViewImageView = (ImageView) findViewById(R.id.map_imageview);
 
         mEditText[0] = (EditText) findViewById(R.id.EditText0);
         mEditText[1] = (EditText) findViewById(R.id.EditText1);
@@ -161,6 +145,11 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
             mIntent.putExtra(Global.MEET_TITLE, mEditText[0].getText().toString());
             mIntent.putExtra(Global.MEET_DESC, mEditText[1].getText().toString());
             mIntent.putExtra(Global.MEET_LOCATION, mEditText[2].getText().toString());
+
+            //지도 위도, 경도 얻고 삭제
+            //mMapContainer.removeView(mMapView);
+            //mMapView.releaseUnusedMapTileImageResources();
+            //mMapView.destroyDrawingCache();
             startActivityForResult(mIntent, Global.CREATEMEET_SELECTDAY);
         }
     }
@@ -241,231 +230,22 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         }
     }
 
-//    //지도 검색
-//    public void searchEvent(View v) {
-//        String query = mEditText[2].getText().toString();
-//        if (query == null || query.length() == 0) {
-//            Toast.makeText(getApplicationContext(), "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        hideSoftKeyboard(); // 키보드 숨김
-//        GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
-//        double latitude = geoCoordinate.latitude; // 위도
-//        double longitude = geoCoordinate.longitude; // 경도
-//        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-//        int page = 1; // 페이지 번호 (1 ~ 3). 한페이지에 15개
-//
-//        Searcher searcher = new Searcher(); // net.daum.android.map.openapi.search.Searcher
-//        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, MAP_API_KEY, new OnFinishSearchListener() {
-//            @Override
-//            public void onSuccess(List<Item> itemList) {
-//                mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-//                showResult(itemList); // 검색 결과 보여줌
-//            }
-//
-//            @Override
-//            public void onFail() {
-//                Toast.makeText(getApplicationContext(), "API_KEY의 제한 트래픽이 초과되었습니다.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    //지도 접기/펴기
-//    public void showMap(View v) {
-//        if (mShowMap) {
-//            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-//            mMapView.setVisibility(View.INVISIBLE);
-//            //MapContainer.removeView(mMapView);
-//            mShowMap = false;
-//        } else {
-//            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
-//            mMapView.setVisibility(View.VISIBLE);
-//            //mMapContainer.addView(mMapView);
-//            mShowMap = true;
-//        }
-//    }
-//
-//    public void onMapViewInitialized(MapView mapView) {
-//
-//        mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(37.537229, 127.005515), 2, true);
-//
-//        Searcher searcher = new Searcher();
-//        String query = mEditText[2].getText().toString();
-//        double latitude = 37.537229;
-//        double longitude = 127.005515;
-//        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-//        int page = 1;
-//        String apikey = MAP_API_KEY;
-//
-//        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
-//            @Override
-//            public void onSuccess(final List<Item> itemList) {
-//                showResult(itemList);
-//            }
-//
-//            @Override
-//            public void onFail() {
-//                Toast.makeText(getApplicationContext(), "API_KEY의 제한 트래픽이 초과되었습니다.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
-//
-//        private final View mCalloutBalloon;
-//
-//        public CustomCalloutBalloonAdapter() {
-//            mCalloutBalloon = getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
-//        }
-//
-//        @Override
-//        public View getCalloutBalloon(MapPOIItem poiItem) {
-//            if (poiItem == null) return null;
-//            Item item = mTagItemMap.get(poiItem.getTag());
-//            if (item == null) return null;
-//            ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
-//            TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
-//            textViewTitle.setText(item.title);
-//            TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
-//            textViewDesc.setText(item.address);
-//            imageViewBadge.setImageDrawable(createDrawableFromUrl(item.imageUrl));
-//            return mCalloutBalloon;
-//        }
-//
-//        @Override
-//        public View getPressedCalloutBalloon(MapPOIItem poiItem) {
-//            return null;
-//        }
-//
-//    }
-//
-//    private void hideSoftKeyboard() {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(mEditText[2].getWindowToken(), 0);
-//    }
-//
-//    private void showResult(List<Item> itemList) {
-//        MapPointBounds mapPointBounds = new MapPointBounds();
-//
-//        for (int i = 0; i < itemList.size(); i++) {
-//            Item item = itemList.get(i);
-//
-//            MapPOIItem poiItem = new MapPOIItem();
-//            poiItem.setItemName(item.title);
-//            poiItem.setTag(i);
-//            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude);
-//            poiItem.setMapPoint(mapPoint);
-//            mapPointBounds.add(mapPoint);
-//            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-//            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-//            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-//            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-//            poiItem.setCustomImageAutoscale(false);
-//            poiItem.setCustomImageAnchor(0.5f, 1.0f);
-//
-//            mMapView.addPOIItem(poiItem);
-//            mTagItemMap.put(poiItem.getTag(), item);
-//        }
-//
-//        mMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
-//
-//        MapPOIItem[] poiItems = mMapView.getPOIItems();
-//        if (poiItems.length > 0) {
-//            mMapView.selectPOIItem(poiItems[0], false);
-//        }
-//    }
-//
-//    private Drawable createDrawableFromUrl(String url) {
-//        try {
-//            InputStream is = (InputStream) this.fetch(url);
-//            Drawable d = Drawable.createFromStream(is, "src");
-//            return d;
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            return null;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    private Object fetch(String address) throws MalformedURLException, IOException {
-//        URL url = new URL(address);
-//        Object content = url.getContent();
-//        return content;
-//    }
-//
-//    @Override
-//    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-//        Item item = mTagItemMap.get(mapPOIItem.getTag());
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("title=").append(item.title).append("\n");
-//        sb.append("imageUrl=").append(item.imageUrl).append("\n");
-//        sb.append("address=").append(item.address).append("\n");
-//        sb.append("newAddress=").append(item.newAddress).append("\n");
-//        sb.append("zipcode=").append(item.zipcode).append("\n");
-//        sb.append("phone=").append(item.phone).append("\n");
-//        sb.append("category=").append(item.category).append("\n");
-//        sb.append("longitude=").append(item.longitude).append("\n");
-//        sb.append("latitude=").append(item.latitude).append("\n");
-//        sb.append("distance=").append(item.distance).append("\n");
-//        sb.append("direction=").append(item.direction).append("\n");
-//        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-//
-//    }
-//
-//    @Override
-//    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-//
-//    }
-//
-//    @Override
-//    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
-//
-//    }
-//
-//
-//    @Override
-//    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-//
-//    }
+
+    //지도 검색
+    public void searchEvent(View v) {
+
+    }
+
+    //지도 유동적으로 보여주기
+    public void showMap(View v) {
+  /*      if (mShowMap) {
+            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+            mMapView.setVisibility(View.INVISIBLE);
+            mShowMap = false;
+        } else {
+            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+            mMapView.setVisibility(View.VISIBLE);
+            mShowMap = true;
+        }*/
+    }
 }

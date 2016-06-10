@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
@@ -193,7 +192,6 @@ public class Notifications extends Activity implements View.OnClickListener, Com
             mEdit.putBoolean(Global.NOTICE_SOUND, state);
         } else if (index == 2) {
             mEdit.putBoolean(Global.NOTICE_VIBRATION, state);
-            Toast.makeText(getApplicationContext(), "NOTICE_VIBRATION : " + mSharedPref.getBoolean(Global.NOTICE_VIBRATION, false), Toast.LENGTH_SHORT).show();
         } else if (index == 3) {
             mEdit.putBoolean(Global.NOTICE_POPUP, state);
         }

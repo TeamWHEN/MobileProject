@@ -117,6 +117,12 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         // Query - Select GROUP_CODE, COUNT(*) from ACCOUNT-GROUPS GROUP BY GROUP_CODE (그룹별 인원 추출 query)
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNavView.setCheckedItem(R.id.nav_group);//nav item home으로 초기화
+    }
+
     private void initialize() {
 
         // Array allocation

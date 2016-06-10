@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -100,6 +101,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Log.e("TAG",""+position);
                 mIntent.setClass(GroupList.this, GroupManage.class);
                 mIntent.putExtra(Global.GROUP, groupData.get(position));
                 mIntent.putExtra(Global.TAB_NUMBER, 1);
@@ -114,6 +116,12 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         // Query - Select GROUP_CODE, USER_CODE, GROUP_NAME from GROUPS WHERE GROUP_CODE = @@ (Intent에서 받아온 GROUP_CODE로 그룹 Search)
 
         // Query - Select GROUP_CODE, COUNT(*) from ACCOUNT-GROUPS GROUP BY GROUP_CODE (그룹별 인원 추출 query)
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNavView.setCheckedItem(R.id.nav_group);//nav item home으로 초기화
     }
 
     private void initNavigationView() {
@@ -199,7 +207,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             logout();
             finish();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -238,4 +245,5 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mEdit.clear();
         mEdit.commit();
     }
+
 }
