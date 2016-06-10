@@ -123,7 +123,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     @Override
     protected void onResume() {
         super.onResume();
-        mNavView.setCheckedItem(R.id.nav_home);//nav item home으로 초기화
+        mNavView.setCheckedItem(R.id.nav_group);//nav item home으로 초기화
     }
 
     private void initialize() {

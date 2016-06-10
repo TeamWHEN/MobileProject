@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -100,6 +101,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Log.e("TAG",""+position);
                 mIntent.setClass(GroupList.this, GroupManage.class);
                 mIntent.putExtra(Global.GROUP, groupData.get(position));
                 mIntent.putExtra(Global.TAB_NUMBER, 1);
@@ -119,7 +121,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     @Override
     protected void onResume() {
         super.onResume();
-        mNavView.setCheckedItem(R.id.nav_home);//nav item home으로 초기화
+        mNavView.setCheckedItem(R.id.nav_group);//nav item home으로 초기화
     }
 
     private void initNavigationView() {
