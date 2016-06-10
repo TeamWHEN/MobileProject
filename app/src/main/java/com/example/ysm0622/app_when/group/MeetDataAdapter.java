@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.meet.PollState;
 import com.example.ysm0622.app_when.meet.SelectDay;
 import com.example.ysm0622.app_when.object.Meet;
 
@@ -26,7 +27,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
     // Const
     private static final int TEXT_NUM = 5;
     private static final int ICON_NUM = 4;
-    private static final int BTN_NUM = 3;
+    private static final int BTN_NUM = 4;
 
     // Intent
     private Intent mIntent;
@@ -75,6 +76,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[0] = (ImageView) v.findViewById(R.id.ImageView5);
             mImageViewBtn[1] = (ImageView) v.findViewById(R.id.ImageView6);
             mImageViewBtn[2] = (ImageView) v.findViewById(R.id.ImageView7);
+            mImageViewBtn[3] = (ImageView) v.findViewById(R.id.ImageView8);
 
             mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
             for (int i = 0; i < ICON_NUM; i++) {
@@ -86,7 +88,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
             mTextView[0].setText(m.getTitle());
             mTextView[1].setText(m.getMaster().getName());
-            mTextView[2].setText("? / " + m.getGroup().getMemberNum());
+            mTextView[2].setText(m.getDateTimeNum() + " / " + m.getGroup().getMemberNum());
             mTextView[3].setText(m.getLocation());
             Calendar cal = m.getSelectedDate().get(0);
             String str = cal.get(Calendar.YEAR) + "년 " + cal.get(Calendar.MONTH) + "월 " + cal.get(Calendar.DATE) + "일";
@@ -97,18 +99,29 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mIntent.setClass(mContext, SelectDay.class);
+                    mIntent.setClass(mContext, PollState.class);
                     mIntent.putExtra(Global.MEET, m);
-                    mIntent.putExtra(Global.SELECT_DAY_MODE, 1);
-                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPMANAGE_SELECTDAY);
+                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPMANAGE_POLLSTATE);
+                    Global.Log(m);
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mIntent.setClass(mContext, SelectDay.class);
+                    mIntent.putExtra(Global.MEET, m);
+                    mIntent.putExtra(Global.SELECT_DAY_MODE, 1);
+                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPMANAGE_SELECTDAY);
+                    Global.Log(m);
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 

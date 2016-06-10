@@ -18,7 +18,7 @@ import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
 
 
-public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
+public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener{
 
     // TAG
     private static final String TAG = CreateMeet.class.getName();
@@ -44,15 +44,12 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
 
-    //다음 지도
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createmeet_main);
-
-        //다음 지도
 
         // Receive intent
         mIntent = getIntent();
@@ -121,7 +118,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
 
         mErrMsg[0] = getResources().getString(R.string.group_title_errmsg1);
         mErrMsg[1] = getResources().getString(R.string.desc_errmsg1);
-        mErrMsg[1] = getResources().getString(R.string.location_errmsg1);
+        mErrMsg[2] = getResources().getString(R.string.location_errmsg1);
     }
 
     private void initToolbar(Drawable Icon[], String Title) {
@@ -232,6 +229,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
             }
         }
     }
+
 
     //지도 검색
     public void searchEvent(View v) {

@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayoutLeft"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="24dp"
+            android:layout_height="32dp"></RelativeLayout>
+
+
+        <include layout="@layout/slice_time" />
+
+        <include layout="@layout/slice_time" />
+
+        <include layout="@layout/slice_time" />
+
+        <include layout="@layout/slice_time" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary" />
+</LinearLayout>

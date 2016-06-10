@@ -3,7 +3,10 @@ package com.example.ysm0622.app_when.global;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.example.ysm0622.app_when.object.Group;
+import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
@@ -41,6 +44,7 @@ public class Global extends Application {
 
     public static final String TAB_NUMBER = "TAB_NUMBER";
     public static final String SELECT_DAY_MODE = "SELECT_DAY_MODE";
+    public static final String INVITE_MODE = "INVITE_MODE";
 
     // Request code
     public static final int GROUPLIST_CREATEGROUP = 1000;
@@ -49,7 +53,11 @@ public class Global extends Application {
     public static final int GROUPMANAGE_CREATEMEET = 1003;
     public static final int GROUPMANAGE_INVITEPEOPLE = 1004;
     public static final int GROUPMANAGE_SELECTDAY = 1005;
-    public static final int CREATEMEET_SELECTDAY = 1006;
+    public static final int GROUPMANAGE_POLLSTATE = 1006;
+    public static final int CREATEMEET_SELECTDAY = 1007;
+
+    // Result Code
+    public static final int RESULT_LOGOUT = 2000;
 
     public static Context CONTEXT;
     public static float DENSITY;
@@ -99,9 +107,20 @@ public class Global extends Application {
     // Shared Preferences
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
     public static final String FILE_NAME_LOGIN = "LOGIN_DATA";
-    public static final String NOTICE_CHECK ="CHECK";
+    public static final String NOTICE_CHECK = "CHECK";
     public static final String NOTICE_SOUND = "SOUND";
     public static final String NOTICE_VIBRATION = "VIBRATION";
     public static final String NOTICE_POPUP = "POPUP";
 
+    public static void Log(User u) {
+        Log.w(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword());
+    }
+
+    public static void Log(Group g) {
+        Log.w(TAG, "Group > Id : " + g.getId() + " / Title : " + g.getTitle() + " / Master : " + g.getMaster().getName() + " / MemberNum : " + g.getMemberNum());
+    }
+
+    public static void Log(Meet m) {
+        Log.w(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName() + " / DateTimeNum : " + m.getDateTimeNum());
+    }
 }

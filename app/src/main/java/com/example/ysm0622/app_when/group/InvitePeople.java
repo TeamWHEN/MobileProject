@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +32,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
     // Const
     private static final int mToolBtnNum = 2;
+    private int MODE;
 
     // Intent
     private Intent mIntent;
@@ -54,7 +56,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     private ArrayList<User> Member = new ArrayList<>();
 
     // Test Data
-    private ArrayList<User> testAllUser;
+    private ArrayList<User> testAllUser = new ArrayList<>();
     private ArrayList<User> searchUser = new ArrayList<>();
 
     @Override
@@ -64,6 +66,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         // Receive intent
         mIntent = getIntent();
+        MODE = mIntent.getIntExtra(Global.INVITE_MODE, 0);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -74,9 +77,17 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         initialize();
 
-        testAllUser = Global.getUsers();
-    }
+        testAllUser.addAll(Global.getUsers());
 
+        if (MODE == 1) {
+            mLinearLayout.removeAllViews();
+            initData();
+        }
+        Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        for (int i = 0; g!=null && i < g.getMemberNum(); i++) {
+            Log.w(TAG, "User(" + i + ") : " + g.getMember(i));
+        }
+    }
 
     private void initialize() {
 
@@ -109,7 +120,8 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         mImageView[1].setColorFilter(getResources().getColor(R.color.colorPrimary));
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
-
+        if (MODE == 1)
+            mToolbarAction[1].setVisibility(View.VISIBLE);
     }
 
     private void initToolbar(Drawable Icon[], String Title) {
@@ -127,22 +139,60 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         mToolbarAction[1].setVisibility(View.INVISIBLE);
     }
 
+    private void initData() {
+        Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        Member = g.getMember();
+        for (int i = 0; i < Member.size(); i++) {
+            findMember(testAllUser, Member.get(i));
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void findMember(ArrayList<User> arrayList, User user) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).getId() == user.getId()) {
+                LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v = vi.inflate(R.layout.invitepeople_miniprofile, null);
+
+                LinearLayout LinearLayout = (LinearLayout) v.findViewById(R.id.UserLayout);
+                ImageView ImageView = (ImageView) v.findViewById(R.id.UserProfile);
+                TextView TextView = (TextView) v.findViewById(R.id.UserName);
+
+                mMemberLayout.add(0, LinearLayout);
+
+                TextView.setText(user.getName());
+                ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+
+                mLinearLayout.addView(v, 0);
+                arrayList.remove(i);
+                break;
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (mToolbarAction[0].getId() == v.getId()) {
             super.onBackPressed();
         }
         if (mToolbarAction[1].getId() == v.getId()) {
-            mIntent.putExtra(Global.GROUP_MEMBER, Member);
-            Group G = new Group();
-            G.setTitle(mIntent.getStringExtra(Global.GROUP_TITLE));
-            G.setDesc(mIntent.getStringExtra(Global.GROUP_DESC));
-            G.setMaster((User) mIntent.getSerializableExtra(Global.USER));
-            Member.add((User) mIntent.getSerializableExtra(Global.USER));
-            G.setMember(Member);
-            mIntent.putExtra(Global.GROUP, G);
-            setResult(RESULT_OK, mIntent);
-            finish();
+            if (MODE == 0) {
+                Group G = new Group();
+                G.setTitle(mIntent.getStringExtra(Global.GROUP_TITLE));
+                G.setDesc(mIntent.getStringExtra(Global.GROUP_DESC));
+                G.setMaster((User) mIntent.getSerializableExtra(Global.USER));
+                Member.add((User) mIntent.getSerializableExtra(Global.USER));
+                G.setMember(Member);
+                mIntent.putExtra(Global.GROUP, G);
+                setResult(RESULT_OK, mIntent);
+                finish();
+            } else if (MODE == 1) {
+                Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+                g.setMember(Member);
+                mIntent.putExtra(Global.GROUP, g);
+                setResult(RESULT_OK, mIntent);
+                finish();
+            }
         }
         if (mImageView[1].getId() == v.getId()) {
             mEditText.setText("");
@@ -162,7 +212,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 mLinearLayout.addView(mInitLayout);
                 mToolbarAction[1].setVisibility(View.INVISIBLE);
             }
-            updateListView();
+            updateListView(mEditText.getText());
         }
     }
 
@@ -173,17 +223,19 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        updateListView();
+        updateListView(s);
     }
 
-    private void updateListView() {
+    private void updateListView(CharSequence s) {
         mAdapter.clear();
         if (mEditText.getText().toString().length() >= 1) {
             mImageView[1].setVisibility(View.VISIBLE);
-            String searched = mEditText.getText().toString();
             //test
             for (int i = 0; i < testAllUser.size(); i++) {
-                if (testAllUser.get(i).getName().contains(searched) || testAllUser.get(i).getEmail().contains(searched)) {
+                String keyWord = s.toString();
+                String searchData = testAllUser.get(i).getName();
+                boolean isData = SoundSearcher.matchString(searchData, keyWord);
+                if (isData || testAllUser.get(i).getName().contains(keyWord) || testAllUser.get(i).getEmail().contains(keyWord)) {
                     mAdapter.add(testAllUser.get(i));
                 }
             }
@@ -210,23 +262,31 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private void addMember(int position) {
         if (mMemberLayout.size() == 0) mLinearLayout.removeAllViews();
         LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.invitepeople_miniprofile, null);
+
         LinearLayout LinearLayout = (LinearLayout) v.findViewById(R.id.UserLayout);
+        ImageView ImageView = (ImageView) v.findViewById(R.id.UserProfile);
+        TextView TextView = (TextView) v.findViewById(R.id.UserName);
+
         mMemberLayout.add(0, LinearLayout);
         LinearLayout.setOnClickListener(this);
-        TextView TextView = (TextView) v.findViewById(R.id.UserName);
-        ImageView ImageView = (ImageView) v.findViewById(R.id.UserProfile);
+
         TextView.setText(searchUser.get(position).getName());
         ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+
         mLinearLayout.addView(v, 0);
         Member.add(0, searchUser.get(position));
         testAllUser.remove(searchUser.get(position));
         mAdapter.remove(searchUser.get(position));
         mAdapter.notifyDataSetChanged();
         mToolbarAction[1].setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        addMember(position);
     }
 }

@@ -114,8 +114,7 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
     public void drawRectByArray(boolean arr[]) {
-        mSelected=arr.clone();
-        for (int i = 0; i < DIVISION; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (arr[i])
                 mCanvas.drawRect(i * mScale, mStroke, (i + 1) * mScale, mHeight - mStroke, mAccentPaint);
             else
@@ -168,6 +167,11 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
                 mSelected[i] = v;
             }
         }
+    }
+
+    public void setSelected(boolean arr[]) {
+        mSelected = arr;
+        drawRectByArray(mSelected);
     }
 
     public boolean[] getSelected() {

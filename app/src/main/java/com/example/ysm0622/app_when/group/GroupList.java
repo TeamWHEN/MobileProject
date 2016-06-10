@@ -227,7 +227,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
             }
-            if(resultCode == RESULT_CANCELED){
+            if (resultCode == Global.RESULT_LOGOUT) {
                 finish();
             }
         }

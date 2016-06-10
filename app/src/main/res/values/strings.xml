@@ -140,7 +140,7 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_login">Sign in</string>
     <string name="notifications">알림</string>
-    <string name="editprofile">프로필 수정</string>
+    <string name="profile">프로필</string>
     <string name="sound">소리</string>
     <string name="vibration">진동</string>
     <string name="popup">팝업</string>
@@ -164,7 +164,7 @@
     <string name="ysm_email">ysm0622@gmail.com</string>
     <string name="jdh_email">ehdguso@naver.com</string>
     <string name="jjh_email">wlwjdgks123@gmail.com</string>
-    <string name="search_hint">이름, 이메일 검색</string>
+    <string name="search_hint">이름(초성), 이메일 검색</string>
     <string name="SUN">일</string>
     <string name="MON">월</string>
     <string name="TUE">화</string>
@@ -177,5 +177,12 @@
     <string name="meet_empty_msg">일정이 없습니다. 일정을 추가하세요.</string>
     <string name="logout">로그아웃</string>
     <string name="input_time">시간 입력</string>
+    <string name="cancel">취소</string>
+    <string name="leave">탈퇴</string>
+    <string name="Leave_the_group">그룹을 탈퇴하시겠습니까?</string>
+    <string name="Leave_group_warn_msg">그룹 탈퇴시 모든 입력 기록이 삭제되며, 구성원에게 초대 받기 전까지 다시 그룹에 가입할 수 없습니다.</string>
+    <string name="language">언어</string>
+    <string name="korean">한국어 (Korean)</string>
+    <string name="english">영어 (English)</string>
 
 </resources>

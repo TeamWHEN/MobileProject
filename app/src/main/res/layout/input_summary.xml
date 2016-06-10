@@ -1,0 +1,54 @@
+<com.example.ysm0622.app_when.group.SummaryView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/SummaryView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:background="@drawable/selector_summary"
+    android:baselineAligned="false">
+
+    <include layout="@layout/input_summary_left" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/alpha1">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutInScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/slice_date" />
+
+                    <include layout="@layout/slice_date" />
+
+                    <include layout="@layout/slice_date" />
+
+                    <include layout="@layout/slice_date" />
+
+                    <include layout="@layout/slice_date" />
+
+                    <include layout="@layout/slice_date" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary" />
+
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+    </LinearLayout>
+</com.example.ysm0622.app_when.group.SummaryView>

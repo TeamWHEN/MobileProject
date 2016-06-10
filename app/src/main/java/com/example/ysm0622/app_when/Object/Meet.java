@@ -11,6 +11,8 @@ public class Meet implements Serializable {
     private static final String TAG = Meet.class.getName();
 
     // Variables
+    private static long AutoGenerateId = 0;
+    private long Id;
     private Group Group;
     private User Master;
     private String Title;
@@ -18,10 +20,11 @@ public class Meet implements Serializable {
     private String Location;
     private Date CreateDate;
     private ArrayList<Calendar> SelectedDate;
-    private DateTime DateTime;
+    private ArrayList<DateTime> DateTime;
 
     public Meet() {
-
+        this.Id = AutoGenerateId++;
+        this.DateTime = new ArrayList<>();
     }
 
     public Group getGroup() {
@@ -84,11 +87,35 @@ public class Meet implements Serializable {
         return SelectedDate.size();
     }
 
-    public com.example.ysm0622.app_when.object.DateTime getDateTime() {
+    public ArrayList<com.example.ysm0622.app_when.object.DateTime> getDateTime() {
         return DateTime;
     }
 
-    public void setDateTime(com.example.ysm0622.app_when.object.DateTime dateTime) {
+    public void setDateTime(ArrayList<com.example.ysm0622.app_when.object.DateTime> dateTime) {
         DateTime = dateTime;
+    }
+
+    public Meet addDateTime(DateTime D) {
+        for (int i = 0; i < getDateTimeNum(); i++) {
+            if (D.getUser().getId() == getDateTime().get(i).getUser().getId()) {
+                DateTime.remove(i);
+                DateTime.add(i, D);
+                return this;
+            }
+        }
+        DateTime.add(D);
+        return this;
+    }
+
+    public int getDateTimeNum() {
+        return DateTime.size();
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
     }
 }
