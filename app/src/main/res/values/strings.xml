@@ -186,5 +186,7 @@
     <string name="english">영어 (English)</string>
     <string name="rate_msg">도움이 되셨나요?</string>
     <string name="complete">완료</string>
+    <string name="groupdescription_title">그룹 제목</string>
+    <string name="groupdescription_description">설명</string>
 
 </resources>
