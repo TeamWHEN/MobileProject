@@ -1,6 +1,8 @@
 package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -13,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,6 +82,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     //Shared Preferences
     private SharedPreferences mSharedPref;
     private SharedPreferences.Editor mEdit;
+
+    private AlertDialog mDialBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,6 +190,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
         param.height = (int) (width * 9.0 / 16.0);
         mNavView.getHeaderView(0).setLayoutParams(param);
+        setRandomNavHeader((int) (Math.random() * 4));
         ImageView ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
@@ -193,6 +199,17 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         TextView0.setText(user.getName());
         TextView1.setText(user.getEmail());
         mNavView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setRandomNavHeader(int i) {
+        if (i == 0)
+            mNavView.getHeaderView(0).setBackground(getResources().getDrawable(R.drawable.wallpaper1_resize));
+        if (i == 1)
+            mNavView.getHeaderView(0).setBackground(getResources().getDrawable(R.drawable.wallpaper2_resize));
+        if (i == 2)
+            mNavView.getHeaderView(0).setBackground(getResources().getDrawable(R.drawable.wallpaper3_resize));
+        if (i == 3)
+            mNavView.getHeaderView(0).setBackground(getResources().getDrawable(R.drawable.wallpaper4_resize));
     }
 
     private void initToolbar(Drawable Icon[], String Title) {
@@ -263,7 +280,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(GroupManage.this, Settings.class));
         } else if (id == R.id.nav_rate) {
-            mRateView.show();
+            createDialogBox();
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(GroupManage.this, About.class));
         } else if (id == R.id.nav_share) {
@@ -318,7 +335,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
                 userData = g.getMember();
                 UserAdapter.notifyDataSetChanged();
-                for (int i = 0; g!=null && i < g.getMemberNum(); i++) {
+                for (int i = 0; g != null && i < g.getMemberNum(); i++) {
                     Log.w(TAG, "User(" + i + ") : " + g.getMember(i));
                 }
             }
@@ -377,5 +394,48 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     public void logout() {
         mEdit.clear();
         mEdit.commit();
+    }
+
+    //평가 다이어로그
+    public void createDialogBox() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.rate_alert, null);
+
+        TextView Title = (TextView) view.findViewById(R.id.drop_title);
+        TextView Content = (TextView) view.findViewById(R.id.drop_content);
+        ImageView Btn[] = new ImageView[3];
+        Btn[0] = (ImageView) view.findViewById(R.id.drop_btn1);
+        Btn[1] = (ImageView) view.findViewById(R.id.drop_btn2);
+        Btn[2] = (ImageView) view.findViewById(R.id.drop_btn3);
+
+        for (int i = 0; i < 3; i++) {
+            Btn[i].setColorFilter(getResources().getColor(R.color.colorAccent));
+        }
+
+        Btn[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });//취소
+
+        Btn[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });//탈퇴
+        Btn[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        mDialBox = builder.create();
+        mDialBox.show();
     }
 }

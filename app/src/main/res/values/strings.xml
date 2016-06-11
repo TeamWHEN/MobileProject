@@ -184,5 +184,7 @@
     <string name="language">언어</string>
     <string name="korean">한국어 (Korean)</string>
     <string name="english">영어 (English)</string>
+    <string name="rate_msg">도움이 되셨나요?</string>
+    <string name="complete">완료</string>
 
 </resources>

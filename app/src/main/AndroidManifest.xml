@@ -18,7 +18,7 @@
         android:name=".global.Global"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_when_circle"
+        android:icon="@drawable/product_icon0"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

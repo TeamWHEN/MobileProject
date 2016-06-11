@@ -86,9 +86,10 @@ public class About extends Activity implements View.OnClickListener {
         // Add listener
 
         // Default setting
-        for (int i = 0; i < COUNT; i++) {
-            mImageView[i].setColorFilter(getResources().getColor(R.color.colorPrimary));
-        }
+        mImageView[0].setImageDrawable(getResources().getDrawable(R.drawable.ysm_profile));
+        mImageView[1].setImageDrawable(getResources().getDrawable(R.drawable.jdh_profile));
+        mImageView[2].setImageDrawable(getResources().getDrawable(R.drawable.jjh_profile));
+
         mTextViewName[0].setText(R.string.YSM);
         mTextViewName[1].setText(R.string.JDH);
         mTextViewName[2].setText(R.string.JJH);

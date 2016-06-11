@@ -39,7 +39,6 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
 
     //Dialog
     private AlertDialog mDialBox;
-    private String msg;
 
     public GroupDataAdapter(Context context, int resource, ArrayList<Group> values, Intent intent) {
         super(context, resource, values);

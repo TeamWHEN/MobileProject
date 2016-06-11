@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/drop_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/rate"
+            android:singleLine="false"
+            android:textStyle="bold"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/drop_content"
+            android:text="@string/rate_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="right|center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/drop_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:minWidth="64dp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_thumb_down_black_24dp"/>
+        <ImageView
+            android:id="@+id/drop_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:minWidth="64dp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_thumb_up_black_24dp"/>
+        <ImageView
+            android:id="@+id/drop_btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:minWidth="64dp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_favorite_black_24dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>
