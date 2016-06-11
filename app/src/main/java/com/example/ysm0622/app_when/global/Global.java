@@ -55,6 +55,7 @@ public class Global extends Application {
     public static final int GROUPMANAGE_SELECTDAY = 1005;
     public static final int GROUPMANAGE_POLLSTATE = 1006;
     public static final int CREATEMEET_SELECTDAY = 1007;
+    public static final int SETTINGS_EDITPROFILE = 1008;
 
     // Result Code
     public static final int RESULT_LOGOUT = 2000;

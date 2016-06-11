@@ -1,5 +1,7 @@
 package com.example.ysm0622.app_when.object;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -10,6 +12,7 @@ public class User implements Serializable {
     // Variables
     private static long AutoGenerateId = 0;
     private long Id;
+    private Bitmap Image;
     private String Name;
     private String Email;
     private String Password;

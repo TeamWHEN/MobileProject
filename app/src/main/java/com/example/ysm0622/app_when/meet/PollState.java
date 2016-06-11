@@ -40,8 +40,7 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
-        toolbarIcon[1] = getResources().getDrawable(R.drawable.ic_arrow_forward_white_24dp);
-        String toolbarTitle = getResources().getString(R.string.create_meet);
+        String toolbarTitle = getString(R.string.state);
 
         initToolbar(toolbarIcon, toolbarTitle);
 
@@ -85,6 +84,8 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-
+        if (v.getId() == mToolbarAction[0].getId()) { // back button
+            super.onBackPressed();
+        }
     }
 }

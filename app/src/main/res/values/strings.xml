@@ -186,5 +186,9 @@
     <string name="english">영어 (English)</string>
     <string name="rate_msg">도움이 되셨나요?</string>
     <string name="complete">완료</string>
+    <string name="delete_account">계정 삭제</string>
+    <string name="edit_profile">프로필 수정</string>
+    <string name="change_pw">비밀번호 변경</string>
+    <string name="state">현황</string>
 
 </resources>

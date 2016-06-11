@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.menu.About;
-import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
@@ -57,7 +56,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private GroupDataAdapter adapter;
     private TextView mTextView;
     private ListView mListView;
-    private RateView mRateView;
 
     //Shared Preferences
     private SharedPreferences mSharedPref;
@@ -113,8 +111,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
             }
         });
-
-        mRateView = new RateView(this);
 
         // Login Activity에서 Intent 받아서 그룹정보 search
 
@@ -192,7 +188,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(GroupList.this, Settings.class));
+            mIntent.setClass(GroupList.this, Settings.class);
+            startActivity(mIntent);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
