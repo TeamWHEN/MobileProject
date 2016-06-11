@@ -40,6 +40,8 @@ public class Intro extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 if (mSharedPref == null || !mSharedPref.contains(Global.NOTICE_CHECK))
                     noticeInit();
+                if (mSharedPref == null || !mSharedPref.contains(Global.LANGUAGE))//처음 한글 언어 선택
+                    languageInit();
             }
 
             public void onFinish() {
@@ -60,6 +62,11 @@ public class Intro extends AppCompatActivity {
 
     public void onBackPressed() {
         //super.onBackPressed();
+    }
+
+    public void languageInit() {
+        mEdit.putString(Global.LANGUAGE, Global.LANGUAGE_KOREAN);
+        mEdit.commit();
     }
 
     public void noticeInit() {

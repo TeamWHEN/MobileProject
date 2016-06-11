@@ -28,7 +28,6 @@ import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.meet.CreateMeet;
 import com.example.ysm0622.app_when.menu.About;
-import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
@@ -63,7 +62,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private DrawerLayout mDrawer;
     private NavigationView mNavView;
     private View mTabContent[];
-    private RateView mRateView;
 
     private FloatingActionButton mFab[];
 
@@ -105,7 +103,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 2)
             toolbarTitle = getResources().getString(R.string.member);
 
-        mRateView = new RateView(this);
 
         initToolbar(toolbarIcon, toolbarTitle);
 

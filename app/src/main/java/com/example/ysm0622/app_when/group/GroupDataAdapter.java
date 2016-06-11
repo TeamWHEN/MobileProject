@@ -108,15 +108,17 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    createDialogBox(g);
+                    dropDialogBox(g);
                 }
             });
         }
+        //그룹 설명 다이어로그 콜
+        //groupDescriptionDialogBox(g)
         return v;
     }
 
     //탈퇴 다이어로그
-    public void createDialogBox(final Group g) {
+    public void dropDialogBox(final Group g) {
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.drop_alert, null);
@@ -146,6 +148,32 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
                 GroupDataAdapter.this.notifyDataSetInvalidated();
             }
         });//탈퇴
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view);
+
+        mDialBox = builder.create();
+        mDialBox.show();
+    }
+
+    //그룹 설명 다이어로그
+    public void groupDescriptionDialogBox(final Group g) {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.groupdescription_alert, null);
+
+        TextView Title = (TextView) view.findViewById(R.id.groupdescription_title);
+        TextView Content = (TextView) view.findViewById(R.id.groupdescription_content);
+        ImageView Btn = (ImageView) view.findViewById(R.id.groupdescription_btn);
+
+        Title.setText(g.getTitle());
+        Content.setText(g.getDesc());
+
+        Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(view);

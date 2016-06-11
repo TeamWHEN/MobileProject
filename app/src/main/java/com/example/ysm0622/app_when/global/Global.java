@@ -112,6 +112,9 @@ public class Global extends Application {
     public static final String NOTICE_SOUND = "SOUND";
     public static final String NOTICE_VIBRATION = "VIBRATION";
     public static final String NOTICE_POPUP = "POPUP";
+    public static final String LANGUAGE = "LANGUAGE";
+    public static final String LANGUAGE_KOREAN = "KOREAN";
+    public static final String LANGUAGE_ENGLISH = "ENGLISH";
 
     public static void Log(User u) {
         Log.w(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword());
