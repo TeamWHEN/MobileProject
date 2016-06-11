@@ -112,7 +112,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             }
         });
 
-
         // Login Activity에서 Intent 받아서 그룹정보 search
 
         // Query - Select GROUP_CODE, USER_CODE, GROUP_NAME from GROUPS WHERE GROUP_CODE = @@ (Intent에서 받아온 GROUP_CODE로 그룹 Search)
@@ -189,7 +188,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(GroupList.this, Settings.class));
+            mIntent.setClass(GroupList.this, Settings.class);
+            startActivity(mIntent);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
