@@ -198,5 +198,9 @@
     <string name="time">시간</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="nogroup_msg">그룹이 없습니다.\n그룹을 생성해보세요!</string>
+    <string name="nomeet_msg">그룹 일정이 없습니다.\n일정을 추가해보세요!</string>
+    <string name="wrong_pw">비밀번호를 잘못 입력하셨습니다.</string>
+    <string name="noexist_email">존재하지 않는 이메일입니다.</string>
 
 </resources>

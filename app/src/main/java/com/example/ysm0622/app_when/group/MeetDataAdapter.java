@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.meet.PollState;
 import com.example.ysm0622.app_when.meet.SelectDay;
 import com.example.ysm0622.app_when.object.Meet;
@@ -37,7 +37,6 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
     // Data
     private ArrayList<Meet> values = new ArrayList<>();
-    private Meet m;
 
     public MeetDataAdapter(Context context, int resource, ArrayList<Meet> values, Intent intent) {
         super(context, resource, values);
@@ -53,7 +52,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.meet_item, null);
         }
-        m = values.get(position);
+        final Meet m = values.get(position);
         if (m != null) {
             TextView mTextView[] = new TextView[TEXT_NUM];
             ImageView mImageViewProfile;
@@ -100,19 +99,19 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, PollState.class);
-                    mIntent.putExtra(G.MEET, m);
-                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPMANAGE_POLLSTATE);
-                    G.Log(m);
+                    mIntent.putExtra(Gl.MEET, m);
+                    ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_POLLSTATE);
+                    Gl.Log(m);
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, SelectDay.class);
-                    mIntent.putExtra(G.MEET, m);
-                    mIntent.putExtra(G.SELECT_DAY_MODE, 1);
-                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPMANAGE_SELECTDAY);
-                    G.Log(m);
+                    mIntent.putExtra(Gl.MEET, m);
+                    mIntent.putExtra(Gl.SELECT_DAY_MODE, 1);
+                    ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_SELECTDAY);
+                    Gl.Log(m);
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {

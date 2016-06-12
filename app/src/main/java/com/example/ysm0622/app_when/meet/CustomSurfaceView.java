@@ -13,7 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Meet;
 
@@ -170,7 +170,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mWhitePaint.setColor(getResources().getColor(R.color.white));
         mAccentPaint.setColor(getResources().getColor(R.color.colorAccent));
 
-        mStroke = G.dpToPx(mContext, (float) 1.0);
+        mStroke = Gl.dpToPx(mContext, (float) 1.0);
         mPrimaryPaint.setStrokeWidth(mStroke);
 
         drawInputs();

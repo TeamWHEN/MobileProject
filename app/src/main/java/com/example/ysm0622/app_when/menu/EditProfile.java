@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.User;
 
 import java.io.FileNotFoundException;
@@ -84,7 +84,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         setContentView(R.layout.editprofile_main);
 
         mIntent = getIntent();
-        u = (User) mIntent.getSerializableExtra(G.USER);
+        u = (User) mIntent.getSerializableExtra(Gl.USER);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -299,12 +299,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         if (v.getId() == mToolbarAction[1].getId()) { // done button
             String name = mEditText[0].getText().toString();
             String email = mEditText[1].getText().toString();
-            User u = (User) mIntent.getSerializableExtra(G.USER);
+            User u = (User) mIntent.getSerializableExtra(Gl.USER);
             u.setName(name);
             u.setEmail(email);
             if (mFabCheck)
                 u.setImage(true);
-            mIntent.putExtra(G.USER, u);
+            mIntent.putExtra(Gl.USER, u);
             setResult(RESULT_OK, mIntent);
             finish();
         }

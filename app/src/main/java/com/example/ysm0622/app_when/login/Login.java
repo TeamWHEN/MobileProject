@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.group.GroupList;
 
 import org.apache.http.HttpEntity;
@@ -68,7 +68,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_main);
 
-        mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         initialize();
@@ -177,16 +177,16 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
                 String password = mEditText[1].getText().toString();
                 if (isExistEmail(email) >= 0) {
                     if (isRightPassword(password, isExistEmail(email))) {
-                        mIntent.putExtra(G.USER, G.getUser(isExistEmail(email)));
+                        mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
                         setAutoLogin(email, password);
                         startActivity(mIntent);
                         mEditText[0].setText("");
                         mEditText[1].setText("");
                     } else {
-                        Toast.makeText(getApplicationContext(), "비밀번호를 잘못 입력하셨습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.wrong_pw, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "존재하지 않는 이메일입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.noexist_email, Toast.LENGTH_SHORT).show();
                 }
             } else
                 Toast.makeText(getApplicationContext(), R.string.login_fail_msg, Toast.LENGTH_SHORT).show();
@@ -194,8 +194,8 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     }
 
     private int isExistEmail(String s) {
-        for (int i = 0; i < G.getUserCount(); i++) {
-            if (G.getUser(i).getEmail().equals(s)) {
+        for (int i = 0; i < Gl.getUserCount(); i++) {
+            if (Gl.getUser(i).getEmail().equals(s)) {
                 return i;
             }
         }
@@ -203,7 +203,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     }
 
     private boolean isRightPassword(String s, int i) {
-        if (G.getUser(i).getPassword().equals(s)) {
+        if (Gl.getUser(i).getPassword().equals(s)) {
             return true;
         } else {
             return false;
@@ -212,8 +212,8 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
 
     //Set email, password in Shared Preferences
     private void setAutoLogin(String email, String password) {
-        mEdit.putString(G.USER_EMAIL, email);
-        mEdit.putString(G.USER_PASSWORD, password);
+        mEdit.putString(Gl.USER_EMAIL, email);
+        mEdit.putString(Gl.USER_PASSWORD, password);
         mEdit.commit();
     }
 

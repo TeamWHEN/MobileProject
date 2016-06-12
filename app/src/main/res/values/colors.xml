@@ -15,6 +15,7 @@
     <color name="textSecondary">#727272</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="alpha0Primary">#51585e94</color>
     <color name="alpha0Accent">#5100BAF2</color>
 
     <color name="white">#FFFFFF</color>

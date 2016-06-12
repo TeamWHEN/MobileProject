@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
@@ -59,9 +60,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
     private DrawerLayout mDrawer;
     private NavigationView mNavView;
-    private ArrayList<Group> groupData = new ArrayList<Group>();
+    private ArrayList<Group> groupData;
     private GroupDataAdapter adapter;
-    private TextView mTextView;
+    private LinearLayout mEmptyView;
     private ListView mListView;
 
     //Shared Preferences
@@ -70,19 +71,27 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
     private AlertDialog mDialBox;
 
+    private User u;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grouplist_drawer);
 
-        mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
 
+        // Init group data
+        u = (User) mIntent.getSerializableExtra(Gl.USER);
+        groupData = Gl.getGroups(u);
+
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
         String toolbarTitle = getResources().getString(R.string.title_activity_group_list);
+
+        initEmptyScreen();
 
         initToolbar(toolbarIcon, toolbarTitle);
 
@@ -93,7 +102,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             @Override
             public void onClick(View v) {
                 mIntent.setClass(GroupList.this, CreateGroup.class);
-                startActivityForResult(mIntent, G.GROUPLIST_CREATEGROUP);
+                startActivityForResult(mIntent, Gl.GROUPLIST_CREATEGROUP);
             }
         });
 
@@ -103,8 +112,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        mTextView = (TextView) findViewById(R.id.TextView0);
-
         mListView = (ListView) findViewById(R.id.ListView);
         adapter = new GroupDataAdapter(this, R.layout.group_item, groupData, mIntent);
         mListView.setAdapter(adapter);
@@ -113,18 +120,47 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Log.e("TAG", "" + position);
                 mIntent.setClass(GroupList.this, GroupManage.class);
-                mIntent.putExtra(G.GROUP, groupData.get(position));
-                mIntent.putExtra(G.TAB_NUMBER, 1);
-                startActivityForResult(mIntent, G.GROUPLIST_GROUPMANAGE);
+                mIntent.putExtra(Gl.GROUP, groupData.get(position));
+                mIntent.putExtra(Gl.TAB_NUMBER, 1);
+                startActivityForResult(mIntent, Gl.GROUPLIST_GROUPMANAGE);
 
             }
         });
 
-        // Login Activity에서 Intent 받아서 그룹정보 search
+        groupDataEmptyCheck();
+    }
 
-        // Query - Select GROUP_CODE, USER_CODE, GROUP_NAME from GROUPS WHERE GROUP_CODE = @@ (Intent에서 받아온 GROUP_CODE로 그룹 Search)
+    public void groupDataEmptyCheck() {
+        if (groupData.size() == 0) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mEmptyView.setEnabled(true);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            mEmptyView.setLayoutParams(param);
+        } else {
+            mEmptyView.setEnabled(false);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+            mEmptyView.setLayoutParams(param);
+            Log.w(TAG, "GroupData size : " + groupData.size());
+        }
+    }
 
-        // Query - Select GROUP_CODE, COUNT(*) from ACCOUNT-GROUPS GROUP BY GROUP_CODE (그룹별 인원 추출 query)
+    private void initEmptyScreen() {
+        mEmptyView = (LinearLayout) findViewById(R.id.EmptyView);
+
+        ImageView image[] = new ImageView[3];
+        TextView text;
+        image[0] = (ImageView) findViewById(R.id.emptyImageView0);
+        image[1] = (ImageView) findViewById(R.id.emptyImageView1);
+        image[2] = (ImageView) findViewById(R.id.emptyImageView2);
+
+        text = (TextView) findViewById(R.id.emptyTextView0);
+
+        for (int i = 0; i < 2; i++) {
+            image[i].setColorFilter(getResources().getColor(R.color.colorPrimary));
+        }
+        for (int i = 0; i < image.length; i++) {
+            image[i].setAlpha((float) 0.4);
+        }
     }
 
     @Override
@@ -147,7 +183,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
 
-        User user = (User) mIntent.getSerializableExtra(G.USER);
+        User user = (User) mIntent.getSerializableExtra(Gl.USER);
 
         if (user.isImage()) {//프로필 이미지가 존재
             Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
@@ -205,7 +241,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         } else if (id == R.id.nav_setting) {
             mIntent.setClass(GroupList.this, Settings.class);
-            startActivityForResult(mIntent, G.GROUPLIST_SETTINGS);
+            startActivityForResult(mIntent, Gl.GROUPLIST_SETTINGS);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
@@ -243,27 +279,24 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == G.GROUPLIST_CREATEGROUP) {
+        if (requestCode == Gl.GROUPLIST_CREATEGROUP) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                G.add(0, (Group) mIntent.getSerializableExtra(G.GROUP));
-                groupData.clear();
-                groupData.addAll(G.getGroups());
+                Gl.add(0, (Group) mIntent.getSerializableExtra(Gl.GROUP));
+                groupData.add((Group) mIntent.getSerializableExtra(Gl.GROUP));
+                groupDataEmptyCheck();
                 adapter.notifyDataSetChanged();
-                mTextView.setVisibility(View.INVISIBLE);
-                mTextView.setEnabled(false);
-                mTextView.setHeight(0);
             }
         }
-        if (requestCode == G.GROUPLIST_GROUPMANAGE) {
+        if (requestCode == Gl.GROUPLIST_GROUPMANAGE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
             }
-            if (resultCode == G.RESULT_LOGOUT) {
+            if (resultCode == Gl.RESULT_LOGOUT) {
                 finish();
             }
         }
-        if (requestCode == G.GROUPLIST_SETTINGS) {
+        if (requestCode == Gl.GROUPLIST_SETTINGS) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 initNavigationView();
@@ -340,7 +373,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        int size = (bitmap.getWidth()/2);
+        int size = (bitmap.getWidth() / 2);
         canvas.drawCircle(size, size, size, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);

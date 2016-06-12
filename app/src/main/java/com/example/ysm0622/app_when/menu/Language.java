@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 
 public class Language extends Activity implements View.OnClickListener {
 
@@ -41,7 +41,7 @@ public class Language extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.language_main);
 
-        mSharedPref = getSharedPreferences(G.FILE_NAME_NOTICE, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         Drawable[] toolbarIcon = new Drawable[2];
@@ -98,8 +98,8 @@ public class Language extends Activity implements View.OnClickListener {
             mImageViewRadio[i].setColorFilter(getResources().getColor(R.color.colorAccent));
         }
 
-        if (mSharedPref.contains(G.LANGUAGE)) {
-            if (mSharedPref.getString(G.LANGUAGE, G.LANGUAGE_KOREAN).equalsIgnoreCase(G.LANGUAGE_KOREAN)) {
+        if (mSharedPref.contains(Gl.LANGUAGE)) {
+            if (mSharedPref.getString(Gl.LANGUAGE, Gl.LANGUAGE_KOREAN).equalsIgnoreCase(Gl.LANGUAGE_KOREAN)) {
                 mCheck[0] = true;
                 mCheck[1] = false;
             } else {
@@ -127,13 +127,13 @@ public class Language extends Activity implements View.OnClickListener {
                     mCheck[i] = true;
                     mImageViewRadio[i].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_checked_black_24dp));
                     if (i == 0) {
-                        mEdit.putString(G.LANGUAGE, G.LANGUAGE_KOREAN);
+                        mEdit.putString(Gl.LANGUAGE, Gl.LANGUAGE_KOREAN);
                     } else
-                        mEdit.putString(G.LANGUAGE, G.LANGUAGE_ENGLISH);
+                        mEdit.putString(Gl.LANGUAGE, Gl.LANGUAGE_ENGLISH);
                     mEdit.commit();
                 }
             }
-            Toast.makeText(getApplicationContext(), mSharedPref.getString(G.LANGUAGE, "FAIL"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), mSharedPref.getString(Gl.LANGUAGE, "FAIL"), Toast.LENGTH_SHORT).show();
         }
     }
 }

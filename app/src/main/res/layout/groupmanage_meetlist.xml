@@ -10,13 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/TextView0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="16dp"
-            android:text="@string/meet_empty_msg" />
+        <include layout="@layout/res_empty_screen" />
 
         <ListView
             android:id="@+id/ListView"

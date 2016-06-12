@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Window;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.login.JSONParser;
 import com.example.ysm0622.app_when.login.Login;
@@ -56,15 +56,15 @@ public class Intro extends AppCompatActivity {
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
 
-        mSharedPref = getSharedPreferences(G.FILE_NAME_NOTICE, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
 
         mEdit = mSharedPref.edit();
 
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                if (mSharedPref == null || !mSharedPref.contains(G.NOTICE_CHECK))
+                if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
                     noticeInit();
-                if (mSharedPref == null || !mSharedPref.contains(G.LANGUAGE))//처음 한글 언어 선택
+                if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE))//처음 한글 언어 선택
                     languageInit();
             }
 
@@ -73,22 +73,21 @@ public class Intro extends AppCompatActivity {
                 if (PRF_AUTO_LOGIN()) {
                     startActivity(mIntent);
 //                    new JSONParse().execute();
-                } else
+                } else {
                     new JSONParse().execute();
                     startActivity(new Intent(Intro.this, Login.class));
-
+                }
                 finish();
             }
         }.start();
 
-        G.initialize(this);
-        G.setUsers();
-        G.setGroups();
-        G.setMeets();
+        Gl.initialize(this);
+        Gl.setUsers();
+        Gl.setGroups();
+        Gl.setMeets();
 
         //testData
-        G.setTestUsers();
-        // Preferences 이용 -> Login한 기록이 있다면 자동로그인
+        Gl.setTestUsers();
 
     }
 
@@ -97,36 +96,36 @@ public class Intro extends AppCompatActivity {
     }
 
     public void languageInit() {
-        mEdit.putString(G.LANGUAGE, G.LANGUAGE_KOREAN);
+        mEdit.putString(Gl.LANGUAGE, Gl.LANGUAGE_KOREAN);
         mEdit.commit();
     }
 
     public void noticeInit() {
-        mEdit.putBoolean(G.NOTICE_CHECK, false);
-        mEdit.putBoolean(G.NOTICE_SOUND, false);
-        mEdit.putBoolean(G.NOTICE_VIBRATION, false);
-        mEdit.putBoolean(G.NOTICE_POPUP, false);
+        mEdit.putBoolean(Gl.NOTICE_CHECK, false);
+        mEdit.putBoolean(Gl.NOTICE_SOUND, false);
+        mEdit.putBoolean(Gl.NOTICE_VIBRATION, false);
+        mEdit.putBoolean(Gl.NOTICE_POPUP, false);
         mEdit.apply();
     }
 
     public boolean PRF_AUTO_LOGIN() {
         String email, password;
 
-        mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_LOGIN, MODE_PRIVATE);
 
         //로그인 상태
-        if (mSharedPref != null && mSharedPref.contains(G.USER_EMAIL)) {
-            email = mSharedPref.getString(G.USER_EMAIL, "DEFAULT");
-            password = mSharedPref.getString(G.USER_PASSWORD, "DEFAULT");
-            mIntent.putExtra(G.USER, G.getUser(isExistEmail(email)));
+        if (mSharedPref != null && mSharedPref.contains(Gl.USER_EMAIL)) {
+            email = mSharedPref.getString(Gl.USER_EMAIL, "DEFAULT");
+            password = mSharedPref.getString(Gl.USER_PASSWORD, "DEFAULT");
+            mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
             return true;
         }
         return false;
     }
 
     private int isExistEmail(String s) {
-        for (int i = 0; i < G.getUserCount(); i++) {
-            if (G.getUser(i).getEmail().equals(s)) {
+        for (int i = 0; i < Gl.getUserCount(); i++) {
+            if (Gl.getUser(i).getEmail().equals(s)) {
                 return i;
             }
         }
@@ -134,9 +133,8 @@ public class Intro extends AppCompatActivity {
     }
 
 
-
     public class JSONParse extends AsyncTask<String, String, String> {
-//        private ProgressDialog pDialog;
+        //        private ProgressDialog pDialog;
         String aa = "";
         final String TAG = "AsyncTaskParseJson.java";
 
@@ -156,15 +154,15 @@ public class Intro extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 //            Toast.makeText(getApplicationContext(), "onPostExecute :"+aa, Toast.LENGTH_LONG).show();
-         if (aa != null) {
+            if (aa != null) {
                 Log.d("ASYNC", "result2 = " + aa);
             }
 //            try {
 
-                JSONParser jParser = new JSONParser();
+            JSONParser jParser = new JSONParser();
 //
-                // Getting JSON from URL
-                JSONObject json = jParser.getJSONFromUrl1(url);
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl1(url);
 //                user1 = json.getJSONArray("user");
 
 //                JSONObject name = user1.getJSONObject(0);
@@ -215,7 +213,7 @@ public class Intro extends AppCompatActivity {
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
                 httpPost.setEntity(entity);
 //                httpPost.setEntity(en);
-                HttpResponse responsePOST=  client.execute(httpPost);
+                HttpResponse responsePOST = client.execute(httpPost);
                 HttpEntity resEntity = responsePOST.getEntity();
                 if (resEntity != null) {
                     aa = EntityUtils.toString(resEntity);
@@ -229,7 +227,8 @@ public class Intro extends AppCompatActivity {
             }
             return null;
         }
-    }}
+    }
+}
 
 
 

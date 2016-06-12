@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 
@@ -44,8 +44,8 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
 
         // Receive intent
         mIntent = getIntent();
-        g = (Group) mIntent.getSerializableExtra(G.GROUP);
-        m = (Meet) mIntent.getSerializableExtra(G.MEET);
+        g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
+        m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);

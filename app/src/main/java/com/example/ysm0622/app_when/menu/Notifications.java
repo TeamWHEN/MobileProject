@@ -17,7 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 
 public class Notifications extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -52,7 +52,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_main);
 
-        mSharedPref = getSharedPreferences(G.FILE_NAME_NOTICE, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
         mSampleInit = false;
         mSound = new SoundPool(1, AudioManager.STREAM_ALARM, 0);// maxStreams, streamType, srcQuality
@@ -187,13 +187,13 @@ public class Notifications extends Activity implements View.OnClickListener, Com
     public void setNotice(int index, boolean state) {
 
         if (index == 0) {
-            mEdit.putBoolean(G.NOTICE_CHECK, state);
+            mEdit.putBoolean(Gl.NOTICE_CHECK, state);
         } else if (index == 1) {
-            mEdit.putBoolean(G.NOTICE_SOUND, state);
+            mEdit.putBoolean(Gl.NOTICE_SOUND, state);
         } else if (index == 2) {
-            mEdit.putBoolean(G.NOTICE_VIBRATION, state);
+            mEdit.putBoolean(Gl.NOTICE_VIBRATION, state);
         } else if (index == 3) {
-            mEdit.putBoolean(G.NOTICE_POPUP, state);
+            mEdit.putBoolean(Gl.NOTICE_POPUP, state);
         }
         mEdit.commit();
         sampleNotice(index, state);
@@ -202,13 +202,13 @@ public class Notifications extends Activity implements View.OnClickListener, Com
     public boolean getNotice(int index) {
         boolean result;
         if (index == 0) {
-            result = mSharedPref.getBoolean(G.NOTICE_CHECK, false);
+            result = mSharedPref.getBoolean(Gl.NOTICE_CHECK, false);
         } else if (index == 1) {
-            result = mSharedPref.getBoolean(G.NOTICE_SOUND, false);
+            result = mSharedPref.getBoolean(Gl.NOTICE_SOUND, false);
         } else if (index == 2) {
-            result = mSharedPref.getBoolean(G.NOTICE_VIBRATION, false);
+            result = mSharedPref.getBoolean(Gl.NOTICE_VIBRATION, false);
         } else {
-            result = mSharedPref.getBoolean(G.NOTICE_POPUP, false);
+            result = mSharedPref.getBoolean(Gl.NOTICE_POPUP, false);
         }
         return result;
     }

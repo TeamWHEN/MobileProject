@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Meet;
 
@@ -88,8 +88,8 @@ public class SummaryView extends LinearLayout {
     private void setDateSlice() {
         ArrayList<Calendar> arrayList = m.getSelectedDate();
         Collections.sort(arrayList, new CalendarAscCompare());
-        int width = (int) (mContext.getResources().getDisplayMetrics().widthPixels - (35 * G.DENSITY + 0.5f));
-        int minWidth = (int) (64 * G.DENSITY + 0.5f);
+        int width = (int) (mContext.getResources().getDisplayMetrics().widthPixels - (35 * Gl.DENSITY + 0.5f));
+        int minWidth = (int) (64 * Gl.DENSITY + 0.5f);
         int divide = width / mCol;
         for (int i = 0; i < mCol; i++) {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -123,7 +123,7 @@ public class SummaryView extends LinearLayout {
             TextView AMPM = (TextView) v.findViewById(R.id.ampm);
 
             if (i == mMin) {
-                Param = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (1 * G.DENSITY));
+                Param = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (1 * Gl.DENSITY));
                 ImageView.setLayoutParams(Param);
                 if (mMin < 12) AMPM.setText(R.string.am);
                 else AMPM.setText(R.string.pm);
@@ -136,7 +136,7 @@ public class SummaryView extends LinearLayout {
     }
 
     private void calculate() {
-        m = (Meet) mIntent.getSerializableExtra(G.MEET);
+        m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
 
         if (m.getDateTimeNum() > 0) {
             mMin = getMinTime(m.getDateTime());

@@ -15,7 +15,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".global.G"
+        android:name=".global.Gl"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/product_icon0"
