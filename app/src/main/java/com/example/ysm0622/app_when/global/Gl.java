@@ -200,6 +200,30 @@ public class Gl extends Application {
     }
 
     // Test method
+<<<<<<< HEAD:app/src/main/java/com/example/ysm0622/app_when/global/G.java
+    public static void setTestUsers(String aa,String bb,String cc) {
+        ArrayList<User> TestSet = new ArrayList<>();
+
+
+
+//
+        TestSet.add(new User(aa,bb, cc));
+//        TestSet.add(new User("지정한", "wlwjdgks123@gmail.com", "1234"));
+//        TestSet.add(new User("조동현", "ehdguso@naver.com", "1234"));
+//        TestSet.add(new User("조동현", "aa.com", "1234"));
+//
+//        TestSet.add(new User("조서형", "westbro00@naver.com", "1234"));
+//        TestSet.add(new User("김영송", "infall346@naver.com", "1234"));
+//        TestSet.add(new User("장영준", "cyj9212@gmail.com", "1234"));
+//        TestSet.add(new User("유영준", "yyj@gmail.com", "1234"));
+//        TestSet.add(new User("김원", "wonkimtx@gachon.ac.kr", "1234"));
+//        TestSet.add(new User("정옥란", "orjeong@gachon.ac.kr", "1234"));
+//        TestSet.add(new User("최재혁", "jchoi@gachon.ac.kr", "1234"));
+//        TestSet.add(new User("유준", "joon.yoo@gachon.ac.kr", "1234"));
+//        TestSet.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
+//        TestSet.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
+//        TestSet.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
+=======
     public static void setTestUsers() {
 
         USERS.clear();
@@ -217,6 +241,7 @@ public class Gl extends Application {
         USERS.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
         USERS.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
         USERS.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
+>>>>>>> 0866dab0387e5623f65ebf187f1ab46a10b1dcf3:app/src/main/java/com/example/ysm0622/app_when/global/Gl.java
 
     }
 
