@@ -96,9 +96,15 @@ public class Settings extends Activity implements View.OnClickListener {
 
     }
 
+    public void onBackPressed() {
+        setResult(RESULT_OK,mIntent);
+        super.onBackPressed();
+    }
+
     @Override
     public void onClick(View v) {
         if (v.equals(mToolbarAction[0])) {
+            setResult(RESULT_OK,mIntent);
             super.onBackPressed();
         }
         if (v.equals(mLinearLayout[0])) {

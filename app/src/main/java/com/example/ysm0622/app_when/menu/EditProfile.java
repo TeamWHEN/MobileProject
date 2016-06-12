@@ -1,7 +1,14 @@
 package com.example.ysm0622.app_when.menu;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +19,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +31,10 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.object.User;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class EditProfile extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
@@ -61,6 +73,8 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
 
     private FloatingActionButton mFab;
     private Button mButton;
+    private boolean mFabCheck = false;
+    private static final int PICK_FROM_GALLERY = 1;
 
     private User u;
 
@@ -153,6 +167,13 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
 
         // Default setting
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
+
+        if (u.isImage()) {//프로필 이미지가 존재
+            Bitmap Image = BitmapFactory.decodeFile(u.getImageFilePath());
+            mMyPhoto.clearColorFilter();
+            mMyPhoto.setImageBitmap(getCircleBitmap(Image));
+        }
+
         mMyProfile[0].setText(u.getName());
         mMyProfile[1].setText(u.getEmail());
 
@@ -281,18 +302,85 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             User u = (User) mIntent.getSerializableExtra(Global.USER);
             u.setName(name);
             u.setEmail(email);
+            if (mFabCheck)
+                u.setImage(true);
             mIntent.putExtra(Global.USER, u);
             setResult(RESULT_OK, mIntent);
             finish();
         }
         if (v.equals(mFab)) {
-
+            callGallery();
         }
         if (v.equals(mButton)) {
 
         }
         if (v.equals(mLinearLayoutPW)) {
 
+        }
+    }
+
+    public void callGallery() {
+        Intent intent = new Intent();
+        // Gallery 호출
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        // 잘라내기 셋팅
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 0);
+        intent.putExtra("aspectY", 0);
+        intent.putExtra("outputX", 400);
+        intent.putExtra("outputY", 400);
+        try {
+            intent.putExtra("return-data", true);
+            startActivityForResult(intent, PICK_FROM_GALLERY);
+        } catch (ActivityNotFoundException e) {
+            // Do nothing for now
+        }
+    }
+
+    //이미지 원형으로 전환
+    public Bitmap getCircleBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        int size = (bitmap.getWidth() / 2);
+        canvas.drawCircle(size, size, size, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
+    }
+
+    public void saveBitmaptoJpeg(Bitmap bitmap){
+        try{
+            FileOutputStream out =  openFileOutput(u.getId()+".jpg",0);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+        }catch(FileNotFoundException exception){
+            Log.e("FileNotFoundException", exception.getMessage());
+        }catch(IOException exception){
+            Log.e("IOException", exception.getMessage());
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_FROM_GALLERY) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap photo = extras.getParcelable("data");
+                mMyPhoto.clearColorFilter();
+                mMyPhoto.setImageBitmap(getCircleBitmap(photo));
+                saveBitmaptoJpeg(photo);
+                mFabCheck = true;
+                mToolbarAction[1].setVisibility(View.VISIBLE);
+            }
         }
     }
 }

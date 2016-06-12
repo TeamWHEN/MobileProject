@@ -5,7 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -262,6 +267,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            //setResult(RESULT_OK, mIntent);//인텐트 공유를 위한 부분
             super.onBackPressed();
         }
     }
@@ -275,7 +281,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(GroupManage.this, Settings.class));
+            mIntent.setClass(GroupManage.this, Settings.class);
+            startActivity(mIntent);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
@@ -434,5 +441,22 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         mDialBox = builder.create();
         mDialBox.show();
+    }
+
+    //이미지 원형으로 전환
+    public Bitmap getCircleBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        int size = (bitmap.getWidth()/2);
+        canvas.drawCircle(size, size, size, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }
