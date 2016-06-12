@@ -12,12 +12,12 @@ import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
 
-public class G extends Application {
+public class Gl extends Application {
 
     // TAG
-    private static final String TAG = G.class.getName();
+    private static final String TAG = Gl.class.getName();
 
-    // G static
+    // Gl static
     public static final String USER = "USER";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_NAME = "USER_NAME";
@@ -59,9 +59,13 @@ public class G extends Application {
     public static final int SETTINGS_EDITPROFILE = 1008;
     public static final int GROUPLIST_SETTINGS = 1009;
     public static final int GROUPMANAGE_SETTINGS = 1010;
+    public static final int LOGIN_GROUPLIST = 1011;
+    public static final int INTRO_GROUPLIST = 1012;
+    public static final int INTRO_LOGIN = 1013;
 
     // Result Code
     public static final int RESULT_LOGOUT = 2000;
+    public static final int RESULT_DELETE = 3000;
 
     public static Context CONTEXT;
     public static float DENSITY;
@@ -84,6 +88,10 @@ public class G extends Application {
         return USERS;
     }
 
+    public static ArrayList<User> getUsers(Group g) {
+        return g.getMember();
+    }
+
     public static User getUser(int i) {
         return USERS.get(i);
     }
@@ -92,16 +100,21 @@ public class G extends Application {
         return USERS.size();
     }
 
-    public static void add(User user) {
-        USERS.add(user);
+    public static void add(User u) {
+        USERS.add(u);
     }
 
-    public static void add(int i, User user) {
-        USERS.add(i, user);
+    public static void add(int i, User u) {
+        USERS.add(i, u);
     }
 
-    public static void remove(User user) {
-        USERS.remove(user);
+    public static void remove(User u) {
+        for (int i = 0; i < USERS.size(); i++) {
+            if (USERS.get(i).getId() == u.getId()) {
+                USERS.remove(i);
+                break;
+            }
+        }
     }
 
     // Group method
@@ -113,6 +126,20 @@ public class G extends Application {
         return GROUPS;
     }
 
+    public static ArrayList<Group> getGroups(User u) {
+        ArrayList<Group> arrayList = new ArrayList<>();
+        for (int i = 0; i < GROUPS.size(); i++) {
+            ArrayList<User> arrayList1 = GROUPS.get(i).getMember();
+            for (int j = 0; j < arrayList1.size(); j++) {
+                if (u.getId() == arrayList1.get(j).getId()) {
+                    arrayList.add(GROUPS.get(i));
+                    break;
+                }
+            }
+        }
+        return arrayList;
+    }
+
     public static Group getGroup(int i) {
         return GROUPS.get(i);
     }
@@ -121,16 +148,16 @@ public class G extends Application {
         return GROUPS.size();
     }
 
-    public static void add(Group group) {
-        GROUPS.add(group);
+    public static void add(Group g) {
+        GROUPS.add(g);
     }
 
-    public static void add(int i, Group group) {
-        GROUPS.add(i, group);
+    public static void add(int i, Group g) {
+        GROUPS.add(i, g);
     }
 
-    public static void remove(Group group) {
-        GROUPS.remove(group);
+    public static void remove(Group g) {
+        GROUPS.remove(g);
     }
 
     // Meet method
@@ -142,6 +169,16 @@ public class G extends Application {
         return MEETS;
     }
 
+    public static ArrayList<Meet> getMeets(Group g) {
+        ArrayList<Meet> arrayList = new ArrayList<>();
+        for (int i = 0; i < MEETS.size(); i++) {
+            if (MEETS.get(i).getGroup().getId() == g.getId()) {
+                arrayList.add(MEETS.get(i));
+            }
+        }
+        return arrayList;
+    }
+
     public static Meet getMeet(int i) {
         return MEETS.get(i);
     }
@@ -150,19 +187,20 @@ public class G extends Application {
         return MEETS.size();
     }
 
-    public static void add(Meet Meet) {
-        MEETS.add(Meet);
+    public static void add(Meet m) {
+        MEETS.add(m);
     }
 
-    public static void add(int i, Meet Meet) {
-        MEETS.add(i, Meet);
+    public static void add(int i, Meet m) {
+        MEETS.add(i, m);
     }
 
-    public static void remove(Meet Meet) {
-        MEETS.remove(Meet);
+    public static void remove(Meet m) {
+        MEETS.remove(m);
     }
 
     // Test method
+<<<<<<< HEAD:app/src/main/java/com/example/ysm0622/app_when/global/G.java
     public static void setTestUsers(String aa,String bb,String cc) {
         ArrayList<User> TestSet = new ArrayList<>();
 
@@ -185,21 +223,42 @@ public class G extends Application {
 //        TestSet.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
 //        TestSet.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
 //        TestSet.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
+=======
+    public static void setTestUsers() {
 
-        USERS.addAll(TestSet);
+        USERS.clear();
+        USERS.add(new User("양성민", "ysm0622@gmail.com", "1234"));
+        USERS.add(new User("지정한", "wlwjdgks123@gmail.com", "1234"));
+        USERS.add(new User("조동현", "ehdguso@naver.com", "1234"));
+        USERS.add(new User("조서형", "westbro00@naver.com", "1234"));
+        USERS.add(new User("김영송", "infall346@naver.com", "1234"));
+        USERS.add(new User("장영준", "cyj9212@gmail.com", "1234"));
+        USERS.add(new User("유영준", "yyj@gmail.com", "1234"));
+        USERS.add(new User("김원", "wonkimtx@gachon.ac.kr", "1234"));
+        USERS.add(new User("정옥란", "orjeong@gachon.ac.kr", "1234"));
+        USERS.add(new User("최재혁", "jchoi@gachon.ac.kr", "1234"));
+        USERS.add(new User("유준", "joon.yoo@gachon.ac.kr", "1234"));
+        USERS.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
+        USERS.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
+        USERS.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
+>>>>>>> 0866dab0387e5623f65ebf187f1ab46a10b1dcf3:app/src/main/java/com/example/ysm0622/app_when/global/Gl.java
+
     }
 
 
     // Shared Preferences
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
     public static final String FILE_NAME_LOGIN = "LOGIN_DATA";
+    public static final String FILE_NAME_LANGUAGE = "LANGUAGE_DATA";
+    public static final String FILE_NAME_MEET = "MEET_DATA";
     public static final String NOTICE_CHECK = "CHECK";
     public static final String NOTICE_SOUND = "SOUND";
     public static final String NOTICE_VIBRATION = "VIBRATION";
     public static final String NOTICE_POPUP = "POPUP";
-    public static final String LANGUAGE = "LANGUAGE";
+    public static final String LANGUAGE_CHECK = "LANGUAGE_CHECK";
     public static final String LANGUAGE_KOREAN = "KOREAN";
     public static final String LANGUAGE_ENGLISH = "ENGLISH";
+    public static final String MEET_NOTICE="MEET_";
 
     public static float dpToPx(Context context, float dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());

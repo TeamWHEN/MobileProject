@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 
 public class Settings extends Activity implements View.OnClickListener {
 
@@ -109,7 +109,7 @@ public class Settings extends Activity implements View.OnClickListener {
         }
         if (v.equals(mLinearLayout[0])) {
             mIntent.setClass(Settings.this, EditProfile.class);
-            startActivityForResult(mIntent, G.SETTINGS_EDITPROFILE);
+            startActivityForResult(mIntent, Gl.SETTINGS_EDITPROFILE);
         }
         if (v.equals(mLinearLayout[1])) {
             startActivity(new Intent(Settings.this, Notifications.class));
@@ -120,9 +120,12 @@ public class Settings extends Activity implements View.OnClickListener {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == G.SETTINGS_EDITPROFILE) {
+        if (requestCode == Gl.SETTINGS_EDITPROFILE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
+            }else if(resultCode == Gl.RESULT_DELETE) {
+                setResult(Gl.RESULT_DELETE);
+                finish();
             }
         }
     }

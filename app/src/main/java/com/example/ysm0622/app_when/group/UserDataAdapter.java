@@ -30,7 +30,6 @@ public class UserDataAdapter extends ArrayAdapter<User> {
 
     // Data
     private ArrayList<User> values = new ArrayList<>();
-    private User u;
 
 
     public UserDataAdapter(Context context, int resource, ArrayList<User> values) {
@@ -46,7 +45,7 @@ public class UserDataAdapter extends ArrayAdapter<User> {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.member_item, null);
         }
-        u = values.get(position);
+        final User u = values.get(position);
         if (u != null) {
             TextView mTextView[] = new TextView[COUNT];
             ImageView mImageViewProfile;

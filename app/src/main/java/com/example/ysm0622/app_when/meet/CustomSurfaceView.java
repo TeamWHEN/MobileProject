@@ -13,7 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Meet;
 
@@ -110,16 +110,27 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         for (int i = 0; i < D.size(); i++) {
             ArrayList<ArrayList<Calendar>> arrayLists = D.get(i).getSelectTime();
-            for (int j = 0; j < arrayLists.size(); j++) {
-                ArrayList<Calendar> arrayList = arrayLists.get(j);
-                for (int k = 0; k < arrayList.size(); k++) {
-                    int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
-                    v -= mMin;
-                    mCanvas.drawRect(mWunit * j, mHunit * v, mWunit * (j + 1), mHunit * (v + 1), grd);
+            int n = 0;
+            int h = 0;
+            for (int j = 0; n<arrayLists.size() && j < m.getSelectedDate().size(); j++) {
+                Calendar A = m.getSelectedDate().get(j);
+                Calendar B = arrayLists.get(n).get(0);
+                if (isEqual(A, B)) {
+                    ArrayList<Calendar> arrayList = arrayLists.get(n);
+                    for (int k = 0; k < arrayList.size(); k++) {
+                        int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
+                        v -= mMin;
+                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+                    }
+                    n++;
+                    j--;
+                } else {
+                    h++;
                 }
             }
         }
     }
+
 
     private void drawLines() {
         for (int i = 0; i < mCol; i++) {
@@ -130,6 +141,12 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             float c = mHunit * (i + 1) - mStroke / 2;
             mCanvas.drawLine(0, c, mWidth, c, mPrimaryPaint);
         }
+    }
+
+    private boolean isEqual(Calendar A, Calendar B) {
+        if (A.get(Calendar.YEAR) == B.get(Calendar.YEAR) && A.get(Calendar.MONTH) == B.get(Calendar.MONTH) && A.get(Calendar.DATE) == B.get(Calendar.DATE)) {
+            return true;
+        } else return false;
     }
 
     @Override
@@ -153,7 +170,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mWhitePaint.setColor(getResources().getColor(R.color.white));
         mAccentPaint.setColor(getResources().getColor(R.color.colorAccent));
 
-        mStroke = G.dpToPx(mContext, (float) 1.0);
+        mStroke = Gl.dpToPx(mContext, (float) 1.0);
         mPrimaryPaint.setStrokeWidth(mStroke);
 
         drawInputs();

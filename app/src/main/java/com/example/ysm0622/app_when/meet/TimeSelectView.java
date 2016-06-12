@@ -11,7 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 
 public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -134,13 +134,13 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
     private void drawBorder() {
-        mStroke = (int) (2 * G.DENSITY + 0.5f);
+        mStroke = (int) (2 * Gl.DENSITY + 0.5f);
         mPrimaryPaint.setStrokeWidth(mStroke);
         mCanvas.drawLine(0, 0, mWidth, 0, mPrimaryPaint);
         mCanvas.drawLine(0, mHeight, mWidth, mHeight, mPrimaryPaint);
         mCanvas.drawLine(0, 0, 0, mHeight, mPrimaryPaint);
         mCanvas.drawLine(mWidth, 0, mWidth, mHeight, mPrimaryPaint);
-        mStroke = (int) (1 * G.DENSITY + 0.5f);
+        mStroke = (int) (1 * Gl.DENSITY + 0.5f);
         mPrimaryPaint.setStrokeWidth(mStroke);
         for (int i = 0; i < DIVISION + 1; i++) {
             mCanvas.drawLine(mScale * i, 0, mScale * i, mHeight, mPrimaryPaint);
@@ -204,7 +204,7 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
         mAccentPaint.setColor(getResources().getColor(R.color.colorAccent));
 
         mScale = mWidth / DIVISION;
-        mStroke = (int) (2 * G.DENSITY + 0.5f);
+        mStroke = (int) (2 * Gl.DENSITY + 0.5f);
         mPrimaryPaint.setStrokeWidth(mStroke);
 
         mCanvas.drawColor(getResources().getColor(R.color.white));

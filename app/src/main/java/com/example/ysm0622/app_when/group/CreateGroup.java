@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 
 public class CreateGroup extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
@@ -129,9 +129,9 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
         }
         if (mToolbarAction[1].getId() == v.getId()) {
             mIntent.setClass(CreateGroup.this, InvitePeople.class);
-            mIntent.putExtra(G.GROUP_TITLE, mEditText[0].getText().toString());
-            mIntent.putExtra(G.GROUP_DESC, mEditText[1].getText().toString());
-            startActivityForResult(mIntent, G.CREATEGROUP_INVITEPEOPLE);
+            mIntent.putExtra(Gl.GROUP_TITLE, mEditText[0].getText().toString());
+            mIntent.putExtra(Gl.GROUP_DESC, mEditText[1].getText().toString());
+            startActivityForResult(mIntent, Gl.CREATEGROUP_INVITEPEOPLE);
         }
     }
 
@@ -203,7 +203,7 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == G.CREATEGROUP_INVITEPEOPLE) {
+        if (requestCode == Gl.CREATEGROUP_INVITEPEOPLE) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, intent);
                 finish();

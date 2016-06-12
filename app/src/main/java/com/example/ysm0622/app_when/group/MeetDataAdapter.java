@@ -1,20 +1,26 @@
 package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.G;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.meet.PollState;
 import com.example.ysm0622.app_when.meet.SelectDay;
+import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
+import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,13 +43,20 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
     // Data
     private ArrayList<Meet> values = new ArrayList<>();
-    private Meet m;
+
+    private AlertDialog mDialBox;
+    //Shared Preferences
+    SharedPreferences mSharedPref;
+    SharedPreferences.Editor mEdit;
 
     public MeetDataAdapter(Context context, int resource, ArrayList<Meet> values, Intent intent) {
         super(context, resource, values);
         this.mContext = context;
         this.values = values;
         this.mIntent = intent;
+
+        mSharedPref = mContext.getSharedPreferences(Gl.FILE_NAME_MEET, mContext.MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
     }
 
     @Override
@@ -53,7 +66,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.meet_item, null);
         }
-        m = values.get(position);
+        final Meet m = values.get(position);
         if (m != null) {
             TextView mTextView[] = new TextView[TEXT_NUM];
             ImageView mImageViewProfile;
@@ -78,6 +91,8 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[2] = (ImageView) v.findViewById(R.id.ImageView7);
             mImageViewBtn[3] = (ImageView) v.findViewById(R.id.ImageView8);
 
+            LinearLayout mLocationLayout = (LinearLayout) v.findViewById(R.id.LocationLayout);
+
             mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
             for (int i = 0; i < ICON_NUM; i++) {
                 mImageViewIcon[i].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
@@ -93,41 +108,132 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             Calendar cal = m.getSelectedDate().get(0);
             String str = cal.get(Calendar.YEAR) + "년 " + cal.get(Calendar.MONTH) + "월 " + cal.get(Calendar.DATE) + "일";
             if (m.getSelectedDate().size() != 1)
-                str += " 외 " + (m.getSelectedDate().size() - 1) + "...";
+                str += " 외 " + (m.getSelectedDate().size() - 1) + "일";
             mTextView[4].setText(str);
+
+            if (m.getLocation().equals("")) mLocationLayout.setVisibility(View.GONE);
 
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, PollState.class);
-                    mIntent.putExtra(G.MEET, m);
-                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPMANAGE_POLLSTATE);
-                    G.Log(m);
+                    mIntent.putExtra(Gl.MEET, m);
+                    ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_POLLSTATE);
+                    Gl.Log(m);
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, SelectDay.class);
-                    mIntent.putExtra(G.MEET, m);
-                    mIntent.putExtra(G.SELECT_DAY_MODE, 1);
-                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPMANAGE_SELECTDAY);
-                    G.Log(m);
+                    mIntent.putExtra(Gl.MEET, m);
+                    mIntent.putExtra(Gl.SELECT_DAY_MODE, 1);
+                    ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_SELECTDAY);
+                    Gl.Log(m);
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    pollStateDialogBox(m);
                 }
             });
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                    if (mSharedPref.contains(Gl.MEET_NOTICE + m.getId())) {
+                        if (mSharedPref.getBoolean(Gl.MEET_NOTICE + m.getId(), false) == true) {//OFF
+                            mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);
+                            mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                        } else {//ON
+                            mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), true);
+                            mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications));
+                        }
+                    } else {//가장 처음 알림 설정 OFF 하면 발생        설정 안했을시 기본은 알림 설정 ON
+                        mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);
+                        mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                    }
+                    mEdit.commit();
                 }
             });
         }
         return v;
+    }
+
+    public void pollStateDialogBox(final Meet m) {
+
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.member_alert, null);
+
+        PollStateAdapter mAdapter;
+        ArrayList<User> pollUserData = new ArrayList<>();
+        TextView Title = (TextView) view.findViewById(R.id.title);
+        ListView ListView = (ListView) view.findViewById(R.id.ListView);
+        TextView Btn = (TextView) view.findViewById(R.id.btn);
+
+        Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
+        pollUserData.addAll(g.getMember());
+
+        mAdapter = new PollStateAdapter(mContext, R.layout.member_alert_item, pollUserData, m);
+        ListView.setAdapter(mAdapter);
+
+        Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });//취소
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view);
+
+        mDialBox = builder.create();
+        mDialBox.show();
+    }
+
+    public class PollStateAdapter extends ArrayAdapter<User> {
+
+        private Context mContext;
+        private ArrayList<User> values = new ArrayList<>();
+        private Meet m;
+
+        public PollStateAdapter(Context context, int resource, ArrayList<User> values, Meet m) {
+            super(context, resource, values);
+            this.mContext = context;
+            this.values = values;
+            this.m = m;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(R.layout.member_alert_item, null);
+            }
+            final User u = values.get(position);
+            if (u != null) {
+                ImageView mImageView[] = new ImageView[2];
+                TextView mTextView;
+
+                mImageView[0] = (ImageView) v.findViewById(R.id.ImageView0);
+                mImageView[1] = (ImageView) v.findViewById(R.id.ImageView1);
+                mTextView = (TextView) v.findViewById(R.id.TextView0);
+
+                mImageView[0].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                mImageView[1].setColorFilter(mContext.getResources().getColor(R.color.colorAccent));
+                mImageView[1].setVisibility(View.INVISIBLE);
+                for (int i = 0; i < m.getDateTimeNum(); i++) {
+                    if (u.getId() == m.getDateTime().get(i).getUser().getId()) {
+                        mImageView[1].setVisibility(View.VISIBLE);
+                        break;
+                    }
+                }
+
+                mTextView.setText(u.getName());
+            }
+            return v;
+        }
+
     }
 }
