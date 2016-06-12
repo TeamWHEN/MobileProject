@@ -205,5 +205,6 @@
     <string name="remove_title">계정을 삭제하시겠습니까?</string>
     <string name="remove_content">계정 삭제시 모든 입력 기록이 삭제되며, 새로운 계정을 생성 하기 전까지는 WHEN을 이용할 수 없습니다.</string>
     <string name="delete_acc_msg">계정이 삭제되었습니다.</string>
+    <string name="poll_state">투표 현황</string>
 
 </resources>

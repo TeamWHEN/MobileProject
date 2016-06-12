@@ -67,6 +67,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         // Receive intent
         mIntent = getIntent();
         MODE = mIntent.getIntExtra(Gl.INVITE_MODE, 0);
+        User u = (User) mIntent.getSerializableExtra(Gl.USER);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -78,13 +79,15 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         initialize();
 
         testAllUser.addAll(Gl.getUsers());
+        for (int i = 0; i < testAllUser.size(); i++)
+            if (testAllUser.get(i).getId() == u.getId()) testAllUser.remove(i);
 
         if (MODE == 1) {
             mLinearLayout.removeAllViews();
             initData();
         }
         Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
-        for (int i = 0; g!=null && i < g.getMemberNum(); i++) {
+        for (int i = 0; g != null && i < g.getMemberNum(); i++) {
             Log.w(TAG, "User(" + i + ") : " + g.getMember(i));
         }
     }

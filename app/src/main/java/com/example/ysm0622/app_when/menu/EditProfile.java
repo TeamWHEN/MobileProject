@@ -351,6 +351,11 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             @Override
             public void onClick(View v) {
                 mDialBox.cancel();
+                Gl.Log(u);
+                Gl.remove(u);
+                for (int i = 0; i < Gl.getUserCount(); i++) {
+                    Gl.Log(Gl.getUser(i));
+                }
                 setResult(Gl.RESULT_DELETE);
                 finish();
                 //서버에서 계정 데이터 삭제하는 코드 추가하기

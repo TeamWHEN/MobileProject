@@ -107,7 +107,12 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         mResult = "";
 
     }
-
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        finish();
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onBackPressed();
+    }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }

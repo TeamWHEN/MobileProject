@@ -69,6 +69,10 @@ public class Intro extends AppCompatActivity {
         //testData
         Gl.setTestUsers();
 
+        // Logs
+        for (int i = 0; i < Gl.USERS.size(); i++)
+            Gl.Log(Gl.getUser(i));
+
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
@@ -84,9 +88,8 @@ public class Intro extends AppCompatActivity {
 //                    new JSONParse().execute();
                 } else {
                     new JSONParse().execute();
-                    startActivity(new Intent(Intro.this, Login.class));
+                    startActivityForResult(new Intent(Intro.this, Login.class), Gl.INTRO_LOGIN);
                 }
-
             }
         }.start();
 
@@ -231,12 +234,23 @@ public class Intro extends AppCompatActivity {
             return null;
         }
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == Gl.INTRO_GROUPLIST) {
             if (resultCode == Gl.RESULT_DELETE) {
                 startActivity(new Intent(Intro.this, Login.class));
                 Toast.makeText(getApplicationContext(), R.string.delete_acc_msg, Toast.LENGTH_SHORT).show();
             }
+            if (resultCode == Gl.RESULT_LOGOUT) {
+                startActivity(new Intent(Intro.this, Login.class));
+                finish();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
+        }
+        if(requestCode == Gl.INTRO_LOGIN){
+            finish();
         }
     }
 }
