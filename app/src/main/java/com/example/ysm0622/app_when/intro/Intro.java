@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.G;
@@ -60,6 +61,14 @@ public class Intro extends AppCompatActivity {
 
         mEdit = mSharedPref.edit();
 
+        G.initialize(this);
+        G.setUsers();
+        G.setGroups();
+        G.setMeets();
+
+        //testData
+        G.setTestUsers();
+
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (mSharedPref == null || !mSharedPref.contains(G.NOTICE_CHECK))
@@ -71,23 +80,17 @@ public class Intro extends AppCompatActivity {
             public void onFinish() {
 
                 if (PRF_AUTO_LOGIN()) {
-                    startActivity(mIntent);
+                    startActivityForResult(mIntent, G.INTRO_GROUPLIST);
 //                    new JSONParse().execute();
-                } else
+
+                } else {
                     new JSONParse().execute();
                     startActivity(new Intent(Intro.this, Login.class));
-
-                finish();
+                }
             }
         }.start();
 
-        G.initialize(this);
-        G.setUsers();
-        G.setGroups();
-        G.setMeets();
 
-        //testData
-        G.setTestUsers();
         // Preferences 이용 -> Login한 기록이 있다면 자동로그인
 
     }
@@ -113,7 +116,6 @@ public class Intro extends AppCompatActivity {
         String email, password;
 
         mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
-
         //로그인 상태
         if (mSharedPref != null && mSharedPref.contains(G.USER_EMAIL)) {
             email = mSharedPref.getString(G.USER_EMAIL, "DEFAULT");
@@ -121,6 +123,7 @@ public class Intro extends AppCompatActivity {
             mIntent.putExtra(G.USER, G.getUser(isExistEmail(email)));
             return true;
         }
+
         return false;
     }
 
@@ -134,9 +137,8 @@ public class Intro extends AppCompatActivity {
     }
 
 
-
     public class JSONParse extends AsyncTask<String, String, String> {
-//        private ProgressDialog pDialog;
+        //        private ProgressDialog pDialog;
         String aa = "";
         final String TAG = "AsyncTaskParseJson.java";
 
@@ -156,15 +158,15 @@ public class Intro extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 //            Toast.makeText(getApplicationContext(), "onPostExecute :"+aa, Toast.LENGTH_LONG).show();
-         if (aa != null) {
+            if (aa != null) {
                 Log.d("ASYNC", "result2 = " + aa);
             }
 //            try {
 
-                JSONParser jParser = new JSONParser();
+            JSONParser jParser = new JSONParser();
 //
-                // Getting JSON from URL
-                JSONObject json = jParser.getJSONFromUrl1(url);
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl1(url);
 //                user1 = json.getJSONArray("user");
 
 //                JSONObject name = user1.getJSONObject(0);
@@ -215,7 +217,7 @@ public class Intro extends AppCompatActivity {
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
                 httpPost.setEntity(entity);
 //                httpPost.setEntity(en);
-                HttpResponse responsePOST=  client.execute(httpPost);
+                HttpResponse responsePOST = client.execute(httpPost);
                 HttpEntity resEntity = responsePOST.getEntity();
                 if (resEntity != null) {
                     aa = EntityUtils.toString(resEntity);
@@ -229,7 +231,17 @@ public class Intro extends AppCompatActivity {
             }
             return null;
         }
-    }}
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == G.INTRO_GROUPLIST) {
+            if (resultCode == G.RESULT_DELETE) {
+                startActivity(new Intent(Intro.this, Login.class));
+                Toast.makeText(getApplicationContext(), "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+}
 
 
 

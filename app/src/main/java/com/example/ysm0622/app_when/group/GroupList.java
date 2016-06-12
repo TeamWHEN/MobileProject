@@ -235,6 +235,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             }
         } else if (id == R.id.nav_logout) {
             logout();
+            setResult(com.example.ysm0622.app_when.global.G.RESULT_LOGOUT);
             finish();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -262,13 +263,22 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             if (resultCode == G.RESULT_LOGOUT) {
                 finish();
             }
+            if (resultCode == G.RESULT_DELETE) {
+                setResult(G.RESULT_DELETE);
+                finish();
+            }
         }
         if (requestCode == G.GROUPLIST_SETTINGS) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 initNavigationView();
             }
+            if (resultCode == G.RESULT_DELETE) {
+                setResult(G.RESULT_DELETE);
+                finish();
+            }
         }
+
     }
 
     @Override
@@ -340,7 +350,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        int size = (bitmap.getWidth()/2);
+        int size = (bitmap.getWidth() / 2);
         canvas.drawCircle(size, size, size, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);

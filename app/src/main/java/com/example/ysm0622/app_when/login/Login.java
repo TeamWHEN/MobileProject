@@ -179,7 +179,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
                     if (isRightPassword(password, isExistEmail(email))) {
                         mIntent.putExtra(G.USER, G.getUser(isExistEmail(email)));
                         setAutoLogin(email, password);
-                        startActivity(mIntent);
+                        startActivityForResult(mIntent, G.LOGIN_GROUPLIST);
                         mEditText[0].setText("");
                         mEditText[1].setText("");
                     } else {
@@ -248,5 +248,13 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
             return progressDialog;
         }
         return null;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == G.LOGIN_GROUPLIST) {
+            if (resultCode == G.RESULT_DELETE) {
+                Toast.makeText(getApplicationContext(), "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

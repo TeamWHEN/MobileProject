@@ -372,6 +372,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 mIntent = intent;
                 initNavigationView();
             }
+            if (resultCode == com.example.ysm0622.app_when.global.G.RESULT_DELETE) {
+                setResult(com.example.ysm0622.app_when.global.G.RESULT_DELETE);
+                finish();
+            }
         }
     }
 
@@ -467,7 +471,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        int size = (bitmap.getWidth()/2);
+        int size = (bitmap.getWidth() / 2);
         canvas.drawCircle(size, size, size, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
