@@ -119,20 +119,21 @@ public class Language extends Activity implements View.OnClickListener {
     public void onClick(View v) { // 해당 언어 클릭시 바로 언어 변경 이벤트처리해야함
         if (v.equals(mToolbarAction[0])) {
             super.onBackPressed();
-        }
-        for (int i = 0; i < COUNT; i++) {
-            mCheck[i] = false;
-            mImageViewRadio[i].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_unchecked_black_24dp));
-            if (v.equals(mLinearLayout[i])) {
-                mCheck[i] = true;
-                mImageViewRadio[i].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_checked_black_24dp));
-                if (i == 0) {
-                    mEdit.putString(G.LANGUAGE, G.LANGUAGE_KOREAN);
-                } else
-                    mEdit.putString(G.LANGUAGE, G.LANGUAGE_ENGLISH);
-                mEdit.commit();
+        } else {
+            for (int i = 0; i < COUNT; i++) {
+                mCheck[i] = false;
+                mImageViewRadio[i].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_unchecked_black_24dp));
+                if (v.equals(mLinearLayout[i])) {
+                    mCheck[i] = true;
+                    mImageViewRadio[i].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_checked_black_24dp));
+                    if (i == 0) {
+                        mEdit.putString(G.LANGUAGE, G.LANGUAGE_KOREAN);
+                    } else
+                        mEdit.putString(G.LANGUAGE, G.LANGUAGE_ENGLISH);
+                    mEdit.commit();
+                }
             }
+            Toast.makeText(getApplicationContext(), mSharedPref.getString(G.LANGUAGE, "FAIL"), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getApplicationContext(), mSharedPref.getString(G.LANGUAGE, "FAIL"), Toast.LENGTH_SHORT).show();
     }
 }
