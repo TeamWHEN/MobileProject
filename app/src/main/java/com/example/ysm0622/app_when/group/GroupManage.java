@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -196,7 +197,15 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
+
         User user = (User) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.USER);
+
+        if (user.isImage()) {//프로필 이미지가 존재
+            Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
+            ImageView0.clearColorFilter();
+            ImageView0.setImageBitmap(getCircleBitmap(Image));
+        }
+
         TextView0.setText(user.getName());
         TextView1.setText(user.getEmail());
         mNavView.setNavigationItemSelectedListener(this);
@@ -281,7 +290,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         } else if (id == R.id.nav_setting) {
             mIntent.setClass(GroupManage.this, Settings.class);
-            startActivity(mIntent);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_SETTINGS);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
@@ -356,6 +365,12 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     }
                 }
                 MeetAdapter.notifyDataSetChanged();
+            }
+        }
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                mIntent = intent;
+                initNavigationView();
             }
         }
     }
