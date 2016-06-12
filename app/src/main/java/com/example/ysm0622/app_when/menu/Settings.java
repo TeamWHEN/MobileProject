@@ -123,6 +123,9 @@ public class Settings extends Activity implements View.OnClickListener {
         if (requestCode == Gl.SETTINGS_EDITPROFILE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
+            }else if(resultCode == Gl.RESULT_DELETE) {
+                setResult(Gl.RESULT_DELETE);
+                finish();
             }
         }
     }

@@ -408,6 +408,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 mIntent = intent;
                 initNavigationView();
             }
+            if (resultCode == com.example.ysm0622.app_when.global.Gl.RESULT_DELETE) {
+                setResult(com.example.ysm0622.app_when.global.Gl.RESULT_DELETE);
+                finish();
+            }
         }
     }
 

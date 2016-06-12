@@ -1,6 +1,8 @@
 package com.example.ysm0622.app_when.menu;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +23,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,6 +80,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
     private static final int PICK_FROM_GALLERY = 1;
 
     private User u;
+
+    //Dialog
+    private AlertDialog mDialBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -312,11 +318,50 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             callGallery();
         }
         if (v.equals(mButton)) {
-
+            removeDialogBox();
         }
         if (v.equals(mLinearLayoutPW)) {
 
         }
+    }
+
+    //계정삭제 다이어로그
+    public void removeDialogBox() {
+        LayoutInflater inflater = (LayoutInflater) EditProfile.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.remove_alert, null);
+
+        TextView Title = (TextView) view.findViewById(R.id.remove_title);
+        TextView Content = (TextView) view.findViewById(R.id.remove_content);
+        TextView Btn1 = (TextView) view.findViewById(R.id.remove_btn1);
+        TextView Btn2 = (TextView) view.findViewById(R.id.remove_btn2);
+
+        Title.setText(R.string.remove_title);
+        Content.setText(R.string.remove_content);
+        Btn1.setText(R.string.cancel);
+        Btn2.setText(R.string.leave);
+
+        Btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });//취소
+
+        Btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+                setResult(Gl.RESULT_DELETE);
+                finish();
+                //서버에서 계정 데이터 삭제하는 코드 추가하기
+            }
+        });//삭제
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
+        builder.setView(view);
+
+        mDialBox = builder.create();
+        mDialBox.show();
     }
 
     public void callGallery() {
@@ -355,17 +400,17 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         return output;
     }
 
-    public void saveBitmaptoJpeg(Bitmap bitmap){
-        try{
-            FileOutputStream out =  openFileOutput(u.getId()+".jpg",0);
+    public void saveBitmaptoJpeg(Bitmap bitmap) {
+        try {
+            FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
 
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
 
-        }catch(FileNotFoundException exception){
+        } catch (FileNotFoundException exception) {
             Log.e("FileNotFoundException", exception.getMessage());
-        }catch(IOException exception){
+        } catch (IOException exception) {
             Log.e("IOException", exception.getMessage());
         }
     }

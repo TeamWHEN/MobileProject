@@ -59,9 +59,12 @@ public class Gl extends Application {
     public static final int SETTINGS_EDITPROFILE = 1008;
     public static final int GROUPLIST_SETTINGS = 1009;
     public static final int GROUPMANAGE_SETTINGS = 1010;
+    public static final int LOGIN_GROUPLIST = 1011;
+    public static final int INTRO_GROUPLIST = 1012;
 
     // Result Code
     public static final int RESULT_LOGOUT = 2000;
+    public static final int RESULT_DELETE = 3000;
 
     public static Context CONTEXT;
     public static float DENSITY;

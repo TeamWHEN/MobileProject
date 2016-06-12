@@ -271,6 +271,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             }
         } else if (id == R.id.nav_logout) {
             logout();
+            setResult(Gl.RESULT_LOGOUT);
             finish();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -295,13 +296,22 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             if (resultCode == Gl.RESULT_LOGOUT) {
                 finish();
             }
+            if (resultCode == Gl.RESULT_DELETE) {
+                setResult(Gl.RESULT_DELETE);
+                finish();
+            }
         }
         if (requestCode == Gl.GROUPLIST_SETTINGS) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 initNavigationView();
             }
+            if (resultCode == Gl.RESULT_DELETE) {
+                setResult(Gl.RESULT_DELETE);
+                finish();
+            }
         }
+
     }
 
     @Override

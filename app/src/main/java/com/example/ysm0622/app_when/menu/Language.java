@@ -101,10 +101,14 @@ public class Language extends Activity implements View.OnClickListener {
         if (mSharedPref.contains(Gl.LANGUAGE)) {
             if (mSharedPref.getString(Gl.LANGUAGE, Gl.LANGUAGE_KOREAN).equalsIgnoreCase(Gl.LANGUAGE_KOREAN)) {
                 mCheck[0] = true;
+                mImageViewRadio[0].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_checked_black_24dp));
                 mCheck[1] = false;
+                mImageViewRadio[1].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_unchecked_black_24dp));
             } else {
                 mCheck[0] = false;
+                mImageViewRadio[0].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_unchecked_black_24dp));
                 mCheck[1] = true;
+                mImageViewRadio[1].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_checked_black_24dp));
             }
 
         } else {

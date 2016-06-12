@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -60,6 +61,14 @@ public class Intro extends AppCompatActivity {
 
         mEdit = mSharedPref.edit();
 
+        Gl.initialize(this);
+        Gl.setUsers();
+        Gl.setGroups();
+        Gl.setMeets();
+
+        //testData
+        Gl.setTestUsers();
+
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
@@ -71,23 +80,16 @@ public class Intro extends AppCompatActivity {
             public void onFinish() {
 
                 if (PRF_AUTO_LOGIN()) {
-                    startActivity(mIntent);
+                    startActivityForResult(mIntent, Gl.INTRO_GROUPLIST);
 //                    new JSONParse().execute();
                 } else {
                     new JSONParse().execute();
                     startActivity(new Intent(Intro.this, Login.class));
                 }
-                finish();
+
             }
         }.start();
 
-        Gl.initialize(this);
-        Gl.setUsers();
-        Gl.setGroups();
-        Gl.setMeets();
-
-        //testData
-        Gl.setTestUsers();
 
     }
 
@@ -120,6 +122,7 @@ public class Intro extends AppCompatActivity {
             mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
             return true;
         }
+
         return false;
     }
 
@@ -226,6 +229,14 @@ public class Intro extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == Gl.INTRO_GROUPLIST) {
+            if (resultCode == Gl.RESULT_DELETE) {
+                startActivity(new Intent(Intro.this, Login.class));
+                Toast.makeText(getApplicationContext(), R.string.delete_acc_msg, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
