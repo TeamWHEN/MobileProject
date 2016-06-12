@@ -57,6 +57,10 @@ public class Intro extends AppCompatActivity {
         G.initialize(this);
         G.setUsers();
         G.setGroups();
+        G.setMeets();
+
+        //testData
+        G.setTestUsers();
         // Preferences 이용 -> Login한 기록이 있다면 자동로그인
 
     }

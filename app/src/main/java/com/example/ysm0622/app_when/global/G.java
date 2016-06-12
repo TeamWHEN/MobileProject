@@ -57,6 +57,7 @@ public class G extends Application {
     public static final int GROUPMANAGE_POLLSTATE = 1006;
     public static final int CREATEMEET_SELECTDAY = 1007;
     public static final int SETTINGS_EDITPROFILE = 1008;
+    public static final int GROUPLIST_SETTINGS= 1009;
 
     // Result Code
     public static final int RESULT_LOGOUT = 2000;
@@ -178,7 +179,6 @@ public class G extends Application {
         TestSet.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
         TestSet.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
         TestSet.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
-
 
         USERS.addAll(TestSet);
     }

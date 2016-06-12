@@ -1,7 +1,5 @@
 package com.example.ysm0622.app_when.object;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -12,16 +10,21 @@ public class User implements Serializable {
     // Variables
     private static long AutoGenerateId = 0;
     private long Id;
-    private Bitmap Image;
     private String Name;
     private String Email;
     private String Password;
+
+
+    private boolean Image;
+    private String ImageFilePath;
 
     public User(String Name, String Email, String Password) {
         this.Id = AutoGenerateId++;
         this.Name = Name;
         this.Email = Email;
         this.Password = Password;
+        this.Image = false;
+        this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
     }
 
     public long getId() {
@@ -54,5 +57,21 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public boolean isImage() {
+        return Image;
+    }
+
+    public void setImage(boolean image) {
+        Image = image;
+    }
+
+    public String getImageFilePath() {
+        return ImageFilePath;
+    }
+
+    public void setImageFilePath(String imageFilePath) {
+        ImageFilePath = imageFilePath;
     }
 }
