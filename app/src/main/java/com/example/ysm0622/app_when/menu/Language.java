@@ -98,7 +98,7 @@ public class Language extends Activity implements View.OnClickListener {
             mImageViewRadio[i].setColorFilter(getResources().getColor(R.color.colorAccent));
         }
 
-        if (mSharedPref.contains(Global.LANGUAGE)) {
+     /*   if (mSharedPref.contains(Global.LANGUAGE)) {
             if (mSharedPref.getString(Global.LANGUAGE, Global.LANGUAGE_KOREAN).equalsIgnoreCase(Global.LANGUAGE_KOREAN)) {
                 mCheck[0] = true;
                 mCheck[1] = false;
@@ -110,7 +110,7 @@ public class Language extends Activity implements View.OnClickListener {
         } else {
             mCheck[0] = true;
             mCheck[1] = false;
-        }
+        }*/
 
 
     }

@@ -12,8 +12,8 @@ import android.view.Window;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.group.GroupList;
-import com.example.ysm0622.app_when.login.JSONParser;
 import com.example.ysm0622.app_when.login.Login;
+import com.example.ysm0622.app_when.object.User;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,7 +37,7 @@ public class Intro extends AppCompatActivity {
 
     // TAG
     private static final String TAG = Intro.class.getName();
-
+    public static ArrayList<User> USERS;
     // Intent
     private Intent mIntent;
 
@@ -45,9 +45,12 @@ public class Intro extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     private SharedPreferences.Editor mEdit;
     JSONArray user1 = null;
+    String logaa = "";
     //URL to get JSON Array
     private static String url = "http://52.79.132.35:8080/first/sample/selectUserInfo.do";
-
+    public String aa="";
+    public String bb="";
+    public String cc="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +58,7 @@ public class Intro extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
-
+        new JSONParse().execute();
         mSharedPref = getSharedPreferences(G.FILE_NAME_NOTICE, MODE_PRIVATE);
 
         mEdit = mSharedPref.edit();
@@ -69,12 +72,12 @@ public class Intro extends AppCompatActivity {
             }
 
             public void onFinish() {
-
+//                new JSONParse().execute();
                 if (PRF_AUTO_LOGIN()) {
                     startActivity(mIntent);
 //                    new JSONParse().execute();
                 } else
-                    new JSONParse().execute();
+
                     startActivity(new Intent(Intro.this, Login.class));
 
                 finish();
@@ -87,7 +90,7 @@ public class Intro extends AppCompatActivity {
         G.setMeets();
 
         //testData
-        G.setTestUsers();
+        G.setTestUsers(aa,bb,cc);
         // Preferences 이용 -> Login한 기록이 있다면 자동로그인
 
     }
@@ -134,10 +137,9 @@ public class Intro extends AppCompatActivity {
     }
 
 
-
     public class JSONParse extends AsyncTask<String, String, String> {
 //        private ProgressDialog pDialog;
-        String aa = "";
+
         final String TAG = "AsyncTaskParseJson.java";
 
         @Override
@@ -147,57 +149,68 @@ public class Intro extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... args) {
-//            aa = executeClient(url);
+            logaa = executeClient(url);
             Log.d("ASYNC", "result1 url주소 = " + url);
+            Log.d("ASYNC", "result1 json = " + logaa);
 //            Toast.makeText(getApplicationContext(), "doInBackground :"+url, Toast.LENGTH_LONG).show();
             return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-//            Toast.makeText(getApplicationContext(), "onPostExecute :"+aa, Toast.LENGTH_LONG).show();
-         if (aa != null) {
-                Log.d("ASYNC", "result2 = " + aa);
-            }
-//            try {
 
-                JSONParser jParser = new JSONParser();
+            try
+            {
+                JSONObject jObject = new JSONObject();
+                JSONArray jArray = new JSONArray();//배열이 필요할때
+
+                //받은데이터 파싱
+                jObject = new JSONObject(logaa);
+
+//                id = jObject.getString("id");
+//                Log.d("id", id);
+
+                JSONArray datas = jObject.getJSONArray("user");
+                int size = datas.length();
+                Log.i("size", String.valueOf(size));
+
+                for(int i=0; i<size; i++)
+                {
+
+                   String name = datas.getJSONObject(i).getString("wn_user_name");
+                    Log.d("ASYNCname", name);
+
+                    String email = datas.getJSONObject(i).getString("wn_user_email");
+                    Log.d("ASYNCemail", email);
+
+                    String pw = datas.getJSONObject(i).getString("wn_user_pw");
+                    Log.d("ASYNCpw", pw);
+
+                    G aa = new G();
 //
-                // Getting JSON from URL
-                JSONObject json = jParser.getJSONFromUrl1(url);
-//                user1 = json.getJSONArray("user");
+//                    ArrayList<User> car = new ArrayList<>();
+//                    car.add(new User(name, email, pw));
 
-//                JSONObject name = user1.getJSONObject(0);
-//                name = user1.get(0).getClass("wn_user_name");
+                    aa.setTestUsers(name,email,pw);
+                }
 
-//                Toast.makeText(getApplicationContext(),"--22-"+name.toString(),Toast.LENGTH_LONG).show();
-
-
-//            Intent intent = new Intent(getApplicationContext(), GroupList.class);
-//            intent.putExtra("user1",aa);
-//            intent.putExtra("email",email);
-//                intent.putExtra("name",name.toString());
-//                intent.putExtra("wn_leader_name",leader_name.toString());
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-
-//                Toast.makeText(getApplicationContext(),id,Toast.LENGTH_LONG).show();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-
+            }
+            catch (Exception e)
+            {
+                e.getMessage();
+            }
 
         }
 
 
         public String executeClient(String url) {
 
-//        email =  mEditText[0].getText().toString();
-//        String pass =  mEditText[1].getText().toString();
+//            email = mEditText[0].getText().toString();
+//            String pass = mEditText[1].getText().toString();
 //            String bb = "";
             ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-//        post.add(new BasicNameValuePair("wn_user_email", email));
-//        post.add(new BasicNameValuePair("wn_user_pw", pass));
+//            post.add(new BasicNameValuePair("wn_user_email", email));
+//            post.add(new BasicNameValuePair("wn_user_pw", pass));
 
 
             // 연결 HttpClient 객체 생성
@@ -215,21 +228,21 @@ public class Intro extends AppCompatActivity {
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
                 httpPost.setEntity(entity);
 //                httpPost.setEntity(en);
-                HttpResponse responsePOST=  client.execute(httpPost);
+                HttpResponse responsePOST = client.execute(httpPost);
                 HttpEntity resEntity = responsePOST.getEntity();
                 if (resEntity != null) {
                     aa = EntityUtils.toString(resEntity);
                 }
 
-                return EntityUtils.getContentCharSet(entity);
+//                return EntityUtils.getContentCharSet(entity);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return aa;
         }
-    }}
-
+    }
+}
 
 
