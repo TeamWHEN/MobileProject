@@ -3,6 +3,7 @@ package com.example.ysm0622.app_when.group;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,19 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
     // Data
     private ArrayList<Meet> values = new ArrayList<>();
 
+    //Shared Preferences
+    SharedPreferences mSharedPref;
+    SharedPreferences.Editor mEdit;
+
+
     public MeetDataAdapter(Context context, int resource, ArrayList<Meet> values, Intent intent) {
         super(context, resource, values);
         this.mContext = context;
         this.values = values;
         this.mIntent = intent;
+
+        mSharedPref = mContext.getSharedPreferences(Gl.FILE_NAME_MEET, mContext.MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
     }
 
     @Override
@@ -123,7 +132,19 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                    if (mSharedPref.contains(Gl.MEET_NOTICE + m.getId())) {
+                        if (mSharedPref.getBoolean(Gl.MEET_NOTICE + m.getId(), false) == true) {//OFF
+                            mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);
+                            mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                        } else {//ON
+                            mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), true);
+                            mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications));
+                        }
+                    } else {//가장 처음 알림 설정 OFF 하면 발생        설정 안했을시 기본은 알림 설정 ON
+                        mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);
+                        mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                    }
+                    mEdit.commit();
                 }
             });
         }
