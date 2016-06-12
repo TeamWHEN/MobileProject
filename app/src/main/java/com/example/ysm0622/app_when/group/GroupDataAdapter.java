@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.object.Group;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
     // Const
     private static final int TEXT_NUM = 4;
     private static final int ICON_NUM = 3;
-    private static final int BTN_NUM = 3;
+    private static final int BTN_NUM = 4;
 
     // Intent
     private Intent mIntent;
@@ -59,7 +59,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             TextView mTextView[] = new TextView[TEXT_NUM];
             ImageView mImageViewProfile;
             ImageView mImageViewIcon[] = new ImageView[ICON_NUM];
-            final ImageView mImageViewBtn[] = new ImageView[BTN_NUM];
+            ImageView mImageViewBtn[] = new ImageView[BTN_NUM];
 
             mTextView[0] = (TextView) v.findViewById(R.id.TextView0);
             mTextView[1] = (TextView) v.findViewById(R.id.TextView1);
@@ -74,6 +74,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             mImageViewBtn[0] = (ImageView) v.findViewById(R.id.ImageView4);
             mImageViewBtn[1] = (ImageView) v.findViewById(R.id.ImageView5);
             mImageViewBtn[2] = (ImageView) v.findViewById(R.id.ImageView6);
+            mImageViewBtn[3] = (ImageView) v.findViewById(R.id.ImageView7);
 
             mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
             for (int i = 0; i < ICON_NUM; i++) {
@@ -87,33 +88,37 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             mTextView[1].setText(g.getMaster().getName());
             mTextView[2].setText(String.valueOf(g.getMemberNum()));
 
-            mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mIntent.setClass(mContext, GroupManage.class);
-                    mIntent.putExtra(Global.GROUP, g);
-                    mIntent.putExtra(Global.TAB_NUMBER, 0);
-                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
-                }
-            });
+//            mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    descriptionDialogBox(g);
+//                }
+//            });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, GroupManage.class);
-                    mIntent.putExtra(Global.GROUP, g);
-                    mIntent.putExtra(Global.TAB_NUMBER, 2);
-                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
+                    mIntent.putExtra(G.GROUP, g);
+                    mIntent.putExtra(G.TAB_NUMBER, 0);
+                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPLIST_GROUPMANAGE);
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mIntent.setClass(mContext, GroupManage.class);
+                    mIntent.putExtra(G.GROUP, g);
+                    mIntent.putExtra(G.TAB_NUMBER, 2);
+                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPLIST_GROUPMANAGE);
+                }
+            });
+            mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dropDialogBox(g);
                 }
             });
         }
-        //그룹 설명 다이어로그 콜
-        //groupDescriptionDialogBox(g)
         return v;
     }
 
@@ -144,8 +149,10 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             @Override
             public void onClick(View v) {
                 mDialBox.cancel();
-                values.remove(g);
-                GroupDataAdapter.this.notifyDataSetInvalidated();
+                G.remove(g);
+                clear();
+                addAll(G.getGroups());
+                notifyDataSetInvalidated();
             }
         });//탈퇴
 
@@ -157,13 +164,13 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
     }
 
     //그룹 설명 다이어로그
-    public void groupDescriptionDialogBox(final Group g) {
+    public void descriptionDialogBox(final Group g) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.groupdescription_alert, null);
 
         TextView Title = (TextView) view.findViewById(R.id.groupdescription_title);
         TextView Content = (TextView) view.findViewById(R.id.groupdescription_content);
-        ImageView Btn = (ImageView) view.findViewById(R.id.groupdescription_btn);
+        TextView Btn = (TextView) view.findViewById(R.id.groupdescription_btn);
 
         Title.setText(g.getTitle());
         Content.setText(g.getDesc());

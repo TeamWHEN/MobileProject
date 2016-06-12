@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.group.GroupList;
 
 import org.apache.http.HttpEntity;
@@ -68,7 +68,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_main);
 
-        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         initialize();
@@ -177,7 +177,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
                 String password = mEditText[1].getText().toString();
                 if (isExistEmail(email) >= 0) {
                     if (isRightPassword(password, isExistEmail(email))) {
-                        mIntent.putExtra(Global.USER, Global.getUser(isExistEmail(email)));
+                        mIntent.putExtra(G.USER, G.getUser(isExistEmail(email)));
                         setAutoLogin(email, password);
                         startActivity(mIntent);
                         mEditText[0].setText("");
@@ -194,8 +194,8 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     }
 
     private int isExistEmail(String s) {
-        for (int i = 0; i < Global.getUserCount(); i++) {
-            if (Global.getUser(i).getEmail().equals(s)) {
+        for (int i = 0; i < G.getUserCount(); i++) {
+            if (G.getUser(i).getEmail().equals(s)) {
                 return i;
             }
         }
@@ -203,7 +203,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     }
 
     private boolean isRightPassword(String s, int i) {
-        if (Global.getUser(i).getPassword().equals(s)) {
+        if (G.getUser(i).getPassword().equals(s)) {
             return true;
         } else {
             return false;
@@ -212,8 +212,8 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
 
     //Set email, password in Shared Preferences
     private void setAutoLogin(String email, String password) {
-        mEdit.putString(Global.USER_EMAIL, email);
-        mEdit.putString(Global.USER_PASSWORD, password);
+        mEdit.putString(G.USER_EMAIL, email);
+        mEdit.putString(G.USER_PASSWORD, password);
         mEdit.commit();
     }
 

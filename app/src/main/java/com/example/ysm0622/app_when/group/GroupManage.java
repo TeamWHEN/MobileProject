@@ -31,7 +31,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.meet.CreateMeet;
 import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.Settings;
@@ -94,7 +93,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groupmanage_drawer);
 
-        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(com.example.ysm0622.app_when.global.G.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
@@ -102,17 +101,17 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
         String toolbarTitle = "";
-        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 0)
+        if (mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1) == 0)
             toolbarTitle = getResources().getString(R.string.meet_list);
-        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 1)
+        if (mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1) == 1)
             toolbarTitle = getResources().getString(R.string.meet_info);
-        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 2)
+        if (mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1) == 2)
             toolbarTitle = getResources().getString(R.string.member);
 
 
         initToolbar(toolbarIcon, toolbarTitle);
 
-        initTabbar(mIntent.getIntExtra(Global.TAB_NUMBER, 1));
+        initTabbar(mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1));
 
         initNavigationView();
 
@@ -176,7 +175,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
             }
         });
-        G = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        G = (Group) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.GROUP);
         userData = G.getMember();
         for (int i = 0; i < userData.size(); i++) {
             UserAdapter.add(G.getMember(i));
@@ -198,7 +197,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
-        User user = (User) mIntent.getSerializableExtra(Global.USER);
+
+        User user = (User) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.USER);
 
         if (user.isImage()) {//프로필 이미지가 존재
             Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
@@ -290,7 +290,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         } else if (id == R.id.nav_setting) {
             mIntent.setClass(GroupManage.this, Settings.class);
-            startActivityForResult(mIntent, Global.GROUPMANAGE_SETTINGS);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_SETTINGS);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
@@ -320,7 +320,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             }
         } else if (id == R.id.nav_logout) {
             logout();
-            setResult(Global.RESULT_LOGOUT);
+            setResult(com.example.ysm0622.app_when.global.G.RESULT_LOGOUT);
             finish();
         }
 
@@ -330,10 +330,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == Global.GROUPMANAGE_CREATEMEET) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_CREATEMEET) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                MeetAdapter.add((Meet) intent.getSerializableExtra(Global.MEET));
+                MeetAdapter.add((Meet) intent.getSerializableExtra(com.example.ysm0622.app_when.global.G.MEET));
                 MeetAdapter.notifyDataSetChanged();
                 TextView mTextView = (TextView) mTabContent[0].findViewById(R.id.TextView0);
                 mTextView.setVisibility(View.INVISIBLE);
@@ -341,10 +341,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 mTextView.setHeight(0);
             }
         }
-        if (requestCode == Global.GROUPMANAGE_INVITEPEOPLE) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_INVITEPEOPLE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+                Group g = (Group) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.GROUP);
                 userData = g.getMember();
                 UserAdapter.notifyDataSetChanged();
                 for (int i = 0; g != null && i < g.getMemberNum(); i++) {
@@ -352,10 +352,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 }
             }
         }
-        if (requestCode == Global.GROUPMANAGE_SELECTDAY) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_SELECTDAY) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                Meet m = (Meet) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.MEET);
                 for (int i = 0; i < meetData.size(); i++) {
                     if (meetData.get(i).getId() == m.getId()) {
                         int index = meetData.indexOf(meetData.get(i));
@@ -367,7 +367,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 MeetAdapter.notifyDataSetChanged();
             }
         }
-        if (requestCode == Global.GROUPMANAGE_SETTINGS) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_SETTINGS) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 initNavigationView();
@@ -398,13 +398,13 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         }
         if (v.equals(mFab[0])) {
             mIntent.setClass(GroupManage.this, CreateMeet.class);
-            mIntent.putExtra(Global.SELECT_DAY_MODE, 0);
-            startActivityForResult(mIntent, Global.GROUPMANAGE_CREATEMEET);
+            mIntent.putExtra(com.example.ysm0622.app_when.global.G.SELECT_DAY_MODE, 0);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_CREATEMEET);
         }
         if (v.equals(mFab[1])) {
             mIntent.setClass(GroupManage.this, InvitePeople.class);
-            mIntent.putExtra(Global.INVITE_MODE, 1);
-            startActivityForResult(mIntent, Global.GROUPMANAGE_INVITEPEOPLE);
+            mIntent.putExtra(com.example.ysm0622.app_when.global.G.INVITE_MODE, 1);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_INVITEPEOPLE);
         }
     }
 

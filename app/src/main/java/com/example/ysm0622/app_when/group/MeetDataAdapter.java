@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.meet.PollState;
 import com.example.ysm0622.app_when.meet.SelectDay;
 import com.example.ysm0622.app_when.object.Meet;
@@ -100,19 +100,19 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, PollState.class);
-                    mIntent.putExtra(Global.MEET, m);
-                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPMANAGE_POLLSTATE);
-                    Global.Log(m);
+                    mIntent.putExtra(G.MEET, m);
+                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPMANAGE_POLLSTATE);
+                    G.Log(m);
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mIntent.setClass(mContext, SelectDay.class);
-                    mIntent.putExtra(Global.MEET, m);
-                    mIntent.putExtra(Global.SELECT_DAY_MODE, 1);
-                    ((Activity) mContext).startActivityForResult(mIntent, Global.GROUPMANAGE_SELECTDAY);
-                    Global.Log(m);
+                    mIntent.putExtra(G.MEET, m);
+                    mIntent.putExtra(G.SELECT_DAY_MODE, 1);
+                    ((Activity) mContext).startActivityForResult(mIntent, G.GROUPMANAGE_SELECTDAY);
+                    G.Log(m);
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
@@ -124,7 +124,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
                 }
             });
         }

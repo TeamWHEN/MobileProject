@@ -4,6 +4,7 @@ package com.example.ysm0622.app_when.global;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
@@ -11,12 +12,12 @@ import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
 
-public class Global extends Application {
+public class G extends Application {
 
     // TAG
-    private static final String TAG = Global.class.getName();
+    private static final String TAG = G.class.getName();
 
-    // Global static
+    // G static
     public static final String USER = "USER";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_NAME = "USER_NAME";
@@ -66,29 +67,17 @@ public class Global extends Application {
     public static float DENSITY;
 
     public static ArrayList<User> USERS;
-    private static final int TEST_NUM = 10;
+    public static ArrayList<Group> GROUPS;
+    public static ArrayList<Meet> MEETS;
 
     public static void initialize(Context context) {
         CONTEXT = context;
         DENSITY = CONTEXT.getResources().getDisplayMetrics().density;
     }
 
+    // User method
     public static void setUsers() {
         USERS = new ArrayList<>();
-        final int TEST_NUM = 10;
-        User testuser[] = new User[TEST_NUM];
-        testuser[0] = new User("양성민", "ysm0622@gmail.com", "1234");
-        testuser[1] = new User("지정한", "wlwjdgks123@gmail.com", "1234");
-        testuser[2] = new User("조동현", "ehdguso@naver.com", "1234");
-        testuser[3] = new User("조서형", "westbro00@naver.com", "1234");
-        testuser[4] = new User("김영송", "infall346@naver.com", "1234");
-        testuser[5] = new User("장영준", "cyj9212@gmail.com", "1234");
-        testuser[6] = new User("유영준", "yyj@gmail.com", "1234");
-        testuser[7] = new User("양영선", "goodceo@gmail.com", "1234");
-        testuser[8] = new User("이수현", "freejia65@gmail.com", "1234");
-        testuser[9] = new User("박정호", "pjh3001@gmail.com", "1234");
-        for (int i = 0; i < testuser.length; i++)
-            USERS.add(testuser[i]);
     }
 
     public static ArrayList<User> getUsers() {
@@ -103,9 +92,98 @@ public class Global extends Application {
         return USERS.size();
     }
 
-    public static void addUser(User user) {
+    public static void add(User user) {
         USERS.add(user);
     }
+
+    public static void add(int i, User user) {
+        USERS.add(i, user);
+    }
+
+    public static void remove(User user) {
+        USERS.remove(user);
+    }
+
+    // Group method
+    public static void setGroups() {
+        GROUPS = new ArrayList<>();
+    }
+
+    public static ArrayList<Group> getGroups() {
+        return GROUPS;
+    }
+
+    public static Group getGroup(int i) {
+        return GROUPS.get(i);
+    }
+
+    public static int getGroupCount() {
+        return GROUPS.size();
+    }
+
+    public static void add(Group group) {
+        GROUPS.add(group);
+    }
+
+    public static void add(int i, Group group) {
+        GROUPS.add(i, group);
+    }
+
+    public static void remove(Group group) {
+        GROUPS.remove(group);
+    }
+
+    // Meet method
+    public static void setMeets() {
+        MEETS = new ArrayList<>();
+    }
+
+    public static ArrayList<Meet> getMeets() {
+        return MEETS;
+    }
+
+    public static Meet getMeet(int i) {
+        return MEETS.get(i);
+    }
+
+    public static int getMeetCount() {
+        return MEETS.size();
+    }
+
+    public static void add(Meet Meet) {
+        MEETS.add(Meet);
+    }
+
+    public static void add(int i, Meet Meet) {
+        MEETS.add(i, Meet);
+    }
+
+    public static void remove(Meet Meet) {
+        MEETS.remove(Meet);
+    }
+
+    // Test method
+    public static void setTestUsers() {
+        ArrayList<User> TestSet = new ArrayList<>();
+
+        TestSet.add(new User("양성민", "ysm0622@gmail.com", "1234"));
+        TestSet.add(new User("지정한", "wlwjdgks123@gmail.com", "1234"));
+        TestSet.add(new User("조동현", "ehdguso@naver.com", "1234"));
+        TestSet.add(new User("조서형", "westbro00@naver.com", "1234"));
+        TestSet.add(new User("김영송", "infall346@naver.com", "1234"));
+        TestSet.add(new User("장영준", "cyj9212@gmail.com", "1234"));
+        TestSet.add(new User("유영준", "yyj@gmail.com", "1234"));
+        TestSet.add(new User("김원", "wonkimtx@gachon.ac.kr", "1234"));
+        TestSet.add(new User("정옥란", "orjeong@gachon.ac.kr", "1234"));
+        TestSet.add(new User("최재혁", "jchoi@gachon.ac.kr", "1234"));
+        TestSet.add(new User("유준", "joon.yoo@gachon.ac.kr", "1234"));
+        TestSet.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
+        TestSet.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
+        TestSet.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
+
+        USERS.addAll(TestSet);
+    }
+
 
     // Shared Preferences
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
@@ -117,6 +195,11 @@ public class Global extends Application {
     public static final String LANGUAGE = "LANGUAGE";
     public static final String LANGUAGE_KOREAN = "KOREAN";
     public static final String LANGUAGE_ENGLISH = "ENGLISH";
+
+    public static float dpToPx(Context context, float dp) {
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+        return px;
+    }
 
     public static void Log(User u) {
         Log.w(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword());

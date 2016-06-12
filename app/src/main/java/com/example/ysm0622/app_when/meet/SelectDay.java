@@ -13,7 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
@@ -69,7 +69,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         // Receive intent
         mIntent = getIntent();
 
-        MODE = mIntent.getIntExtra(Global.SELECT_DAY_MODE, 0);
+        MODE = mIntent.getIntExtra(G.SELECT_DAY_MODE, 0);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -157,8 +157,8 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         }
 
         if (MODE == 1) {
-            User U = (User) mIntent.getSerializableExtra(Global.USER);
-            Meet M = (Meet) mIntent.getSerializableExtra(Global.MEET);
+            User U = (User) mIntent.getSerializableExtra(G.USER);
+            Meet M = (Meet) mIntent.getSerializableExtra(G.MEET);
             if (M.getDateTime() != null && getDataIndex(M.getDateTime(), U) >= 0) {
                 allData = M.getDateTime().get(getDataIndex(M.getDateTime(), U)).getSelectTime();
             }
@@ -200,22 +200,22 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         if (mToolbarAction[1].getId() == v.getId()) {
             if (MODE == 0) {
                 Meet M = new Meet();
-                M.setGroup((Group) mIntent.getSerializableExtra(Global.GROUP));
-                M.setMaster((User) mIntent.getSerializableExtra(Global.USER));
-                M.setTitle(mIntent.getStringExtra(Global.MEET_TITLE));
-                M.setDesc(mIntent.getStringExtra(Global.MEET_DESC));
-                M.setLocation(mIntent.getStringExtra(Global.MEET_LOCATION));
+                M.setGroup((Group) mIntent.getSerializableExtra(G.GROUP));
+                M.setMaster((User) mIntent.getSerializableExtra(G.USER));
+                M.setTitle(mIntent.getStringExtra(G.MEET_TITLE));
+                M.setDesc(mIntent.getStringExtra(G.MEET_DESC));
+                M.setLocation(mIntent.getStringExtra(G.MEET_LOCATION));
                 M.setSelectedDate(mCalendarView.getDateData());
-                mIntent.putExtra(Global.MEET, M);
+                mIntent.putExtra(G.MEET, M);
                 setResult(RESULT_OK, mIntent);
                 finish();
             } else if (MODE == 1) {
                 DateTime D = new DateTime();
-                D.setUser((User) mIntent.getSerializableExtra(Global.USER));
+                D.setUser((User) mIntent.getSerializableExtra(G.USER));
                 D.setSelectTime(allData);
-                Meet M = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                Meet M = (Meet) mIntent.getSerializableExtra(G.MEET);
                 M = M.addDateTime(D);
-                mIntent.putExtra(Global.MEET, M);
+                mIntent.putExtra(G.MEET, M);
                 setResult(RESULT_OK, mIntent);
                 finish();
             }

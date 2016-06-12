@@ -12,21 +12,36 @@
         android:padding="24dp">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:text="@string/group_name_hint"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/groupdescription_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:singleLine="false"
-            android:text="@string/groupdescription_title"
-            android:textColor="@color/textPrimary"
+            android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:text="@string/description"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/groupdescription_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/groupdescription_description" />
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 
@@ -36,14 +51,17 @@
         android:gravity="right|center_vertical"
         android:padding="8dp">
 
-        <ImageView
+        <TextView
             android:id="@+id/groupdescription_btn"
-            android:layout_width="100dp"
+            android:layout_width="64dp"
             android:layout_height="36dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:minWidth="64dp"
             android:padding="8dp"
-            android:src="@drawable/ic_done" />
+            android:text="@string/ok"
+            android:textColor="@color/colorAccent" />
     </RelativeLayout>
 
 
