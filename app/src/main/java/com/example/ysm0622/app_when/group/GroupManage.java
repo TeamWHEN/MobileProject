@@ -5,7 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,10 +31,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
 import com.example.ysm0622.app_when.meet.CreateMeet;
 import com.example.ysm0622.app_when.menu.About;
-import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
@@ -63,7 +67,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private DrawerLayout mDrawer;
     private NavigationView mNavView;
     private View mTabContent[];
-    private RateView mRateView;
 
     private FloatingActionButton mFab[];
 
@@ -90,7 +93,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groupmanage_drawer);
 
-        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(com.example.ysm0622.app_when.global.G.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
@@ -98,18 +101,17 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
         String toolbarTitle = "";
-        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 0)
+        if (mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1) == 0)
             toolbarTitle = getResources().getString(R.string.meet_list);
-        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 1)
+        if (mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1) == 1)
             toolbarTitle = getResources().getString(R.string.meet_info);
-        if (mIntent.getIntExtra(Global.TAB_NUMBER, 1) == 2)
+        if (mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1) == 2)
             toolbarTitle = getResources().getString(R.string.member);
 
-        mRateView = new RateView(this);
 
         initToolbar(toolbarIcon, toolbarTitle);
 
-        initTabbar(mIntent.getIntExtra(Global.TAB_NUMBER, 1));
+        initTabbar(mIntent.getIntExtra(com.example.ysm0622.app_when.global.G.TAB_NUMBER, 1));
 
         initNavigationView();
 
@@ -173,7 +175,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
             }
         });
-        G = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        G = (Group) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.GROUP);
         userData = G.getMember();
         for (int i = 0; i < userData.size(); i++) {
             UserAdapter.add(G.getMember(i));
@@ -195,7 +197,15 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
-        User user = (User) mIntent.getSerializableExtra(Global.USER);
+
+        User user = (User) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.USER);
+
+        if (user.isImage()) {//프로필 이미지가 존재
+            Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
+            ImageView0.clearColorFilter();
+            ImageView0.setImageBitmap(getCircleBitmap(Image));
+        }
+
         TextView0.setText(user.getName());
         TextView1.setText(user.getEmail());
         mNavView.setNavigationItemSelectedListener(this);
@@ -265,6 +275,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            //setResult(RESULT_OK, mIntent);//인텐트 공유를 위한 부분
             super.onBackPressed();
         }
     }
@@ -278,7 +289,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(GroupManage.this, Settings.class));
+            mIntent.setClass(GroupManage.this, Settings.class);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_SETTINGS);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
@@ -308,7 +320,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             }
         } else if (id == R.id.nav_logout) {
             logout();
-            setResult(Global.RESULT_LOGOUT);
+            setResult(com.example.ysm0622.app_when.global.G.RESULT_LOGOUT);
             finish();
         }
 
@@ -318,10 +330,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == Global.GROUPMANAGE_CREATEMEET) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_CREATEMEET) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                MeetAdapter.add((Meet) intent.getSerializableExtra(Global.MEET));
+                MeetAdapter.add((Meet) intent.getSerializableExtra(com.example.ysm0622.app_when.global.G.MEET));
                 MeetAdapter.notifyDataSetChanged();
                 TextView mTextView = (TextView) mTabContent[0].findViewById(R.id.TextView0);
                 mTextView.setVisibility(View.INVISIBLE);
@@ -329,10 +341,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 mTextView.setHeight(0);
             }
         }
-        if (requestCode == Global.GROUPMANAGE_INVITEPEOPLE) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_INVITEPEOPLE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+                Group g = (Group) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.GROUP);
                 userData = g.getMember();
                 UserAdapter.notifyDataSetChanged();
                 for (int i = 0; g != null && i < g.getMemberNum(); i++) {
@@ -340,10 +352,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 }
             }
         }
-        if (requestCode == Global.GROUPMANAGE_SELECTDAY) {
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_SELECTDAY) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                Meet m = (Meet) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.MEET);
                 for (int i = 0; i < meetData.size(); i++) {
                     if (meetData.get(i).getId() == m.getId()) {
                         int index = meetData.indexOf(meetData.get(i));
@@ -353,6 +365,12 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     }
                 }
                 MeetAdapter.notifyDataSetChanged();
+            }
+        }
+        if (requestCode == com.example.ysm0622.app_when.global.G.GROUPMANAGE_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                mIntent = intent;
+                initNavigationView();
             }
         }
     }
@@ -380,13 +398,13 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         }
         if (v.equals(mFab[0])) {
             mIntent.setClass(GroupManage.this, CreateMeet.class);
-            mIntent.putExtra(Global.SELECT_DAY_MODE, 0);
-            startActivityForResult(mIntent, Global.GROUPMANAGE_CREATEMEET);
+            mIntent.putExtra(com.example.ysm0622.app_when.global.G.SELECT_DAY_MODE, 0);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_CREATEMEET);
         }
         if (v.equals(mFab[1])) {
             mIntent.setClass(GroupManage.this, InvitePeople.class);
-            mIntent.putExtra(Global.INVITE_MODE, 1);
-            startActivityForResult(mIntent, Global.GROUPMANAGE_INVITEPEOPLE);
+            mIntent.putExtra(com.example.ysm0622.app_when.global.G.INVITE_MODE, 1);
+            startActivityForResult(mIntent, com.example.ysm0622.app_when.global.G.GROUPMANAGE_INVITEPEOPLE);
         }
     }
 
@@ -437,5 +455,22 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         mDialBox = builder.create();
         mDialBox.show();
+    }
+
+    //이미지 원형으로 전환
+    public Bitmap getCircleBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        int size = (bitmap.getWidth()/2);
+        canvas.drawCircle(size, size, size, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }

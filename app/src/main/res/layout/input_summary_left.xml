@@ -1,25 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayoutLeft"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_summary"
+    android:elevation="8dp"
+    android:outlineProvider="bounds">
 
     <LinearLayout
+        android:id="@+id/TimeLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="24dp"
-            android:layout_height="32dp"></RelativeLayout>
+            android:id="@+id/View0"
+            android:layout_width="35dp"
+            android:layout_height="35dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:padding="2dp"
+                android:text="@string/date"
+                android:textColor="@color/colorAccent"
+                android:textSize="8sp" />
 
-        <include layout="@layout/slice_time" />
-
-        <include layout="@layout/slice_time" />
-
-        <include layout="@layout/slice_time" />
-
-        <include layout="@layout/slice_time" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:padding="2dp"
+                android:text="@string/time"
+                android:textColor="@color/colorAccent"
+                android:textSize="8sp" />
+        </RelativeLayout>
 
     </LinearLayout>
 

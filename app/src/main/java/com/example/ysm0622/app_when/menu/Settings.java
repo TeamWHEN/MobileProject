@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.G;
 
 public class Settings extends Activity implements View.OnClickListener {
 
@@ -20,6 +21,9 @@ public class Settings extends Activity implements View.OnClickListener {
     // Const
     private static final int COUNT = 3;
     private static final int mToolBtnNum = 1;
+
+    // Intent
+    private Intent mIntent;
 
     // Toolbar
     private ImageView mToolbarAction[];
@@ -33,6 +37,8 @@ public class Settings extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
+
+        mIntent = getIntent();
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -90,19 +96,34 @@ public class Settings extends Activity implements View.OnClickListener {
 
     }
 
+    public void onBackPressed() {
+        setResult(RESULT_OK,mIntent);
+        super.onBackPressed();
+    }
+
     @Override
     public void onClick(View v) {
         if (v.equals(mToolbarAction[0])) {
+            setResult(RESULT_OK,mIntent);
             super.onBackPressed();
         }
         if (v.equals(mLinearLayout[0])) {
-
+            mIntent.setClass(Settings.this, EditProfile.class);
+            startActivityForResult(mIntent, G.SETTINGS_EDITPROFILE);
         }
         if (v.equals(mLinearLayout[1])) {
             startActivity(new Intent(Settings.this, Notifications.class));
         }
         if (v.equals(mLinearLayout[2])) {
             startActivity(new Intent(Settings.this, Language.class));
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == G.SETTINGS_EDITPROFILE) {
+            if (resultCode == RESULT_OK) {
+                mIntent = intent;
+            }
         }
     }
 }

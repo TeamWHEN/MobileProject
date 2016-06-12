@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 
 
 public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener{
@@ -142,15 +142,15 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         }
         if (mToolbarAction[1].getId() == v.getId()) {
             mIntent.setClass(CreateMeet.this, SelectDay.class);
-            mIntent.putExtra(Global.MEET_TITLE, mEditText[0].getText().toString());
-            mIntent.putExtra(Global.MEET_DESC, mEditText[1].getText().toString());
-            mIntent.putExtra(Global.MEET_LOCATION, mEditText[2].getText().toString());
+            mIntent.putExtra(G.MEET_TITLE, mEditText[0].getText().toString());
+            mIntent.putExtra(G.MEET_DESC, mEditText[1].getText().toString());
+            mIntent.putExtra(G.MEET_LOCATION, mEditText[2].getText().toString());
 
             //지도 위도, 경도 얻고 삭제
             //mMapContainer.removeView(mMapView);
             //mMapView.releaseUnusedMapTileImageResources();
             //mMapView.destroyDrawingCache();
-            startActivityForResult(mIntent, Global.CREATEMEET_SELECTDAY);
+            startActivityForResult(mIntent, G.CREATEMEET_SELECTDAY);
         }
     }
 
@@ -222,7 +222,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == Global.CREATEMEET_SELECTDAY) {
+        if (requestCode == G.CREATEMEET_SELECTDAY) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, intent);
                 finish();

@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.object.User;
 
@@ -235,8 +235,8 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             String password = mEditText[2].getText().toString();
             User user = new User(name, email, password);
             mIntent = new Intent(SignUp.this, GroupList.class);
-            mIntent.putExtra(Global.USER, user);
-            Global.addUser(user);
+            mIntent.putExtra(G.USER, user);
+            G.add(user);
             startActivity(mIntent);
             finish();
         }

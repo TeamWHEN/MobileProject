@@ -5,6 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,9 +31,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.menu.About;
-import com.example.ysm0622.app_when.menu.RateView;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
@@ -57,7 +63,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private GroupDataAdapter adapter;
     private TextView mTextView;
     private ListView mListView;
-    private RateView mRateView;
 
     //Shared Preferences
     private SharedPreferences mSharedPref;
@@ -70,7 +75,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grouplist_drawer);
 
-        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
@@ -88,7 +93,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             @Override
             public void onClick(View v) {
                 mIntent.setClass(GroupList.this, CreateGroup.class);
-                startActivityForResult(mIntent, Global.GROUPLIST_CREATEGROUP);
+                startActivityForResult(mIntent, G.GROUPLIST_CREATEGROUP);
             }
         });
 
@@ -108,13 +113,12 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Log.e("TAG", "" + position);
                 mIntent.setClass(GroupList.this, GroupManage.class);
-                mIntent.putExtra(Global.GROUP, groupData.get(position));
-                mIntent.putExtra(Global.TAB_NUMBER, 1);
-                startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
+                mIntent.putExtra(G.GROUP, groupData.get(position));
+                mIntent.putExtra(G.TAB_NUMBER, 1);
+                startActivityForResult(mIntent, G.GROUPLIST_GROUPMANAGE);
+
             }
         });
-
-        mRateView = new RateView(this);
 
         // Login Activity에서 Intent 받아서 그룹정보 search
 
@@ -142,7 +146,15 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
-        User user = (User) mIntent.getSerializableExtra(Global.USER);
+
+        User user = (User) mIntent.getSerializableExtra(G.USER);
+
+        if (user.isImage()) {//프로필 이미지가 존재
+            Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
+            ImageView0.clearColorFilter();
+            ImageView0.setImageBitmap(getCircleBitmap(Image));
+        }
+
         TextView0.setText(user.getName());
         TextView1.setText(user.getEmail());
         mNavView.setNavigationItemSelectedListener(this);
@@ -192,7 +204,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(GroupList.this, Settings.class));
+            mIntent.setClass(GroupList.this, Settings.class);
+            startActivityForResult(mIntent, G.GROUPLIST_SETTINGS);
         } else if (id == R.id.nav_rate) {
             createDialogBox();
         } else if (id == R.id.nav_about) {
@@ -230,22 +243,30 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == Global.GROUPLIST_CREATEGROUP) {
+        if (requestCode == G.GROUPLIST_CREATEGROUP) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                adapter.add((Group) mIntent.getSerializableExtra(Global.GROUP));
+                G.add(0, (Group) mIntent.getSerializableExtra(G.GROUP));
+                groupData.clear();
+                groupData.addAll(G.getGroups());
                 adapter.notifyDataSetChanged();
                 mTextView.setVisibility(View.INVISIBLE);
                 mTextView.setEnabled(false);
                 mTextView.setHeight(0);
             }
         }
-        if (requestCode == Global.GROUPLIST_GROUPMANAGE) {
+        if (requestCode == G.GROUPLIST_GROUPMANAGE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
             }
-            if (resultCode == Global.RESULT_LOGOUT) {
+            if (resultCode == G.RESULT_LOGOUT) {
                 finish();
+            }
+        }
+        if (requestCode == G.GROUPLIST_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                mIntent = intent;
+                initNavigationView();
             }
         }
     }
@@ -307,5 +328,22 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         mDialBox = builder.create();
         mDialBox.show();
+    }
+
+    //이미지 원형으로 전환
+    public Bitmap getCircleBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        int size = (bitmap.getWidth()/2);
+        canvas.drawCircle(size, size, size, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }

@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
 
@@ -66,7 +66,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         // Receive intent
         mIntent = getIntent();
-        MODE = mIntent.getIntExtra(Global.INVITE_MODE, 0);
+        MODE = mIntent.getIntExtra(G.INVITE_MODE, 0);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -77,13 +77,13 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
 
         initialize();
 
-        testAllUser.addAll(Global.getUsers());
+        testAllUser.addAll(G.getUsers());
 
         if (MODE == 1) {
             mLinearLayout.removeAllViews();
             initData();
         }
-        Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        Group g = (Group) mIntent.getSerializableExtra(G.GROUP);
         for (int i = 0; g!=null && i < g.getMemberNum(); i++) {
             Log.w(TAG, "User(" + i + ") : " + g.getMember(i));
         }
@@ -140,7 +140,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     }
 
     private void initData() {
-        Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+        Group g = (Group) mIntent.getSerializableExtra(G.GROUP);
         Member = g.getMember();
         for (int i = 0; i < Member.size(); i++) {
             findMember(testAllUser, Member.get(i));
@@ -178,18 +178,18 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         if (mToolbarAction[1].getId() == v.getId()) {
             if (MODE == 0) {
                 Group G = new Group();
-                G.setTitle(mIntent.getStringExtra(Global.GROUP_TITLE));
-                G.setDesc(mIntent.getStringExtra(Global.GROUP_DESC));
-                G.setMaster((User) mIntent.getSerializableExtra(Global.USER));
-                Member.add((User) mIntent.getSerializableExtra(Global.USER));
+                G.setTitle(mIntent.getStringExtra(com.example.ysm0622.app_when.global.G.GROUP_TITLE));
+                G.setDesc(mIntent.getStringExtra(com.example.ysm0622.app_when.global.G.GROUP_DESC));
+                G.setMaster((User) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.USER));
+                Member.add((User) mIntent.getSerializableExtra(com.example.ysm0622.app_when.global.G.USER));
                 G.setMember(Member);
-                mIntent.putExtra(Global.GROUP, G);
+                mIntent.putExtra(com.example.ysm0622.app_when.global.G.GROUP, G);
                 setResult(RESULT_OK, mIntent);
                 finish();
             } else if (MODE == 1) {
-                Group g = (Group) mIntent.getSerializableExtra(Global.GROUP);
+                Group g = (Group) mIntent.getSerializableExtra(G.GROUP);
                 g.setMember(Member);
-                mIntent.putExtra(Global.GROUP, g);
+                mIntent.putExtra(G.GROUP, g);
                 setResult(RESULT_OK, mIntent);
                 finish();
             }
