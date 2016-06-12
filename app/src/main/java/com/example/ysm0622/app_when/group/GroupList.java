@@ -227,7 +227,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 

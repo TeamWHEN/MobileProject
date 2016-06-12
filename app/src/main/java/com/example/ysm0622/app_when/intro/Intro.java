@@ -57,9 +57,7 @@ public class Intro extends AppCompatActivity {
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
 
-        mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
 
-        mEdit = mSharedPref.edit();
 
         Gl.initialize(this);
         Gl.setUsers();
@@ -77,7 +75,7 @@ public class Intro extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
                     noticeInit();
-                if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE))//처음 한글 언어 선택
+                if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE_CHECK))//처음 한글 언어 선택
                     languageInit();
             }
 
@@ -88,7 +86,8 @@ public class Intro extends AppCompatActivity {
 //                    new JSONParse().execute();
                 } else {
                     new JSONParse().execute();
-                    startActivityForResult(new Intent(Intro.this, Login.class), Gl.INTRO_LOGIN);
+                    startActivity(new Intent(Intro.this, Login.class));
+                    finish();
                 }
             }
         }.start();
@@ -101,11 +100,17 @@ public class Intro extends AppCompatActivity {
     }
 
     public void languageInit() {
-        mEdit.putString(Gl.LANGUAGE, Gl.LANGUAGE_KOREAN);
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_LANGUAGE, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
+
+        mEdit.putString(Gl.LANGUAGE_CHECK, Gl.LANGUAGE_KOREAN);
         mEdit.commit();
     }
 
     public void noticeInit() {
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
+        mEdit = mSharedPref.edit();
+
         mEdit.putBoolean(Gl.NOTICE_CHECK, false);
         mEdit.putBoolean(Gl.NOTICE_SOUND, false);
         mEdit.putBoolean(Gl.NOTICE_VIBRATION, false);
@@ -247,10 +252,9 @@ public class Intro extends AppCompatActivity {
             }
             if (resultCode == RESULT_CANCELED) {
                 finish();
+                System.exit(0);
+                super.onBackPressed();
             }
-        }
-        if(requestCode == Gl.INTRO_LOGIN){
-            finish();
         }
     }
 }

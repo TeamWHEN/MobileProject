@@ -224,13 +224,16 @@ public class Gl extends Application {
     // Shared Preferences
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
     public static final String FILE_NAME_LOGIN = "LOGIN_DATA";
+    public static final String FILE_NAME_LANGUAGE = "LANGUAGE_DATA";
+    public static final String FILE_NAME_MEET = "MEET_DATA";
     public static final String NOTICE_CHECK = "CHECK";
     public static final String NOTICE_SOUND = "SOUND";
     public static final String NOTICE_VIBRATION = "VIBRATION";
     public static final String NOTICE_POPUP = "POPUP";
-    public static final String LANGUAGE = "LANGUAGE";
+    public static final String LANGUAGE_CHECK = "LANGUAGE_CHECK";
     public static final String LANGUAGE_KOREAN = "KOREAN";
     public static final String LANGUAGE_ENGLISH = "ENGLISH";
+    public static final String MEET_NOTICE="MEET_";
 
     public static float dpToPx(Context context, float dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());

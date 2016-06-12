@@ -107,12 +107,13 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         mResult = "";
 
     }
+
     public void onBackPressed() {
-        moveTaskToBack(true);
         finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
         super.onBackPressed();
     }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -259,6 +260,11 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         if (requestCode == Gl.LOGIN_GROUPLIST) {
             if (resultCode == Gl.RESULT_DELETE) {
                 Toast.makeText(getApplicationContext(), "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                finish();
+                System.exit(0);
+                super.onBackPressed();
             }
         }
     }
