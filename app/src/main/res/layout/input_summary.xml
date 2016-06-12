@@ -1,22 +1,24 @@
-<com.example.ysm0622.app_when.group.SummaryView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.ysm0622.app_when.meet.SummaryView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/SummaryView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_marginBottom="16dp"
     android:background="@drawable/selector_summary"
     android:baselineAligned="false">
 
     <include layout="@layout/input_summary_left" />
 
     <LinearLayout
+        android:id="@+id/RightLinearLayout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/alpha1">
+        android:orientation="horizontal">
 
         <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:id="@+id/LinearLayoutInScroll"
@@ -25,20 +27,14 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/DateLinearLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_summary2"
+                    android:elevation="4dp"
+                    android:orientation="horizontal"
+                    android:outlineProvider="bounds">
 
-                    <include layout="@layout/slice_date" />
-
-                    <include layout="@layout/slice_date" />
-
-                    <include layout="@layout/slice_date" />
-
-                    <include layout="@layout/slice_date" />
-
-                    <include layout="@layout/slice_date" />
-
-                    <include layout="@layout/slice_date" />
                 </LinearLayout>
 
                 <ImageView
@@ -46,9 +42,13 @@
                     android:layout_height="1dp"
                     android:background="@color/colorPrimary" />
 
+                <com.example.ysm0622.app_when.meet.CustomSurfaceView
+                    android:id="@+id/CustomSurfaceView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
         </HorizontalScrollView>
     </LinearLayout>
-</com.example.ysm0622.app_when.group.SummaryView>
+</com.example.ysm0622.app_when.meet.SummaryView>

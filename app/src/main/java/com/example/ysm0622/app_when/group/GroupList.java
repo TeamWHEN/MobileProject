@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
@@ -68,7 +68,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grouplist_drawer);
 
-        mSharedPref = getSharedPreferences(Global.FILE_NAME_LOGIN, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(G.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
 
         mIntent = getIntent();
@@ -86,7 +86,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             @Override
             public void onClick(View v) {
                 mIntent.setClass(GroupList.this, CreateGroup.class);
-                startActivityForResult(mIntent, Global.GROUPLIST_CREATEGROUP);
+                startActivityForResult(mIntent, G.GROUPLIST_CREATEGROUP);
             }
         });
 
@@ -106,9 +106,10 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Log.e("TAG", "" + position);
                 mIntent.setClass(GroupList.this, GroupManage.class);
-                mIntent.putExtra(Global.GROUP, groupData.get(position));
-                mIntent.putExtra(Global.TAB_NUMBER, 1);
-                startActivityForResult(mIntent, Global.GROUPLIST_GROUPMANAGE);
+                mIntent.putExtra(G.GROUP, groupData.get(position));
+                mIntent.putExtra(G.TAB_NUMBER, 1);
+                startActivityForResult(mIntent, G.GROUPLIST_GROUPMANAGE);
+
             }
         });
 
@@ -138,7 +139,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
-        User user = (User) mIntent.getSerializableExtra(Global.USER);
+        User user = (User) mIntent.getSerializableExtra(G.USER);
         TextView0.setText(user.getName());
         TextView1.setText(user.getEmail());
         mNavView.setNavigationItemSelectedListener(this);
@@ -227,21 +228,23 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == Global.GROUPLIST_CREATEGROUP) {
+        if (requestCode == G.GROUPLIST_CREATEGROUP) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                adapter.add((Group) mIntent.getSerializableExtra(Global.GROUP));
+                G.add(0, (Group) mIntent.getSerializableExtra(G.GROUP));
+                groupData.clear();
+                groupData.addAll(G.getGroups());
                 adapter.notifyDataSetChanged();
                 mTextView.setVisibility(View.INVISIBLE);
                 mTextView.setEnabled(false);
                 mTextView.setHeight(0);
             }
         }
-        if (requestCode == Global.GROUPLIST_GROUPMANAGE) {
+        if (requestCode == G.GROUPLIST_GROUPMANAGE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
             }
-            if (resultCode == Global.RESULT_LOGOUT) {
+            if (resultCode == G.RESULT_LOGOUT) {
                 finish();
             }
         }

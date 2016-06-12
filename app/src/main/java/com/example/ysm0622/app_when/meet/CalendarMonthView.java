@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.global.Global;
+import com.example.ysm0622.app_when.global.G;
 import com.example.ysm0622.app_when.object.Meet;
 
 import java.util.ArrayList;
@@ -81,11 +81,11 @@ public class CalendarMonthView extends LinearLayout {
         float h = mHeight / mRow;
         float w = mWidth / mCol;
 //        Log.w(TAG, "W = " + w + " H = " + h);
-        h -= (int) (2 * Global.DENSITY + 0.5f);
+        h -= (int) (2 * G.DENSITY + 0.5f);
         w = w - h;
         w /= 2;
-        mParam[1].setMargins((int) w, (int) (1 * Global.DENSITY + 0.5f), (int) w, (int) (1 * Global.DENSITY + 0.5f));
-//        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * Global.DENSITY + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
+        mParam[1].setMargins((int) w, (int) (1 * G.DENSITY + 0.5f), (int) w, (int) (1 * G.DENSITY + 0.5f));
+//        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * G.DENSITY + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
     }
 
 
@@ -119,7 +119,7 @@ public class CalendarMonthView extends LinearLayout {
         // Add listener
 
         // Default setting
-        Global.DENSITY = mContext.getResources().getDisplayMetrics().density;
+        G.DENSITY = mContext.getResources().getDisplayMetrics().density;
         for (int i = 0; i < mRow; i++) {
             mLinearLayout[i].setLayoutParams(mParam[0]);
         }
@@ -175,8 +175,8 @@ public class CalendarMonthView extends LinearLayout {
 
 //    public void setSavedData(Intent intent) {
 //        mIntent = intent;
-//        User u = (User) mIntent.getSerializableExtra(Global.USER);
-//        Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+//        User u = (User) mIntent.getSerializableExtra(G.USER);
+//        Meet m = (Meet) mIntent.getSerializableExtra(G.MEET);
 //        for (int i = 0; i < m.getDateTimeNum(); i++) {
 //            if (m.getDateTime().get(i).getUser().getId() == u.getId()) {
 //                for (int j = 0; j < m.getDateTime().get(i).getStartTime().size(); j++) {
@@ -230,7 +230,7 @@ public class CalendarMonthView extends LinearLayout {
             } else if (MODE == 1) {
                 mTextView[i].setTextColor(mContext.getResources().getColor(R.color.alpha2));
                 mTextView[i].setEnabled(false);
-                Meet m = (Meet) mIntent.getSerializableExtra(Global.MEET);
+                Meet m = (Meet) mIntent.getSerializableExtra(G.MEET);
                 for (int j = 0; j < m.getSelectedDate().size(); j++) {
                     if (isEqual(mCalendarArray[i], m.getSelectedDate().get(j))) {
                         selectTextView(i, 4);

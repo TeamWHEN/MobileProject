@@ -16,17 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="@string/rate"
             android:singleLine="false"
-            android:textStyle="bold"
+            android:text="@string/rate"
             android:textColor="@color/textPrimary"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/drop_content"
-            android:text="@string/rate_msg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/rate_msg" />
 
     </LinearLayout>
 
@@ -41,33 +41,35 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginRight="8dp"
+            android:layout_weight="1"
             android:background="@drawable/selector_btn"
             android:gravity="center"
             android:minWidth="64dp"
             android:padding="8dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_thumb_down_black_24dp"/>
+            android:src="@drawable/ic_thumb_down_black_24dp" />
+
         <ImageView
             android:id="@+id/drop_btn2"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginRight="8dp"
+            android:layout_weight="1"
             android:background="@drawable/selector_btn"
             android:gravity="center"
             android:minWidth="64dp"
             android:padding="8dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_thumb_up_black_24dp"/>
+            android:src="@drawable/ic_thumb_up_black_24dp" />
+
         <ImageView
             android:id="@+id/drop_btn3"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
+            android:layout_weight="1"
             android:background="@drawable/selector_btn"
             android:gravity="center"
             android:minWidth="64dp"
             android:padding="8dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_favorite_black_24dp"/>
+            android:src="@drawable/ic_favorite_black_24dp" />
     </LinearLayout>
 
 
