@@ -1,9 +1,9 @@
 package com.example.ysm0622.app_when.object;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Meet implements Serializable {
 
@@ -11,19 +11,21 @@ public class Meet implements Serializable {
     private static final String TAG = Meet.class.getName();
 
     // Variables
-    private static long AutoGenerateId = 0;
-    private long Id;
-    private Group Group;
-    private User Master;
+    private int Id;
+    private int GroupId;
+    private int MasterId;
     private String Title;
     private String Desc;
     private String Location;
-    private Date CreateDate;
+    private Date SelectDate;
+    private DateTime CreateDate;
     private ArrayList<Calendar> SelectedDate;
     private ArrayList<DateTime> DateTime;
 
+    private Group Group;
+    private User Master;
+
     public Meet() {
-        this.Id = AutoGenerateId++;
         this.DateTime = new ArrayList<>();
     }
 
@@ -59,11 +61,11 @@ public class Meet implements Serializable {
         Desc = desc;
     }
 
-    public Date getCreateDate() {
+    public DateTime getCreateDate() {
         return CreateDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(DateTime createDate) {
         CreateDate = createDate;
     }
 
@@ -107,15 +109,43 @@ public class Meet implements Serializable {
         return this;
     }
 
+    public DateTime getDateTime(int i) {
+        return DateTime.get(i);
+    }
+
     public int getDateTimeNum() {
         return DateTime.size();
     }
 
-    public long getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         Id = id;
+    }
+
+    public int getGroupId() {
+        return GroupId;
+    }
+
+    public void setGroupId(int groupId) {
+        GroupId = groupId;
+    }
+
+    public int getMasterId() {
+        return MasterId;
+    }
+
+    public void setMasterId(int masterId) {
+        MasterId = masterId;
+    }
+
+    public Date getSelectDate() {
+        return SelectDate;
+    }
+
+    public void setSelectDate(Date selectDate) {
+        SelectDate = selectDate;
     }
 }

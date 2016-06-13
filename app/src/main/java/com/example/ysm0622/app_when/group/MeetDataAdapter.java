@@ -119,7 +119,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     mIntent.setClass(mContext, PollState.class);
                     mIntent.putExtra(Gl.MEET, m);
                     ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_POLLSTATE);
-                    Gl.Log(m);
+                    Gl.LogAllMeet();
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     mIntent.putExtra(Gl.MEET, m);
                     mIntent.putExtra(Gl.SELECT_DAY_MODE, 1);
                     ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_SELECTDAY);
-                    Gl.Log(m);
+                    Gl.LogAllMeet();
                 }
             });
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {

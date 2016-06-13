@@ -115,7 +115,7 @@ public class Language extends Activity implements View.OnClickListener {
         } else {
             mCheck[0] = true;
             mCheck[1] = false;
-        }*/
+        }
 
 
     }

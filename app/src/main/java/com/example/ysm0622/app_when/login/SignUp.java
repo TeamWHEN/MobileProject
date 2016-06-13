@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -221,24 +222,29 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             super.onBackPressed();
         }
         if (v.getId() == mToolbarAction[1].getId()) { // signup button
-            // 회원가입버튼 클릭
 
-            // Email 중복체크
-
-            // Query - Select USER_MAIL from ACCOUNT;
-
-            // 중복이없다면 가입 (테이블에 Tuple add)
-
-            // Query - Insert into ACCOUNT values('회원번호', '이메일', '비밀번호', '이름', '가입날짜');
             String name = mEditText[0].getText().toString();
             String email = mEditText[1].getText().toString();
             String password = mEditText[2].getText().toString();
-            User user = new User(name, email, password);
-            mIntent = new Intent(SignUp.this, GroupList.class);
-            mIntent.putExtra(Gl.USER, user);
-            Gl.add(user);
-            startActivity(mIntent);
-            finish();
+            if (isExistEmail(email)) {
+                Toast.makeText(getApplicationContext(), R.string.exist_email_msg, Toast.LENGTH_SHORT).show();
+            } else {
+                User user = new User(name, email, password);
+                mIntent = new Intent(SignUp.this, GroupList.class);
+                mIntent.putExtra(Gl.USER, user);
+                Gl.add(user);
+                startActivity(mIntent);
+                finish();
+            }
         }
+    }
+
+    public static final boolean isExistEmail(String email) {
+        for (int i = 0; i < Gl.USERS.size(); i++) {
+            if (Gl.USERS.get(i).getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

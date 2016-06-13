@@ -9,15 +9,16 @@ public class Group implements Serializable {
     private static final String TAG = Group.class.getName();
 
     // Variables
-    private static long AutoGenerateId = 0;
-    private long Id;
+    private int Id;
     private String Title;
     private String Desc;
+    private int MasterId;
+
     private User Master;
     private ArrayList<User> Member;
 
     public Group() {
-        this.Id = AutoGenerateId++;
+        Member = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -68,7 +69,15 @@ public class Group implements Serializable {
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         Id = id;
+    }
+
+    public int getMasterId() {
+        return MasterId;
+    }
+
+    public void setMasterId(int masterId) {
+        MasterId = masterId;
     }
 }

@@ -6,9 +6,11 @@ import android.content.Context;
 import android.util.Log;
 import android.util.TypedValue;
 
+import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.object.UserGroup;
 
 import java.util.ArrayList;
 
@@ -73,15 +75,29 @@ public class Gl extends Application {
     public static ArrayList<User> USERS;
     public static ArrayList<Group> GROUPS;
     public static ArrayList<Meet> MEETS;
+    public static ArrayList<UserGroup> USER_GROUP;
 
     public static void initialize(Context context) {
         CONTEXT = context;
         DENSITY = CONTEXT.getResources().getDisplayMetrics().density;
+        USERS = new ArrayList<>();
+        GROUPS = new ArrayList<>();
+        MEETS = new ArrayList<>();
+        USER_GROUP = new ArrayList<>();
+    }
+
+    // User-Group method
+    public static ArrayList<UserGroup> getUserGroup() {
+        return USER_GROUP;
+    }
+
+    public static void setUserGroup(ArrayList<UserGroup> arrayList) {
+        USER_GROUP = arrayList;
     }
 
     // User method
-    public static void setUsers() {
-        USERS = new ArrayList<>();
+    public static void setUsers(ArrayList<User> arrayList) {
+        USERS = arrayList;
     }
 
     public static ArrayList<User> getUsers() {
@@ -117,9 +133,16 @@ public class Gl extends Application {
         }
     }
 
+    public static User getUserById(int id) {
+        for (int i = 0; i < USERS.size(); i++) {
+            if (USERS.get(i).getId() == id) return USERS.get(i);
+        }
+        return null;
+    }
+
     // Group method
-    public static void setGroups() {
-        GROUPS = new ArrayList<>();
+    public static void setGroups(ArrayList<Group> arrayList) {
+        GROUPS = arrayList;
     }
 
     public static ArrayList<Group> getGroups() {
@@ -160,9 +183,16 @@ public class Gl extends Application {
         GROUPS.remove(g);
     }
 
+    public static Group getGroupById(int id) {
+        for (int i = 0; i < GROUPS.size(); i++) {
+            if (GROUPS.get(i).getId() == id) return GROUPS.get(i);
+        }
+        return null;
+    }
+
     // Meet method
-    public static void setMeets() {
-        MEETS = new ArrayList<>();
+    public static void setMeets(ArrayList<Meet> arrayList) {
+        MEETS = arrayList;
     }
 
     public static ArrayList<Meet> getMeets() {
@@ -200,48 +230,9 @@ public class Gl extends Application {
     }
 
     // Test method
-<<<<<<< HEAD:app/src/main/java/com/example/ysm0622/app_when/global/G.java
-    public static void setTestUsers(String aa,String bb,String cc) {
-        ArrayList<User> TestSet = new ArrayList<>();
+    public static void setTestUsers(String aa, String bb, String cc) {
 
-
-
-//
-        TestSet.add(new User(aa,bb, cc));
-//        TestSet.add(new User("지정한", "wlwjdgks123@gmail.com", "1234"));
-//        TestSet.add(new User("조동현", "ehdguso@naver.com", "1234"));
-//        TestSet.add(new User("조동현", "aa.com", "1234"));
-//
-//        TestSet.add(new User("조서형", "westbro00@naver.com", "1234"));
-//        TestSet.add(new User("김영송", "infall346@naver.com", "1234"));
-//        TestSet.add(new User("장영준", "cyj9212@gmail.com", "1234"));
-//        TestSet.add(new User("유영준", "yyj@gmail.com", "1234"));
-//        TestSet.add(new User("김원", "wonkimtx@gachon.ac.kr", "1234"));
-//        TestSet.add(new User("정옥란", "orjeong@gachon.ac.kr", "1234"));
-//        TestSet.add(new User("최재혁", "jchoi@gachon.ac.kr", "1234"));
-//        TestSet.add(new User("유준", "joon.yoo@gachon.ac.kr", "1234"));
-//        TestSet.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
-//        TestSet.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
-//        TestSet.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
-=======
-    public static void setTestUsers() {
-
-        USERS.clear();
-        USERS.add(new User("양성민", "ysm0622@gmail.com", "1234"));
-        USERS.add(new User("지정한", "wlwjdgks123@gmail.com", "1234"));
-        USERS.add(new User("조동현", "ehdguso@naver.com", "1234"));
-        USERS.add(new User("조서형", "westbro00@naver.com", "1234"));
-        USERS.add(new User("김영송", "infall346@naver.com", "1234"));
-        USERS.add(new User("장영준", "cyj9212@gmail.com", "1234"));
-        USERS.add(new User("유영준", "yyj@gmail.com", "1234"));
-        USERS.add(new User("김원", "wonkimtx@gachon.ac.kr", "1234"));
-        USERS.add(new User("정옥란", "orjeong@gachon.ac.kr", "1234"));
-        USERS.add(new User("최재혁", "jchoi@gachon.ac.kr", "1234"));
-        USERS.add(new User("유준", "joon.yoo@gachon.ac.kr", "1234"));
-        USERS.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
-        USERS.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
-        USERS.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
->>>>>>> 0866dab0387e5623f65ebf187f1ab46a10b1dcf3:app/src/main/java/com/example/ysm0622/app_when/global/Gl.java
+        USERS.add(new User(aa, bb, cc));
 
     }
 
@@ -258,22 +249,63 @@ public class Gl extends Application {
     public static final String LANGUAGE_CHECK = "LANGUAGE_CHECK";
     public static final String LANGUAGE_KOREAN = "KOREAN";
     public static final String LANGUAGE_ENGLISH = "ENGLISH";
-    public static final String MEET_NOTICE="MEET_";
+    public static final String MEET_NOTICE = "MEET_";
 
     public static float dpToPx(Context context, float dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
         return px;
     }
 
-    public static void Log(User u) {
-        Log.w(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword());
+    // Request Server Query
+    public static final String SELECT_ALL_USER = "SELECT_ALL_USER";
+    public static final String SELECT_ALL_GROUP = "SELECT_ALL_GROUP";
+    public static final String SELECT_ALL_USERGROUP = "SELECT_ALL_USERGROUP";
+    public static final String SELECT_MEET_BY_GROUP = "SELECT_MEET_BY_GROUP";
+    public static final String SELECT_TIME_BY_MEET = "SELECT_TIME_BY_MEET";
+    public static final String INSERT_USER = "INESRT_USER";
+    public static final String DELETE_USER = "DELETE_USER";
+    public static final String UPDATE_USER = "UPDATE_USER";
+    public static final String INSERT_GROUP = "INSERT_GROUP";
+    public static final String DELETE_GROUP = "DELETE_GROUP";
+    public static final String UPDATE_GROUP = "UPDATE_GROUP";
+    public static final String INSERT_USERGROUP = "INSERT_USERGROUP";
+    public static final String DELETE_USERGROUP = "DELETE_USERGROUP";
+    public static final String UPDATE_USERGROUP = "UPDATE_USERGROUP";
+    public static final String INSERT_MEET = "INSERT_MEET";
+    public static final String DELETE_MEET = "DELETE_MEET";
+    public static final String UPDATE_MEET = "UPDATE_MEET";
+    public static final String INSERT_TIME = "INSERT_TIME";
+    public static final String DELETE_TIME = "DELETE_TIME";
+    public static final String UPDATE_TIME = "UPDATE_TIME";
+
+    public static void LogAllUser() {
+        for (int i = 0; i < USERS.size(); i++) {
+            User u = USERS.get(i);
+            Log.d(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword() + " / JoinDate : " + u.getJoinDate());
+        }
     }
 
-    public static void Log(Group g) {
-        Log.w(TAG, "Group > Id : " + g.getId() + " / Title : " + g.getTitle() + " / Master : " + g.getMaster().getName() + " / MemberNum : " + g.getMemberNum());
+    public static void LogAllGroup() {
+        for (int i = 0; i < GROUPS.size(); i++) {
+            Group g = GROUPS.get(i);
+            Log.d(TAG, "Group > Id : " + g.getId() + " / Title : " + g.getTitle() + " / Desc : " + g.getDesc() + " / Master : " + g.getMaster().getName() + " / MemberNum : " + g.getMemberNum());
+            for (int j = 0; j < g.getMemberNum(); j++) {
+                Log.d(TAG, "                                   Member > Name : " + g.getMember(j).getName());
+            }
+        }
     }
 
-    public static void Log(Meet m) {
-        Log.w(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName() + " / DateTimeNum : " + m.getDateTimeNum());
+    public static void LogAllMeet() {
+        for (int i = 0; i < MEETS.size(); i++) {
+            Meet m = MEETS.get(i);
+            Log.d(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName() + " / DateTimeNum : " + m.getDateTimeNum());
+        }
+    }
+
+    public static void LogAllTimeByMeet(Meet m) {
+        for (int i = 0; i < m.getDateTimeNum(); i++) {
+            DateTime dt = m.getDateTime(i);
+            Log.d(TAG, "DateTime > GroupId : " + m.getGroup().getId() + " / MeetId : " + m.getId() + " / UserId : " + dt.getUser().getId());
+        }
     }
 }
