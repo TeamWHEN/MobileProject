@@ -20,6 +20,10 @@ import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class SignUp extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
@@ -229,10 +233,14 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             if (isExistEmail(email)) {
                 Toast.makeText(getApplicationContext(), R.string.exist_email_msg, Toast.LENGTH_SHORT).show();
             } else {
-                User user = new User(name, email, password);
+                Calendar c = Calendar.getInstance();
+                Date d = c.getTime();
+                User user = new User(name, email, password, d.getTime());
                 mIntent = new Intent(SignUp.this, GroupList.class);
                 mIntent.putExtra(Gl.USER, user);
                 Gl.add(user);
+                String url = "http://52.79.132.35:8080/first/sample/insertUserAccount.do";
+                new ServerConnection().execute(Gl.INSERT_USER, url, String.valueOf(Gl.USERS.size() - 1));
                 startActivity(mIntent);
                 finish();
             }

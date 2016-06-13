@@ -10,15 +10,21 @@ public class Group implements Serializable {
 
     // Variables
     private int Id;
+    private int MasterId;
     private String Title;
     private String Desc;
-    private int MasterId;
 
     private User Master;
     private ArrayList<User> Member;
 
     public Group() {
         Member = new ArrayList<>();
+    }
+
+    public Group(String Title, String Desc, int MasterId) {
+        this.Title = Title;
+        this.Desc = Desc;
+        this.MasterId = MasterId;
     }
 
     public String getTitle() {
@@ -65,7 +71,7 @@ public class Group implements Serializable {
         Member.add(user);
     }
 
-    public long getId() {
+    public int getId() {
         return Id;
     }
 

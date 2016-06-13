@@ -1,6 +1,7 @@
 package com.example.ysm0622.app_when.object;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
 
@@ -13,14 +14,28 @@ public class User implements Serializable {
     private String Email;
     private String Password;
     private String ImageFilePath;
-    private DateTime JoinDate;
+    private long JoinDate;
+    private Date Joined;
 
     private boolean Image;
+
+    public User() {
+
+    }
 
     public User(String Name, String Email, String Password) {
         this.Name = Name;
         this.Email = Email;
         this.Password = Password;
+        this.Image = false;
+        this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
+    }
+
+    public User(String Name, String Email, String Password, long JoinDate) {
+        this.Name = Name;
+        this.Email = Email;
+        this.Password = Password;
+        this.JoinDate = JoinDate;
         this.Image = false;
         this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
     }
@@ -73,11 +88,19 @@ public class User implements Serializable {
         ImageFilePath = imageFilePath;
     }
 
-    public DateTime getJoinDate() {
+    public long getJoinDate() {
         return JoinDate;
     }
 
-    public void setJoinDate(DateTime joinDate) {
+    public void setJoinDate(long joinDate) {
         JoinDate = joinDate;
+    }
+
+    public Date getJoined() {
+        return Joined;
+    }
+
+    public void setJoined(Date joined) {
+        Joined = joined;
     }
 }

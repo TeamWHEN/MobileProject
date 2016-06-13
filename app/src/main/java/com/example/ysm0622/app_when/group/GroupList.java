@@ -60,7 +60,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
     private DrawerLayout mDrawer;
     private NavigationView mNavView;
-    private ArrayList<Group> groupData;
+    private ArrayList<Group> groupData = new ArrayList<>();
     private GroupDataAdapter adapter;
     private LinearLayout mEmptyView;
     private ListView mListView;
@@ -85,7 +85,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         // Init group data
         u = (User) mIntent.getSerializableExtra(Gl.USER);
-        groupData = Gl.getGroups(u);
+        groupData.addAll(Gl.getGroups(u));
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);

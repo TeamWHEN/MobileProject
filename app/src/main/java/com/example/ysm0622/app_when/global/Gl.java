@@ -142,7 +142,9 @@ public class Gl extends Application {
 
     // Group method
     public static void setGroups(ArrayList<Group> arrayList) {
-        GROUPS = arrayList;
+        GROUPS.addAll(arrayList);
+        Log.d("Gl", "Id : " + GROUPS.get(0).getId() + " name : " + GROUPS.get(0).getTitle() + " desc : " + GROUPS.get(0).getDesc() + " MasterId : " + GROUPS.get(0).getMasterId());
+        Log.d("Gl", "Id : " + GROUPS.get(1).getId() + " name : " + GROUPS.get(1).getTitle() + " desc : " + GROUPS.get(1).getDesc() + " MasterId : " + GROUPS.get(1).getMasterId());
     }
 
     public static ArrayList<Group> getGroups() {
@@ -288,7 +290,7 @@ public class Gl extends Application {
     public static void LogAllGroup() {
         for (int i = 0; i < GROUPS.size(); i++) {
             Group g = GROUPS.get(i);
-            Log.d(TAG, "Group > Id : " + g.getId() + " / Title : " + g.getTitle() + " / Desc : " + g.getDesc() + " / Master : " + g.getMaster().getName() + " / MemberNum : " + g.getMemberNum());
+            Log.d(TAG, "Group > Id : " + GROUPS.get(i).getId() + " / Title : " + GROUPS.get(i).getTitle() + " / Desc : " + GROUPS.get(i).getDesc());
             for (int j = 0; j < g.getMemberNum(); j++) {
                 Log.d(TAG, "                                   Member > Name : " + g.getMember(j).getName());
             }
