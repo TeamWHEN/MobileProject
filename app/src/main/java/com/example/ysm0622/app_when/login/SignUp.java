@@ -1,8 +1,11 @@
 package com.example.ysm0622.app_when.login;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +25,9 @@ import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.server.ServerConnection;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.apache.http.NameValuePair;
+
+import java.util.ArrayList;
 
 public class SignUp extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
@@ -49,6 +53,9 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
     private int mMinLength[];
     private int mMaxLength[];
     private String mErrMsg[];
+
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,25 +233,51 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             super.onBackPressed();
         }
         if (v.getId() == mToolbarAction[1].getId()) { // signup button
-
             String name = mEditText[0].getText().toString();
             String email = mEditText[1].getText().toString();
             String password = mEditText[2].getText().toString();
             if (isExistEmail(email)) {
                 Toast.makeText(getApplicationContext(), R.string.exist_email_msg, Toast.LENGTH_SHORT).show();
             } else {
-                Calendar c = Calendar.getInstance();
-                Date d = c.getTime();
-                User user = new User(name, email, password, d.getTime());
+                User u = new User(name, email, password);
+                Gl.add(0, u);
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(u);
                 mIntent = new Intent(SignUp.this, GroupList.class);
-                mIntent.putExtra(Gl.USER, user);
-                Gl.add(user);
-                String url = "http://52.79.132.35:8080/first/sample/insertUserAccount.do";
-                new ServerConnection().execute(Gl.INSERT_USER, url, String.valueOf(Gl.USERS.size() - 1));
+                mIntent.putExtra(Gl.USER, u);
                 startActivity(mIntent);
                 finish();
             }
         }
+    }
+
+    class BackgroundTask extends AsyncTask<User, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(User... args) {
+            ArrayList<NameValuePair> param = ServerConnection.InsertUser(args[0]);
+            ServerConnection.getStringFromServer(param, Gl.INSERT_USER);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.signup_progress));
+
+            return progressDialog;
+        }
+        return null;
     }
 
     public static final boolean isExistEmail(String email) {

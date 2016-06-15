@@ -1,6 +1,9 @@
 package com.example.ysm0622.app_when.object;
 
+import com.example.ysm0622.app_when.global.Gl;
+
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -20,24 +23,25 @@ public class User implements Serializable {
     private boolean Image;
 
     public User() {
-
+        Id = 0;
+        Name = "";
+        Email = "";
+        Password = "";
+        JoinDate = 0;
+        Joined = null;
     }
 
     public User(String Name, String Email, String Password) {
+        this.Id = Gl.getUser(Gl.USERS.size() - 1).getId() + 1;
         this.Name = Name;
         this.Email = Email;
         this.Password = Password;
-        this.Image = false;
         this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
-    }
-
-    public User(String Name, String Email, String Password, long JoinDate) {
-        this.Name = Name;
-        this.Email = Email;
-        this.Password = Password;
-        this.JoinDate = JoinDate;
+        Calendar c = Calendar.getInstance();
+        Date d = c.getTime();
+        this.Joined = d;
+        this.JoinDate = d.getTime();
         this.Image = false;
-        this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
     }
 
     public int getId() {

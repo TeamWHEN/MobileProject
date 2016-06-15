@@ -207,5 +207,13 @@
     <string name="delete_acc_msg">계정이 삭제되었습니다.</string>
     <string name="poll_state">투표 현황</string>
     <string name="exist_email_msg">중복된 이메일입니다.</string>
+    <string name="groupinfo_progress">그룹정보 불러오는 중…</string>
+    <string name="creategroup_progress">그룹 생성중…</string>
+    <string name="signup_progress">계정 생성중…</string>
+    <string name="deletegroup_progress">그룹 삭제중…</string>
+    <string name="deleteaccount_progress">계정 삭제중…</string>
+    <string name="groupleave_progress">그룹 탈퇴중…</string>
+    <string name="meetInfo_progress">일정정보 불러오는 중…</string>
+    <string name="refresh_progress">새로고침중…</string>
 
 </resources>

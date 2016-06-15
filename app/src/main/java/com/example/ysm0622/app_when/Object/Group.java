@@ -1,5 +1,7 @@
 package com.example.ysm0622.app_when.object;
 
+import com.example.ysm0622.app_when.global.Gl;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,21 +12,29 @@ public class Group implements Serializable {
 
     // Variables
     private int Id;
-    private int MasterId;
     private String Title;
-    private String Desc;
+    private String Descr;
+    private int MasterId;
 
-    private User Master;
-    private ArrayList<User> Member;
+    public User Master;
+    public ArrayList<User> Member;
 
     public Group() {
+        Id = 0;
+        Title = "";
+        Descr = "";
+        MasterId = 0;
+        Master = null;
         Member = new ArrayList<>();
     }
 
-    public Group(String Title, String Desc, int MasterId) {
+    public Group(String Title, String Descr, int MasterId, User Master, ArrayList<User> Member) {
+        this.Id = Gl.getGroup(Gl.GROUPS.size() - 1).getId() + 1;
         this.Title = Title;
-        this.Desc = Desc;
+        this.Descr = Descr;
         this.MasterId = MasterId;
+        this.Master = Master;
+        this.Member = Member;
     }
 
     public String getTitle() {
@@ -36,11 +46,11 @@ public class Group implements Serializable {
     }
 
     public String getDesc() {
-        return Desc;
+        return Descr;
     }
 
-    public void setDesc(String desc) {
-        Desc = desc;
+    public void setDesc(String descr) {
+        Descr = descr;
     }
 
     public User getMaster() {

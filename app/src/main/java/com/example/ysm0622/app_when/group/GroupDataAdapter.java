@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.Group;
+import com.example.ysm0622.app_when.server.ServerConnection;
+
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 
@@ -31,7 +35,8 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
     private Intent mIntent;
 
     // Context
-    private final Context mContext;
+    private Context mContext;
+    private GroupList mActivity;
 
     // Data
     private ArrayList<Group> values = new ArrayList<Group>();
@@ -39,11 +44,15 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
     //Dialog
     private AlertDialog mDialBox;
 
+    public static final int DELETEGROUP_DIALOG = 1002;
+
+
     public GroupDataAdapter(Context context, int resource, ArrayList<Group> values, Intent intent) {
         super(context, resource, values);
         this.mContext = context;
         this.values = values;
         this.mIntent = intent;
+        mActivity = (GroupList) mContext;
     }
 
     @Override
@@ -84,7 +93,7 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             }
 
             mTextView[0].setText(g.getTitle());
-            mTextView[1].setText(g.getMaster().getName());
+//            mTextView[1].setText(Gl.getUserById(g.getMasterId()).getName());
             mTextView[2].setText(String.valueOf(g.getMemberNum()));
 
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
@@ -148,11 +157,12 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             @Override
             public void onClick(View v) {
                 mDialBox.cancel();
-                Gl.remove(g);
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(g);
                 values.remove(g);
+                GroupList.groupData.remove(g);
                 notifyDataSetInvalidated();
-                GroupList a = (GroupList) mContext;
-                a.groupDataEmptyCheck();
+                GroupList.groupDataEmptyCheck();
             }
         });//탈퇴
 
@@ -161,6 +171,25 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
 
         mDialBox = builder.create();
         mDialBox.show();
+    }
+
+    class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
+        protected void onPreExecute() {
+            ((Activity) mContext).showDialog(DELETEGROUP_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(Group... args) {
+            ArrayList<NameValuePair> param = ServerConnection.DeleteUserGroup(args[0]);
+            ServerConnection.getStringFromServer(param, Gl.DELETE_USERGROUP);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (mActivity.progressDialog != null)
+                mActivity.progressDialog.dismiss();
+
+        }
     }
 
     //그룹 설명 다이어로그

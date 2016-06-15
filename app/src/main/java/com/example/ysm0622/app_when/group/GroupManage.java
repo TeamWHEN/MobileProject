@@ -2,6 +2,8 @@ package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -39,9 +42,12 @@ import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
+
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 
@@ -90,6 +96,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     private AlertDialog mDialBox;
 
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +134,44 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         initialize();
 
-        meetDataEmptyCheck();
+        BackgroundTask mTask = new BackgroundTask();
+        mTask.execute(g);
+
+    }
+
+    class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(Group... args) {
+            ArrayList<NameValuePair> param = ServerConnection.SelectMeetByGroup(args[0]);
+            String result1 = ServerConnection.getStringFromServer(param, Gl.SELECT_MEET_BY_GROUP);
+            ServerConnection.SelectMeetByGroup(result1);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            meetData = Gl.getMeets();
+            MeetAdapter.clear();
+            MeetAdapter.addAll(meetData);
+            meetDataEmptyCheck();
+            MeetAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.meetInfo_progress));
+
+            return progressDialog;
+        }
+        return null;
     }
 
     public void meetDataEmptyCheck() {

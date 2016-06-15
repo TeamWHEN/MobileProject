@@ -178,14 +178,14 @@ public class CalendarMonthView extends LinearLayout {
 //        User u = (User) mIntent.getSerializableExtra(Gl.USER);
 //        Meet m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
 //        for (int i = 0; i < m.getDateTimeNum(); i++) {
-//            if (m.getDateTime().get(i).getUser().getId() == u.getId()) {
-//                for (int j = 0; j < m.getDateTime().get(i).getStartTime().size(); j++) {
-//                    savedData.add(m.getDateTime().get(i).getStartTime());
-//                    savedData.add(m.getDateTime().get(i).getEndTime());
+//            if (m.getDATETIME().get(i).getUser().getId() == u.getId()) {
+//                for (int j = 0; j < m.getDATETIME().get(i).getStartTime().size(); j++) {
+//                    savedData.add(m.getDATETIME().get(i).getStartTime());
+//                    savedData.add(m.getDATETIME().get(i).getEndTime());
 //                }
 //            }
 //        }
-//        Log.w(TAG, "m.getDateTime Num : " + m.getDateTimeNum());
+//        Log.w(TAG, "m.getDATETIME Num : " + m.getDateTimeNum());
 //        Log.w(TAG, "savedData Num : " + savedData.size());
 //    }
 

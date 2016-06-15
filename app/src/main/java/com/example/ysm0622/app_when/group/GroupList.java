@@ -2,6 +2,8 @@ package com.example.ysm0622.app_when.group;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +15,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -37,9 +40,12 @@ import com.example.ysm0622.app_when.menu.About;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
+
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 
@@ -49,7 +55,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private static final String TAG = GroupList.class.getName();
 
     // Const
-    private static final int mToolBtnNum = 1;
+    private static final int mToolBtnNum = 2;
+    public static final int PROGRESS_DIALOG = 1001;
+    public static final int DELETEGROUP_DIALOG = 1002;
 
     // Intent
     private Intent mIntent;
@@ -60,9 +68,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
     private DrawerLayout mDrawer;
     private NavigationView mNavView;
-    private ArrayList<Group> groupData = new ArrayList<>();
+    public static ArrayList<Group> groupData = new ArrayList<>();
     private GroupDataAdapter adapter;
-    private LinearLayout mEmptyView;
+    private static LinearLayout mEmptyView;
     private ListView mListView;
 
     //Shared Preferences
@@ -70,6 +78,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     private SharedPreferences.Editor mEdit;
 
     private AlertDialog mDialBox;
+    public ProgressDialog progressDialog;
 
     private User u;
 
@@ -78,17 +87,19 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grouplist_drawer);
 
+//        new ServerConnection().execute(Gl.SELECT_ALL_GROUP);
+//        new ServerConnection().execute(Gl.SELECT_ALL_USERGROUP);
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
-
         mIntent = getIntent();
 
         // Init group data
         u = (User) mIntent.getSerializableExtra(Gl.USER);
-        groupData.addAll(Gl.getGroups(u));
+        Gl.MyUser = u;
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
+        toolbarIcon[1] = getResources().getDrawable(R.drawable.ic_refresh_white_24dp);
         String toolbarTitle = getResources().getString(R.string.title_activity_group_list);
 
         initEmptyScreen();
@@ -126,11 +137,11 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
             }
         });
-
-        groupDataEmptyCheck();
+        BackgroundTask mTask = new BackgroundTask();
+        mTask.execute();
     }
 
-    public void groupDataEmptyCheck() {
+    public static void groupDataEmptyCheck() {
         if (groupData.size() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
             mEmptyView.setEnabled(true);
@@ -140,8 +151,50 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             mEmptyView.setEnabled(false);
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
             mEmptyView.setLayoutParams(param);
-            Log.w(TAG, "GroupData size : " + groupData.size());
         }
+        Log.w(TAG, "GroupData size : " + groupData.size());
+    }
+
+    class BackgroundTask extends AsyncTask<Integer, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... arg0) {
+            String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_ALL_GROUP);
+            String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_ALL_USERGROUP);
+            ServerConnection.SelectAllGroup(result1);
+            ServerConnection.SelectAllUserGroup(result2);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            groupData = Gl.getGroupsByUserId(Gl.MyUser.getId());
+            adapter.clear();
+            adapter.addAll(groupData);
+            groupDataEmptyCheck();
+            adapter.notifyDataSetChanged();
+            if (progressDialog != null)
+                dismissDialog(PROGRESS_DIALOG);
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        progressDialog = new ProgressDialog(this);
+        if (id == PROGRESS_DIALOG) {
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.groupinfo_progress));
+            progressDialog.setCancelable(false);
+            return progressDialog;
+        }
+        if (id == DELETEGROUP_DIALOG) {
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.groupleave_progress));
+            progressDialog.setCancelable(false);
+            return progressDialog;
+        }
+        return null;
     }
 
     private void initEmptyScreen() {
@@ -284,8 +337,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (requestCode == Gl.GROUPLIST_CREATEGROUP) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Gl.add(0, (Group) mIntent.getSerializableExtra(Gl.GROUP));
-                groupData.add((Group) mIntent.getSerializableExtra(Gl.GROUP));
+                Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
+                groupData.add(g);
+                adapter.add(g);
                 groupDataEmptyCheck();
                 adapter.notifyDataSetChanged();
             }
@@ -320,6 +374,10 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (v.getId() == mToolbarAction[0].getId()) { // back button
             mDrawer.openDrawer(mNavView);
         }
+        if (v.getId() == mToolbarAction[1].getId()) { // back button
+            BackgroundTask mTask = new BackgroundTask();
+            mTask.execute();
+        }
     }
 
     //Remove Shared Preferences of LOGIN_DATA
@@ -351,14 +409,13 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
                 mNavView.setCheckedItem(R.id.nav_group);
             }
         });
-
         Btn[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDialBox.cancel();
                 mNavView.setCheckedItem(R.id.nav_group);
             }
-        });//탈퇴
+        });
         Btn[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -390,4 +447,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
     }
+
+
 }

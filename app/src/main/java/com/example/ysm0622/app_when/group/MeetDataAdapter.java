@@ -23,7 +23,6 @@ import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
@@ -105,11 +104,11 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mTextView[1].setText(m.getMaster().getName());
             mTextView[2].setText(m.getDateTimeNum() + " / " + m.getGroup().getMemberNum());
             mTextView[3].setText(m.getLocation());
-            Calendar cal = m.getSelectedDate().get(0);
-            String str = cal.get(Calendar.YEAR) + "년 " + cal.get(Calendar.MONTH) + "월 " + cal.get(Calendar.DATE) + "일";
-            if (m.getSelectedDate().size() != 1)
-                str += " 외 " + (m.getSelectedDate().size() - 1) + "일";
-            mTextView[4].setText(str);
+//            Calendar cal = m.getSelectedDate().get(0);
+//            String str = cal.get(Calendar.YEAR) + "년 " + cal.get(Calendar.MONTH) + "월 " + cal.get(Calendar.DATE) + "일";
+//            if (m.getSelectedDate().size() != 1)
+//                str += " 외 " + (m.getSelectedDate().size() - 1) + "일";
+//            mTextView[4].setText(str);
 
             if (m.getLocation().equals("")) mLocationLayout.setVisibility(View.GONE);
 

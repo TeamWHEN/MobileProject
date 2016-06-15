@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -14,9 +13,6 @@ import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.login.Login;
 import com.example.ysm0622.app_when.server.ServerConnection;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class Intro extends AppCompatActivity {
 
@@ -38,18 +34,8 @@ public class Intro extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
-        String url1 = "http://52.79.132.35:8080/first/sample/selectUserInfo.do";
-        String url2 = "http://52.79.132.35:8080/first/sample/selectGroupList.do";
-        String url3 = "http://52.79.132.35:8080/first/sample/selectUserGroup.do";
-        new ServerConnection().execute(Gl.SELECT_ALL_USER, url1);
-        new ServerConnection().execute(Gl.SELECT_ALL_GROUP, url2);
-        new ServerConnection().execute(Gl.SELECT_ALL_USERGROUP, url3);
+        new ServerConnection().execute(Gl.SELECT_ALL_USER);
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
-
-        Calendar a = Calendar.getInstance();
-        Date date = new Date();
-        date = a.getTime();
-        Log.d(TAG, date.toString());
 
         Gl.initialize(this);
         if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))

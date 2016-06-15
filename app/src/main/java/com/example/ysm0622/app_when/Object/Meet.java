@@ -1,9 +1,9 @@
 package com.example.ysm0622.app_when.object;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Meet implements Serializable {
 
@@ -15,18 +15,32 @@ public class Meet implements Serializable {
     private int GroupId;
     private int MasterId;
     private String Title;
-    private String Desc;
+    private String Descr;
     private String Location;
-    private Date SelectDate;
-    private DateTime CreateDate;
-    private ArrayList<Calendar> SelectedDate;
-    private ArrayList<DateTime> DateTime;
+    private long CreateDate;
 
+    private Date Created;
     private Group Group;
     private User Master;
 
+    private Date SelectDate;
+
+    private ArrayList<Calendar> SelectedDate;
+    private ArrayList<DateTime> DateTime;
+
     public Meet() {
+        this.Id = 0;
+        this.GroupId = 0;
+        this.MasterId = 0;
+        this.Title = "";
+        this.Descr = "";
+        this.Location = "";
+        this.SelectDate = null;
+        this.CreateDate = 0;
+        this.SelectedDate = new ArrayList<>();
         this.DateTime = new ArrayList<>();
+        this.Group = null;
+        this.Master = null;
     }
 
     public Group getGroup() {
@@ -54,19 +68,11 @@ public class Meet implements Serializable {
     }
 
     public String getDesc() {
-        return Desc;
+        return Descr;
     }
 
     public void setDesc(String desc) {
-        Desc = desc;
-    }
-
-    public DateTime getCreateDate() {
-        return CreateDate;
-    }
-
-    public void setCreateDate(DateTime createDate) {
-        CreateDate = createDate;
+        Descr = desc;
     }
 
     public String getLocation() {
@@ -147,5 +153,21 @@ public class Meet implements Serializable {
 
     public void setSelectDate(Date selectDate) {
         SelectDate = selectDate;
+    }
+
+    public long getCreateDate() {
+        return CreateDate;
+    }
+
+    public void setCreateDate(long createDate) {
+        CreateDate = createDate;
+    }
+
+    public Date getCreated() {
+        return Created;
+    }
+
+    public void setCreated(Date created) {
+        Created = created;
     }
 }

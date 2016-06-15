@@ -1,14 +1,16 @@
 package com.example.ysm0622.app_when.object;
 
 
-public class UserGroup {
+import java.io.Serializable;
+
+public class UserGroup implements Serializable {
 
     // TAG
     private static final String TAG = UserGroup.class.getName();
 
     // Variables
-    private int GroupId;
     private int UserId;
+    private int GroupId;
 
     public UserGroup() {
     }

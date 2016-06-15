@@ -1,14 +1,16 @@
 package com.example.ysm0622.app_when.group;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +24,9 @@ import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
+
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 
@@ -59,6 +64,9 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     private ArrayList<User> testAllUser = new ArrayList<>();
     private ArrayList<User> searchUser = new ArrayList<>();
 
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +75,6 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         // Receive intent
         mIntent = getIntent();
         MODE = mIntent.getIntExtra(Gl.INVITE_MODE, 0);
-        User u = (User) mIntent.getSerializableExtra(Gl.USER);
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -79,17 +86,11 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         initialize();
 
         testAllUser.addAll(Gl.getUsers());
-        for (int i = 0; i < testAllUser.size(); i++)
-            if (testAllUser.get(i).getId() == u.getId()) testAllUser.remove(i);
 
-        if (MODE == 1) {
-            mLinearLayout.removeAllViews();
-            initData();
-        }
-        Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
-        for (int i = 0; g != null && i < g.getMemberNum(); i++) {
-            Log.w(TAG, "User(" + i + ") : " + g.getMember(i));
-        }
+        mLinearLayout.removeAllViews();
+        initData();
+        for (int i = 0; i < testAllUser.size(); i++)
+            if (testAllUser.get(i).getId() == Gl.MyUser.getId()) testAllUser.remove(i);
     }
 
     private void initialize() {
@@ -143,10 +144,15 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     }
 
     private void initData() {
-        Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
-        Member = g.getMember();
-        for (int i = 0; i < Member.size(); i++) {
-            findMember(testAllUser, Member.get(i));
+        if (MODE == 0) {
+            Member.add(Gl.MyUser);
+            findMember(testAllUser, Gl.MyUser);
+        } else if (MODE == 1) {
+            Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
+            Member = Gl.getUsersByGroupId(g.getId());
+            for (int i = 0; i < Member.size(); i++) {
+                findMember(testAllUser, Member.get(i));
+            }
         }
         mAdapter.notifyDataSetChanged();
     }
@@ -180,13 +186,16 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         }
         if (mToolbarAction[1].getId() == v.getId()) {
             if (MODE == 0) {
-                Group G = new Group();
-                G.setTitle(mIntent.getStringExtra(Gl.GROUP_TITLE));
-                G.setDesc(mIntent.getStringExtra(Gl.GROUP_DESC));
-                G.setMaster((User) mIntent.getSerializableExtra(Gl.USER));
-                Member.add((User) mIntent.getSerializableExtra(Gl.USER));
-                G.setMember(Member);
-                mIntent.putExtra(Gl.GROUP, G);
+                String title = mIntent.getStringExtra(Gl.GROUP_TITLE);
+                String desc = mIntent.getStringExtra(Gl.GROUP_DESC);
+                int masterid = Gl.MyUser.getId();
+                User master = Gl.MyUser;
+                ArrayList<User> member = Member;
+                Group g = new Group(title, desc, masterid, master, member);
+                Gl.add(0, g);
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(g);
+                mIntent.putExtra(Gl.GROUP, g);
                 setResult(RESULT_OK, mIntent);
                 finish();
             } else if (MODE == 1) {
@@ -217,6 +226,37 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
             }
             updateListView(mEditText.getText());
         }
+    }
+
+    class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(Group... args) {
+            ArrayList<NameValuePair> param1 = ServerConnection.InsertGroup(args[0]);
+            ArrayList<NameValuePair> param2 = ServerConnection.InsertUserGroup(args[0]);
+            ServerConnection.getStringFromServer(param1, Gl.INSERT_GROUP);
+            ServerConnection.getStringFromServer(param2, Gl.INSERT_USERGROUP);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.creategroup_progress));
+
+            return progressDialog;
+        }
+        return null;
     }
 
     @Override

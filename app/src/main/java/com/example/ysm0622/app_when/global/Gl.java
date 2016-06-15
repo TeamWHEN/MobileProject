@@ -9,6 +9,8 @@ import android.util.TypedValue;
 import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
+import com.example.ysm0622.app_when.object.MeetDate;
+import com.example.ysm0622.app_when.object.Time;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 
@@ -74,8 +76,14 @@ public class Gl extends Application {
 
     public static ArrayList<User> USERS;
     public static ArrayList<Group> GROUPS;
-    public static ArrayList<Meet> MEETS;
     public static ArrayList<UserGroup> USER_GROUP;
+    public static ArrayList<Meet> MEETS;
+    public static ArrayList<MeetDate> MEET_DATE;
+    public static ArrayList<Time> TIME;
+
+    public static User MyUser;
+    public static Group MyGroup;
+    public static Meet MyMeet;
 
     public static void initialize(Context context) {
         CONTEXT = context;
@@ -84,15 +92,51 @@ public class Gl extends Application {
         GROUPS = new ArrayList<>();
         MEETS = new ArrayList<>();
         USER_GROUP = new ArrayList<>();
+        MEET_DATE = new ArrayList<>();
+        TIME = new ArrayList<>();
     }
 
     // User-Group method
+    public static void add(UserGroup ug) {
+        USER_GROUP.add(ug);
+    }
+
     public static ArrayList<UserGroup> getUserGroup() {
         return USER_GROUP;
     }
 
     public static void setUserGroup(ArrayList<UserGroup> arrayList) {
         USER_GROUP = arrayList;
+    }
+
+    public static UserGroup getUserGroup(int i) {
+        return USER_GROUP.get(i);
+    }
+
+    // Meet-Date method
+    public static ArrayList<MeetDate> getMeetDate() {
+        return MEET_DATE;
+    }
+
+    public static void setMeetDate(ArrayList<MeetDate> arrayList) {
+        MEET_DATE = arrayList;
+    }
+
+    public static MeetDate getMeetDate(int i) {
+        return MEET_DATE.get(i);
+    }
+
+    // Time method
+    public static ArrayList<Time> getTime() {
+        return TIME;
+    }
+
+    public static void setTime(ArrayList<Time> arrayList) {
+        TIME = arrayList;
+    }
+
+    public static Time getTime(int i) {
+        return TIME.get(i);
     }
 
     // User method
@@ -102,6 +146,15 @@ public class Gl extends Application {
 
     public static ArrayList<User> getUsers() {
         return USERS;
+    }
+
+    public static ArrayList<User> getUsersByGroupId(int id) {
+        ArrayList<User> result = new ArrayList<>();
+        for (int i = 0; i < USER_GROUP.size(); i++) {
+            if (id == USER_GROUP.get(i).getGroupId())
+                result.add(getUserById(USER_GROUP.get(i).getUserId()));
+        }
+        return result;
     }
 
     public static ArrayList<User> getUsers(Group g) {
@@ -142,28 +195,35 @@ public class Gl extends Application {
 
     // Group method
     public static void setGroups(ArrayList<Group> arrayList) {
-        GROUPS.addAll(arrayList);
-        Log.d("Gl", "Id : " + GROUPS.get(0).getId() + " name : " + GROUPS.get(0).getTitle() + " desc : " + GROUPS.get(0).getDesc() + " MasterId : " + GROUPS.get(0).getMasterId());
-        Log.d("Gl", "Id : " + GROUPS.get(1).getId() + " name : " + GROUPS.get(1).getTitle() + " desc : " + GROUPS.get(1).getDesc() + " MasterId : " + GROUPS.get(1).getMasterId());
+        GROUPS = arrayList;
     }
 
     public static ArrayList<Group> getGroups() {
         return GROUPS;
     }
 
-    public static ArrayList<Group> getGroups(User u) {
-        ArrayList<Group> arrayList = new ArrayList<>();
-        for (int i = 0; i < GROUPS.size(); i++) {
-            ArrayList<User> arrayList1 = GROUPS.get(i).getMember();
-            for (int j = 0; j < arrayList1.size(); j++) {
-                if (u.getId() == arrayList1.get(j).getId()) {
-                    arrayList.add(GROUPS.get(i));
-                    break;
-                }
-            }
+    public static ArrayList<Group> getGroupsByUserId(int id) {
+        ArrayList<Group> result = new ArrayList<>();
+        for (int i = 0; i < USER_GROUP.size(); i++) {
+            if (id == USER_GROUP.get(i).getUserId())
+                result.add(getGroupById(USER_GROUP.get(i).getGroupId()));
         }
-        return arrayList;
+        return result;
     }
+
+//    public static ArrayList<Group> getGroups(User u) {
+//        ArrayList<Group> arrayList = new ArrayList<>();
+//        for (int i = 0; i < GROUPS.size(); i++) {
+//            ArrayList<User> arrayList1 = GROUPS.get(i).getMember();
+//            for (int j = 0; j < arrayList1.size(); j++) {
+//                if (u.getId() == arrayList1.get(j).getId()) {
+//                    arrayList.add(GROUPS.get(i));
+//                    break;
+//                }
+//            }
+//        }
+//        return arrayList;
+//    }
 
     public static Group getGroup(int i) {
         return GROUPS.get(i);
@@ -183,6 +243,14 @@ public class Gl extends Application {
 
     public static void remove(Group g) {
         GROUPS.remove(g);
+    }
+
+    public static int getMemberNumByGroup(Group g) {
+        int result = 0;
+        for (int i = 0; i < USER_GROUP.size(); i++) {
+            if (USER_GROUP.get(i).getUserId() == g.getId()) result++;
+        }
+        return result;
     }
 
     public static Group getGroupById(int id) {
@@ -231,6 +299,13 @@ public class Gl extends Application {
         MEETS.remove(m);
     }
 
+    public static Meet getMeetById(int id) {
+        for (int i = 0; i < MEETS.size(); i++) {
+            if (MEETS.get(i).getId() == id) return MEETS.get(i);
+        }
+        return null;
+    }
+
     // Test method
     public static void setTestUsers(String aa, String bb, String cc) {
 
@@ -259,27 +334,30 @@ public class Gl extends Application {
     }
 
     // Request Server Query
-    public static final String SELECT_ALL_USER = "SELECT_ALL_USER";
-    public static final String SELECT_ALL_GROUP = "SELECT_ALL_GROUP";
-    public static final String SELECT_ALL_USERGROUP = "SELECT_ALL_USERGROUP";
-    public static final String SELECT_MEET_BY_GROUP = "SELECT_MEET_BY_GROUP";
-    public static final String SELECT_TIME_BY_MEET = "SELECT_TIME_BY_MEET";
-    public static final String INSERT_USER = "INESRT_USER";
-    public static final String DELETE_USER = "DELETE_USER";
-    public static final String UPDATE_USER = "UPDATE_USER";
-    public static final String INSERT_GROUP = "INSERT_GROUP";
-    public static final String DELETE_GROUP = "DELETE_GROUP";
-    public static final String UPDATE_GROUP = "UPDATE_GROUP";
-    public static final String INSERT_USERGROUP = "INSERT_USERGROUP";
-    public static final String DELETE_USERGROUP = "DELETE_USERGROUP";
-    public static final String UPDATE_USERGROUP = "UPDATE_USERGROUP";
-    public static final String INSERT_MEET = "INSERT_MEET";
-    public static final String DELETE_MEET = "DELETE_MEET";
-    public static final String UPDATE_MEET = "UPDATE_MEET";
-    public static final String INSERT_TIME = "INSERT_TIME";
-    public static final String DELETE_TIME = "DELETE_TIME";
-    public static final String UPDATE_TIME = "UPDATE_TIME";
+    public static final String SERVER_URL = "http://52.79.132.35:8080/first/sample/";
+    public static final String SELECT_ALL_USER = SERVER_URL + "selectUserInfo.do";// --> 됌
+    public static final String SELECT_ALL_GROUP = SERVER_URL + "selectGroupList.do";// --> 됌
+    public static final String SELECT_ALL_USERGROUP = SERVER_URL + "selectUserGroup.do";// --> 됌
+    public static final String SELECT_MEET_BY_GROUP = SERVER_URL + "selectMeet.do";
+    public static final String SELECT_MEETDATE_BY_MEET = SERVER_URL + "selectMeetDate.do";
+    public static final String SELECT_TIME_BY_MEET = SERVER_URL + "selectTime.do";
+    public static final String INSERT_USER = SERVER_URL + "insertUserAccount.do";
+    public static final String DELETE_USER = SERVER_URL + "deleteUserAccount.do";//
+    public static final String UPDATE_USER = SERVER_URL + "updateAccount.do";
+    public static final String INSERT_GROUP = SERVER_URL + "insertGroupList.do";
+    public static final String DELETE_GROUP = SERVER_URL + "deleteGroupList.do";
+    //    public static final String UPDATE_GROUP = SERVER_URL + "updateGroupList.do";
+    public static final String INSERT_USERGROUP = SERVER_URL + "insertUserGroup.do";
+    public static final String DELETE_USERGROUP = SERVER_URL + "deleteUserGroup.do";
+    public static final String INSERT_MEET = SERVER_URL + "insertMeet.do";
+    public static final String DELETE_MEET = SERVER_URL + "deleteMeet.do";
+    //    public static final String UPDATE_MEET = SERVER_URL + "updateMeet.do";
+    public static final String INSERT_MEETDATE = SERVER_URL + "insertMeetDate.do";
+    public static final String INSERT_TIME = SERVER_URL + "insertTime.do";
+    public static final String DELETE_TIME = SERVER_URL + "deleteTime.do";
 
+
+    // Logs
     public static void LogAllUser() {
         for (int i = 0; i < USERS.size(); i++) {
             User u = USERS.get(i);
@@ -290,9 +368,9 @@ public class Gl extends Application {
     public static void LogAllGroup() {
         for (int i = 0; i < GROUPS.size(); i++) {
             Group g = GROUPS.get(i);
-            Log.d(TAG, "Group > Id : " + GROUPS.get(i).getId() + " / Title : " + GROUPS.get(i).getTitle() + " / Desc : " + GROUPS.get(i).getDesc());
+            Log.d(TAG, "Group > Id : " + GROUPS.get(i).getId() + " / Title : " + GROUPS.get(i).getTitle() + " / Descr : " + GROUPS.get(i).getDesc() + " / MasterId : " + GROUPS.get(i).getMasterId());
             for (int j = 0; j < g.getMemberNum(); j++) {
-                Log.d(TAG, "                                   Member > Name : " + g.getMember(j).getName());
+                Log.d(TAG, "        Member > Id : " + g.getMember(j).getId() + " / Name : " + g.getMember(j).getName());
             }
         }
     }
@@ -307,7 +385,9 @@ public class Gl extends Application {
     public static void LogAllTimeByMeet(Meet m) {
         for (int i = 0; i < m.getDateTimeNum(); i++) {
             DateTime dt = m.getDateTime(i);
-            Log.d(TAG, "DateTime > GroupId : " + m.getGroup().getId() + " / MeetId : " + m.getId() + " / UserId : " + dt.getUser().getId());
+            Log.d(TAG, "DATETIME > GroupId : " + m.getGroup().getId() + " / MeetId : " + m.getId() + " / UserId : " + dt.getUser().getId());
         }
     }
+
+
 }
