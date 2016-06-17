@@ -9,12 +9,11 @@ public class DateTime implements Serializable {
     // TAG
     private static final String TAG = DateTime.class.getName();
 
-    // Variables
     private User User;
     private ArrayList<ArrayList<Calendar>> SelectTime;
 
     public DateTime() {
-
+        SelectTime = new ArrayList<>();
     }
 
     public com.example.ysm0622.app_when.object.User getUser() {
@@ -32,4 +31,6 @@ public class DateTime implements Serializable {
     public void setSelectTime(ArrayList<ArrayList<Calendar>> selectTime) {
         SelectTime = selectTime;
     }
+
+
 }

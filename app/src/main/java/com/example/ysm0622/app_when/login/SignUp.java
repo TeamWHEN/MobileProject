@@ -1,8 +1,11 @@
 package com.example.ysm0622.app_when.login;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +17,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
+
+import org.apache.http.NameValuePair;
+
+import java.util.ArrayList;
 
 public class SignUp extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
 
@@ -44,6 +53,9 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
     private int mMinLength[];
     private int mMaxLength[];
     private String mErrMsg[];
+
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,24 +233,59 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             super.onBackPressed();
         }
         if (v.getId() == mToolbarAction[1].getId()) { // signup button
-            // 회원가입버튼 클릭
-
-            // Email 중복체크
-
-            // Query - Select USER_MAIL from ACCOUNT;
-
-            // 중복이없다면 가입 (테이블에 Tuple add)
-
-            // Query - Insert into ACCOUNT values('회원번호', '이메일', '비밀번호', '이름', '가입날짜');
             String name = mEditText[0].getText().toString();
             String email = mEditText[1].getText().toString();
             String password = mEditText[2].getText().toString();
-            User user = new User(name, email, password);
-            mIntent = new Intent(SignUp.this, GroupList.class);
-            mIntent.putExtra(Gl.USER, user);
-            Gl.add(user);
-            startActivity(mIntent);
-            finish();
+            if (isExistEmail(email)) {
+                Toast.makeText(getApplicationContext(), R.string.exist_email_msg, Toast.LENGTH_SHORT).show();
+            } else {
+                User u = new User(name, email, password);
+                Gl.add(0, u);
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(u);
+                mIntent = new Intent(SignUp.this, GroupList.class);
+                mIntent.putExtra(Gl.USER, u);
+                startActivity(mIntent);
+                finish();
+            }
         }
+    }
+
+    class BackgroundTask extends AsyncTask<User, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(User... args) {
+            ArrayList<NameValuePair> param = ServerConnection.InsertUser(args[0]);
+            ServerConnection.getStringFromServer(param, Gl.INSERT_USER);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.signup_progress));
+
+            return progressDialog;
+        }
+        return null;
+    }
+
+    public static final boolean isExistEmail(String email) {
+        for (int i = 0; i < Gl.USERS.size(); i++) {
+            if (Gl.USERS.get(i).getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

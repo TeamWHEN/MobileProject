@@ -1,6 +1,8 @@
 package com.example.ysm0622.app_when.menu;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -34,10 +37,14 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
+
+import org.apache.http.NameValuePair;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class EditProfile extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
@@ -80,6 +87,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
     private static final int PICK_FROM_GALLERY = 1;
 
     private User u;
+
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
 
     //Dialog
     private AlertDialog mDialBox;
@@ -351,14 +361,13 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             @Override
             public void onClick(View v) {
                 mDialBox.cancel();
-                Gl.Log(u);
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(Gl.MyUser);
                 Gl.remove(u);
-                for (int i = 0; i < Gl.getUserCount(); i++) {
-                    Gl.Log(Gl.getUser(i));
-                }
+                Gl.LogAllUser();
                 setResult(Gl.RESULT_DELETE);
+
                 finish();
-                //서버에서 계정 데이터 삭제하는 코드 추가하기
             }
         });//삭제
 
@@ -367,6 +376,35 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
 
         mDialBox = builder.create();
         mDialBox.show();
+    }
+
+    class BackgroundTask extends AsyncTask<User, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(User... args) {
+            ArrayList<NameValuePair> param1 = ServerConnection.DeleteUser(args[0]);
+            ServerConnection.getStringFromServer(param1, Gl.DELETE_USER);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.deleteaccount_progress));
+
+            return progressDialog;
+        }
+        return null;
     }
 
     public void callGallery() {

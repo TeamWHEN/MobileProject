@@ -11,20 +11,36 @@ public class Meet implements Serializable {
     private static final String TAG = Meet.class.getName();
 
     // Variables
-    private static long AutoGenerateId = 0;
-    private long Id;
+    private int Id;
+    private int GroupId;
+    private int MasterId;
+    private String Title;
+    private String Descr;
+    private String Location;
+    private long CreateDate;
+
+    private Date Created;
     private Group Group;
     private User Master;
-    private String Title;
-    private String Desc;
-    private String Location;
-    private Date CreateDate;
+
+    private Date SelectDate;
+
     private ArrayList<Calendar> SelectedDate;
     private ArrayList<DateTime> DateTime;
 
     public Meet() {
-        this.Id = AutoGenerateId++;
+        this.Id = 0;
+        this.GroupId = 0;
+        this.MasterId = 0;
+        this.Title = "";
+        this.Descr = "";
+        this.Location = "";
+        this.SelectDate = null;
+        this.CreateDate = 0;
+        this.SelectedDate = new ArrayList<>();
         this.DateTime = new ArrayList<>();
+        this.Group = null;
+        this.Master = null;
     }
 
     public Group getGroup() {
@@ -52,19 +68,11 @@ public class Meet implements Serializable {
     }
 
     public String getDesc() {
-        return Desc;
+        return Descr;
     }
 
     public void setDesc(String desc) {
-        Desc = desc;
-    }
-
-    public Date getCreateDate() {
-        return CreateDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        CreateDate = createDate;
+        Descr = desc;
     }
 
     public String getLocation() {
@@ -107,15 +115,59 @@ public class Meet implements Serializable {
         return this;
     }
 
+    public DateTime getDateTime(int i) {
+        return DateTime.get(i);
+    }
+
     public int getDateTimeNum() {
         return DateTime.size();
     }
 
-    public long getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         Id = id;
+    }
+
+    public int getGroupId() {
+        return GroupId;
+    }
+
+    public void setGroupId(int groupId) {
+        GroupId = groupId;
+    }
+
+    public int getMasterId() {
+        return MasterId;
+    }
+
+    public void setMasterId(int masterId) {
+        MasterId = masterId;
+    }
+
+    public Date getSelectDate() {
+        return SelectDate;
+    }
+
+    public void setSelectDate(Date selectDate) {
+        SelectDate = selectDate;
+    }
+
+    public long getCreateDate() {
+        return CreateDate;
+    }
+
+    public void setCreateDate(long createDate) {
+        CreateDate = createDate;
+    }
+
+    public Date getCreated() {
+        return Created;
+    }
+
+    public void setCreated(Date created) {
+        Created = created;
     }
 }
