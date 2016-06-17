@@ -77,8 +77,8 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             case Gl.SELECT_TIME_BY_MEET:
                 SelectTimeByMeet(result);
                 break;
-            case Gl.SELECT_MEETDATE_BY_MEET:
-                SelectMeetDateByMeet(result);
+            case Gl.SELECT_MEETDATE_BY_GROUP:
+                SelectMeetDateByGroup(result);
                 break;
             default:
         }
@@ -90,8 +90,8 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             case Gl.SELECT_MEET_BY_GROUP:
 //                arrayList = SelectMeetByGroup(Integer.parseInt(index));
                 break;
-            case Gl.SELECT_MEETDATE_BY_MEET:
-                arrayList = SelectMeetDateByMeet(Integer.parseInt(index));
+            case Gl.SELECT_MEETDATE_BY_GROUP:
+//                arrayList = SelectMeetDateByMeet(Integer.parseInt(index));
                 break;
             case Gl.SELECT_TIME_BY_MEET:
                 arrayList = SelectTimeByMeet(Integer.parseInt(index));
@@ -174,7 +174,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return result;
     }
 
-    public void SelectAllUser(String result) {
+    public static void SelectAllUser(String result) {
         try {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
@@ -268,7 +268,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public static void SelectMeetDateByMeet(String result) {
+    public static void SelectMeetDateByGroup(String result) {
         try {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
@@ -276,6 +276,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             for (int i = 0; i < data.length(); i++) {
                 MeetDate m = new Gson().fromJson(data.getJSONObject(i).toString(), MeetDate.class);
                 arrayList.add(m);
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(m.getDate());
+                Gl.getMeetById(m.getMeetId()).getSelectedDate().add(c);
             }
             Gl.setMeetDate(arrayList);
             Gl.LogAllMeet();
@@ -284,10 +287,10 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         }
     }
 
-    public static ArrayList<NameValuePair> SelectMeetDateByMeet(int index) {
+    public static ArrayList<NameValuePair> SelectMeetDateByGroup(Group g) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("Id", String.valueOf(Gl.getMeet(index).getId())));
-        Log.d("Gl", "SelectMeetDateByMeet(" + index + ")");
+        post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
+        Log.d("Gl", "SelectMeetDateByGroup(" + g.getId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
@@ -471,7 +474,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public ArrayList<NameValuePair> DeleteMeet(int index) {
+    public static ArrayList<NameValuePair> DeleteMeet(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("Id", String.valueOf(Gl.getMeet(index).getId())));
         Log.d("Gl", "DeleteMeet(" + index + ")");
@@ -489,7 +492,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //        return post;
 //    }
 
-    public ArrayList<NameValuePair> InsertMeetDate(int index) {
+    public static ArrayList<NameValuePair> InsertMeetDate(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("MeetId", String.valueOf(Gl.getMeetDate(index).getMeetId())));
         post.add(new BasicNameValuePair("Date", String.valueOf(Gl.getMeetDate(index).getDate())));
@@ -499,7 +502,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public ArrayList<NameValuePair> InsertTime(int index) {
+    public static ArrayList<NameValuePair> InsertTime(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("MeetId", String.valueOf(Gl.getTime(index).getMeetId())));
         post.add(new BasicNameValuePair("UserId", String.valueOf(Gl.getTime(index).getUserId())));
@@ -510,7 +513,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public ArrayList<NameValuePair> DeleteTime(int index) {
+    public static ArrayList<NameValuePair> DeleteTime(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("UserId", String.valueOf(Gl.getTime(index).getUserId())));
         Log.d("Gl", "DeleteTime(" + index + ")");

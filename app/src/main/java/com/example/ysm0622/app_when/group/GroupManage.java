@@ -53,7 +53,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     private static final String TAG = GroupManage.class.getName();
 
     // Const
-    private static final int mToolBtnNum = 1;
+    private static final int mToolBtnNum = 2;
     private static final int mTabBtnNum = 3;
 
     // Intent
@@ -112,6 +112,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_menu_white);
+        toolbarIcon[1] = getResources().getDrawable(R.drawable.ic_refresh_white_24dp);
         String toolbarTitle = "";
         if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 0)
             toolbarTitle = getResources().getString(R.string.meet_list);
@@ -142,9 +143,12 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         @Override
         protected Integer doInBackground(Group... args) {
-            ArrayList<NameValuePair> param = ServerConnection.SelectMeetByGroup(args[0]);
-            String result1 = ServerConnection.getStringFromServer(param, Gl.SELECT_MEET_BY_GROUP);
+            ArrayList<NameValuePair> param1 = ServerConnection.SelectMeetByGroup(args[0]);
+            ArrayList<NameValuePair> param2 = ServerConnection.SelectMeetDateByGroup(args[0]);
+            String result1 = ServerConnection.getStringFromServer(param1, Gl.SELECT_MEET_BY_GROUP);
+            String result2 = ServerConnection.getStringFromServer(param2, Gl.SELECT_MEETDATE_BY_GROUP);
             ServerConnection.SelectMeetByGroup(result1);
+            ServerConnection.SelectMeetDateByGroup(result2);
             return null;
         }
 
@@ -461,6 +465,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     public void onClick(View v) {
         if (v.getId() == mToolbarAction[0].getId()) { // back button
             mDrawer.openDrawer(mNavView);
+        }
+        if (v.getId() == mToolbarAction[1].getId()) {
+            BackgroundTask mTask = new BackgroundTask();
+            mTask.execute();
         }
         if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId() || v.getId() == mTabbarAction[2].getId()) {
             for (int i = 0; i < mTabBtnNum; i++) {

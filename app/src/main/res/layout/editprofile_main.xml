@@ -34,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/YSM"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -44,7 +43,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/ysm_email"
                 android:textColor="@color/white" />
         </LinearLayout>
 

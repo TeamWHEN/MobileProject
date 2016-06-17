@@ -342,6 +342,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (requestCode == Gl.GROUPLIST_GROUPMANAGE) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
+                initNavigationView();
             }
             if (resultCode == Gl.RESULT_LOGOUT) {
                 finish();
@@ -369,7 +370,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         if (v.getId() == mToolbarAction[0].getId()) { // back button
             mDrawer.openDrawer(mNavView);
         }
-        if (v.getId() == mToolbarAction[1].getId()) { // back button
+        if (v.getId() == mToolbarAction[1].getId()) {
             BackgroundTask mTask = new BackgroundTask();
             mTask.execute();
         }

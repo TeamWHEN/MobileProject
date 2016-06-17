@@ -6,29 +6,29 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/drop_title"
+            android:id="@+id/changepw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:singleLine="false"
-            android:text="@string/Leave_the_group"
+            android:text="@string/changepw"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/drop_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:text="@string/Leave_group_warn_msg" />
+        <include
+            android:id="@+id/Include0"
+            layout="@layout/inputbox" />
 
+        <include
+            android:id="@+id/Include1"
+            layout="@layout/inputbox" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,7 +38,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/drop_btn1"
+            android:id="@+id/changepw_btn1"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginRight="8dp"
@@ -50,14 +50,14 @@
             android:textColor="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/drop_btn2"
+            android:id="@+id/changepw_btn2"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:background="@drawable/selector_btn"
             android:gravity="center"
             android:minWidth="64dp"
             android:padding="8dp"
-            android:text="@string/leave"
+            android:text="@string/ok"
             android:textColor="@color/colorAccent" />
     </LinearLayout>
 
