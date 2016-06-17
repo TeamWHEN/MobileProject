@@ -8,11 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -187,7 +183,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         if (u.isImage()) {//프로필 이미지가 존재
             Bitmap Image = BitmapFactory.decodeFile(u.getImageFilePath());
             mMyPhoto.clearColorFilter();
-            mMyPhoto.setImageBitmap(getCircleBitmap(Image));
+            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Image));
         }
 
         mMyProfile[0].setText(u.getName());
@@ -426,23 +422,6 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
-    //이미지 원형으로 전환
-    public Bitmap getCircleBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        int size = (bitmap.getWidth() / 2);
-        canvas.drawCircle(size, size, size, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
-    }
-
     public void saveBitmaptoJpeg(Bitmap bitmap) {
         try {
             FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
@@ -465,7 +444,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
                     mMyPhoto.clearColorFilter();
-                    mMyPhoto.setImageBitmap(getCircleBitmap(photo));
+                    mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));
                     saveBitmaptoJpeg(photo);
                     mFabCheck = true;
                     mToolbarAction[1].setVisibility(View.VISIBLE);
