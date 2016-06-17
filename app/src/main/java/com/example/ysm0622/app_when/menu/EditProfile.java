@@ -504,14 +504,16 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_FROM_GALLERY) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap photo = extras.getParcelable("data");
-                mMyPhoto.clearColorFilter();
-                mMyPhoto.setImageBitmap(getCircleBitmap(photo));
-                saveBitmaptoJpeg(photo);
-                mFabCheck = true;
-                mToolbarAction[1].setVisibility(View.VISIBLE);
+            if (resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    mMyPhoto.clearColorFilter();
+                    mMyPhoto.setImageBitmap(getCircleBitmap(photo));
+                    saveBitmaptoJpeg(photo);
+                    mFabCheck = true;
+                    mToolbarAction[1].setVisibility(View.VISIBLE);
+                }
             }
         }
     }

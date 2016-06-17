@@ -105,6 +105,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mTextView[1].setText(m.getMaster().getName());
             mTextView[2].setText(m.getDateTimeNum() + " / " + m.getGroup().getMemberNum());
             mTextView[3].setText(m.getLocation());
+
 //            Calendar cal = m.getSelectedDate().get(0);
 //            String str = cal.get(Calendar.YEAR) + "년 " + cal.get(Calendar.MONTH) + "월 " + cal.get(Calendar.DATE) + "일";
 //            if (m.getSelectedDate().size() != 1)
