@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@string/developer_info"
-                    android:textColor="@color/textSecondary" />
+                    android:textColor="@color/colorPrimary" />
 
                 <include
                     android:id="@+id/Include0"

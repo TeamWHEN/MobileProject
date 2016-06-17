@@ -339,7 +339,7 @@ public class Gl extends Application {
     public static final String SELECT_ALL_GROUP = SERVER_URL + "selectGroupList.do";// --> 됌
     public static final String SELECT_ALL_USERGROUP = SERVER_URL + "selectUserGroup.do";// --> 됌
     public static final String SELECT_MEET_BY_GROUP = SERVER_URL + "selectMeet.do";
-    public static final String SELECT_MEETDATE_BY_MEET = SERVER_URL + "selectMeetDate.do";
+    public static final String SELECT_MEETDATE_BY_GROUP = SERVER_URL + "selectMeetDate.do";
     public static final String SELECT_TIME_BY_MEET = SERVER_URL + "selectTime.do";
     public static final String INSERT_USER = SERVER_URL + "insertUserAccount.do";
     public static final String DELETE_USER = SERVER_URL + "deleteUserAccount.do";//

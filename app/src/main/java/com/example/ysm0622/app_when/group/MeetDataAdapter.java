@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -141,12 +142,14 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                 @Override
                 public void onClick(View v) {
                     if (mSharedPref.contains(Gl.MEET_NOTICE + m.getId())) {
-                        if (mSharedPref.getBoolean(Gl.MEET_NOTICE + m.getId(), false) == true) {//OFF
+                        if (mSharedPref.getBoolean(Gl.MEET_NOTICE + m.getId(), false)) {//OFF
                             mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);
                             mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                            Toast.makeText(mContext, R.string.noti_off, Toast.LENGTH_SHORT).show();
                         } else {//ON
                             mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), true);
                             mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications));
+                            Toast.makeText(mContext, R.string.noti_on, Toast.LENGTH_SHORT).show();
                         }
                     } else {//가장 처음 알림 설정 OFF 하면 발생        설정 안했을시 기본은 알림 설정 ON
                         mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);

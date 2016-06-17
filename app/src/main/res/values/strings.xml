@@ -215,5 +215,8 @@
     <string name="groupleave_progress">그룹 탈퇴중…</string>
     <string name="meetInfo_progress">일정정보 불러오는 중…</string>
     <string name="refresh_progress">새로고침중…</string>
+    <string name="noti_on">알림 켜짐</string>
+    <string name="noti_off">알림 꺼짐</string>
+    <string name="changepw">비밀번호 변경</string>
 
 </resources>

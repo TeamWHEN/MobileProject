@@ -16,18 +16,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="@string/Leave_the_group"
             android:singleLine="false"
-            android:textStyle="bold"
+            android:text="@string/Leave_the_group"
             android:textColor="@color/textPrimary"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/drop_content"
-            android:text="@string/Leave_group_warn_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:text="@string/Leave_group_warn_msg" />
 
     </LinearLayout>
 

@@ -166,6 +166,8 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             mTextViewCounter[i] = (TextView) mInclude[i].findViewById(R.id.TextView1);
         }
 
+        mEditText[1].setEnabled(false);
+
         mLinearLayoutPW = (LinearLayout) findViewById(R.id.Include2);
         mImageViewPW = (ImageView) mInclude[2].findViewById(R.id.ImageView0);
         mTextViewPW = (TextView) mInclude[2].findViewById(R.id.TextView0);
@@ -262,7 +264,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 cnt++;
             }
         }
-        if (cnt == mInputNum && isValidEmail(mEditText[1].getText())) {
+        if (cnt == mInputNum && !Gl.MyUser.getName().equals(mEditText[0].getText().toString())) {
             mToolbarAction[1].setVisibility(View.VISIBLE);
         } else {
             mToolbarAction[1].setVisibility(View.INVISIBLE);
@@ -331,8 +333,50 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             removeDialogBox();
         }
         if (v.equals(mLinearLayoutPW)) {
-
+            changepwDialogBox();
         }
+    }
+
+    // 비밀번호 변경 다이어로그
+    public void changepwDialogBox() {
+        LayoutInflater inflater = (LayoutInflater) EditProfile.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.changepw_alert, null);
+
+        TextView Title = (TextView) view.findViewById(R.id.changepw_title);
+        View Include0 = (View) view.findViewById(R.id.Include0);
+        View Include1 = (View) view.findViewById(R.id.Include1);
+        TextView Btn1 = (TextView) view.findViewById(R.id.changepw_btn1);
+        TextView Btn2 = (TextView) view.findViewById(R.id.changepw_btn2);
+
+        Title.setText(R.string.changepw);
+        Btn1.setText(R.string.cancel);
+        Btn2.setText(R.string.ok);
+
+        Btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });//취소
+
+        Btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(Gl.MyUser);
+                Gl.remove(u);
+                Gl.LogAllUser();
+                setResult(Gl.RESULT_DELETE);
+                finish();
+            }
+        });//확인
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
+        builder.setView(view);
+
+        mDialBox = builder.create();
+        mDialBox.show();
     }
 
     //계정삭제 다이어로그

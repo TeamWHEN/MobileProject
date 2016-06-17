@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -13,6 +14,9 @@ import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.login.Login;
 import com.example.ysm0622.app_when.server.ServerConnection;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class Intro extends AppCompatActivity {
 
@@ -36,6 +40,14 @@ public class Intro extends AppCompatActivity {
         setContentView(R.layout.intro_main);
         new ServerConnection().execute(Gl.SELECT_ALL_USER);
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
+
+        Calendar c = Calendar.getInstance();
+        Date d = c.getTime();
+        long test = d.getTime();
+        Date t = new Date(2016, 6, 17);
+
+        Log.d("testtest", "Today : " + d);
+        Log.d("testtest", "Tommorow Calendar : " + c.get(Calendar.YEAR) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.DATE));
 
         Gl.initialize(this);
         if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
