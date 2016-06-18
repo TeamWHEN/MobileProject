@@ -412,6 +412,7 @@ public class Gl extends Application {
         return output;
     }
 
+    //이미지 파일 경로
     public static String getImage(User u) {
         return u.getImageFilePath() + u.getId() + ".jpg";
     }

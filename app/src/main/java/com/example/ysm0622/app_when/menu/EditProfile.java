@@ -347,6 +347,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         TextView Btn1 = (TextView) view.findViewById(R.id.changepw_btn1);
         TextView Btn2 = (TextView) view.findViewById(R.id.changepw_btn2);
 
+        String test = "string";
         Title.setText(R.string.changepw);
         Btn1.setText(R.string.cancel);
         Btn2.setText(R.string.ok);
@@ -366,12 +367,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                     mIntent.putExtra(Gl.USER, Gl.MyUser);
                     BackgroundTask2 mTask = new BackgroundTask2();
                     mTask.execute(Gl.MyUser);
-                    Toast.makeText(getApplicationContext(), "비밀번호가 변경되었습니다..", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.changed_pw, Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK, mIntent);
                     mDialBox.cancel();
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.re_input_pw, Toast.LENGTH_SHORT).show();
                 }//새로운 비밀번호를 잘못 입력
             }
         });//확인

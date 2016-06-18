@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.intro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.example.ysm0622.app_when.server.ServerConnection;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Intro extends AppCompatActivity {
 
@@ -52,8 +54,17 @@ public class Intro extends AppCompatActivity {
         Gl.initialize(this);
         if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
             noticeInit();
-        if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE_CHECK))//처음 한글 언어 선택
+
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_LANGUAGE, MODE_PRIVATE);
+
+        if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE_CHECK)) {//처음 한글 언어 선택
             languageInit();
+        } else {//설정된 언어로 표시
+            if (!mSharedPref.getString(Gl.LANGUAGE_CHECK, Gl.LANGUAGE_KOREAN).equalsIgnoreCase(Gl.LANGUAGE_KOREAN)) {
+                setLocale("en");
+            }
+        }
+
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
@@ -134,6 +145,15 @@ public class Intro extends AppCompatActivity {
             }
         }
         return -1;
+    }
+
+    // 언어 설정 메소드
+    public void setLocale(String charicter) {
+        Locale locale = new Locale(charicter);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
