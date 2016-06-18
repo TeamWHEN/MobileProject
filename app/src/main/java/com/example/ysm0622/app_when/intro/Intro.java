@@ -41,6 +41,7 @@ public class Intro extends AppCompatActivity {
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
         new ServerConnection().execute(Gl.SELECT_ALL_USER);
+
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
 
         Calendar c = Calendar.getInstance();
@@ -71,14 +72,15 @@ public class Intro extends AppCompatActivity {
 
             public void onFinish() {
 //                new JSONParse().execute();
-//                if (PRF_AUTO_LOGIN()) {
-//                    startActivityForResult(mIntent, Gl.INTRO_GROUPLIST);
+                if (PRF_AUTO_LOGIN()) {
+                    startActivityForResult(mIntent, Gl.INTRO_GROUPLIST);
 ////                    new JSONParse().execute();
-//
-//                } else {
-//                    new JSONParse().execute();
-                startActivity(new Intent(Intro.this, Login.class));
-                finish();
+                } else {
+                    startActivity(new Intent(Intro.this, Login.class));
+                    finish();
+                }
+//                else {
+//                    new JSONParse().execute()
 //                }
             }
         }.start();
@@ -131,10 +133,12 @@ public class Intro extends AppCompatActivity {
         if (mSharedPref != null && mSharedPref.contains(Gl.USER_EMAIL)) {
             email = mSharedPref.getString(Gl.USER_EMAIL, "DEFAULT");
             password = mSharedPref.getString(Gl.USER_PASSWORD, "DEFAULT");
-            mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
-            return true;
+            if (isRightPassword(password, isExistEmail(email))) {
+                mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
+                return true;
+            }
+            return false;
         }
-
         return false;
     }
 
@@ -145,6 +149,14 @@ public class Intro extends AppCompatActivity {
             }
         }
         return -1;
+    }
+
+    private boolean isRightPassword(String s, int i) {
+        if (Gl.getUser(i).getPassword().equals(s)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // 언어 설정 메소드
