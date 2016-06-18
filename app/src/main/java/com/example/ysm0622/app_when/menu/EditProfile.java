@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -183,7 +184,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
 
         if (u.isImage()) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(u.getImageFilePath());
+            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(u));
             mMyPhoto.clearColorFilter();
             mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Image));
         }
@@ -341,6 +342,8 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         TextView Title = (TextView) view.findViewById(R.id.changepw_title);
         View Include0 = (View) view.findViewById(R.id.Include0);
         View Include1 = (View) view.findViewById(R.id.Include1);
+        final EditText NewPW0 = (EditText) Include0.findViewById(R.id.EditText0);
+        final EditText NewPW1 = (EditText) Include0.findViewById(R.id.EditText0);
         TextView Btn1 = (TextView) view.findViewById(R.id.changepw_btn1);
         TextView Btn2 = (TextView) view.findViewById(R.id.changepw_btn2);
 
@@ -358,13 +361,18 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         Btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialBox.cancel();
-                BackgroundTask mTask = new BackgroundTask();
-                mTask.execute(Gl.MyUser);
-                Gl.remove(u);
-                Gl.LogAllUser();
-                setResult(Gl.RESULT_DELETE);
-                finish();
+                if (NewPW0.getText().toString().equals(NewPW1.getText().toString())) {//새로운 비밀번호로 변경
+                    Gl.MyUser.setPassword(NewPW1.getText().toString());
+                    mIntent.putExtra(Gl.USER, Gl.MyUser);
+                    BackgroundTask2 mTask = new BackgroundTask2();
+                    mTask.execute(Gl.MyUser);
+                    Toast.makeText(getApplicationContext(), "비밀번호가 변경되었습니다..", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK, mIntent);
+                    mDialBox.cancel();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                }//새로운 비밀번호를 잘못 입력
             }
         });//확인
 
@@ -436,6 +444,24 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
+    //비밀번호 변경시 콜
+    class BackgroundTask2 extends AsyncTask<User, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(User... args) {
+            ServerConnection.UpdateUser(args[0]);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
@@ -469,7 +495,6 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
     public void saveBitmaptoJpeg(Bitmap bitmap) {
         try {
             FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
-
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
@@ -487,9 +512,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
+                    saveBitmaptoJpeg(photo);
                     mMyPhoto.clearColorFilter();
                     mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));
-                    saveBitmaptoJpeg(photo);
                     mFabCheck = true;
                     mToolbarAction[1].setVisibility(View.VISIBLE);
                 }

@@ -97,14 +97,14 @@ public class Settings extends Activity implements View.OnClickListener {
     }
 
     public void onBackPressed() {
-        setResult(RESULT_OK,mIntent);
+        setResult(RESULT_OK, mIntent);
         super.onBackPressed();
     }
 
     @Override
     public void onClick(View v) {
         if (v.equals(mToolbarAction[0])) {
-            setResult(RESULT_OK,mIntent);
+            setResult(RESULT_OK, mIntent);
             super.onBackPressed();
         }
         if (v.equals(mLinearLayout[0])) {
@@ -121,9 +121,9 @@ public class Settings extends Activity implements View.OnClickListener {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == Gl.SETTINGS_EDITPROFILE) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK ) {
                 mIntent = intent;
-            }else if(resultCode == Gl.RESULT_DELETE) {
+            } else if (resultCode == Gl.RESULT_DELETE) {
                 setResult(Gl.RESULT_DELETE);
                 finish();
             }

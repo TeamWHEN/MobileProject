@@ -283,7 +283,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         User user = (User) mIntent.getSerializableExtra(Gl.USER);
 
         if (user.isImage()) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
+            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(user));
             ImageView0.clearColorFilter();
             ImageView0.setImageBitmap(Gl.getCircleBitmap(Image));
         }

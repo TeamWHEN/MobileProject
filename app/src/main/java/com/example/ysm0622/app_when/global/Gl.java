@@ -411,4 +411,8 @@ public class Gl extends Application {
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
     }
+
+    public static String getImage(User u) {
+        return u.getImageFilePath() + u.getId() + ".jpg";
+    }
 }
