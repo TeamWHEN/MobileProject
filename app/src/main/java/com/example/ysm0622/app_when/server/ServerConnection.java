@@ -103,7 +103,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //                arrayList = DeleteUser(Integer.parseInt(index));
                 break;
             case Gl.UPDATE_USER:
-                arrayList = UpdateUser(Integer.parseInt(index));
+//                arrayList = UpdateUser(Integer.parseInt(index));
                 break;
             case Gl.INSERT_GROUP:
 //                arrayList = InsertGroup(Integer.parseInt(index));
@@ -399,12 +399,12 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public static ArrayList<NameValuePair> UpdateUser(int index) {
+    public static ArrayList<NameValuePair> UpdateUser(User u) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("Name", Gl.getUser(index).getName()));
-        post.add(new BasicNameValuePair("Password", Gl.getUser(index).getPassword()));
-        post.add(new BasicNameValuePair("Id", String.valueOf(Gl.getUser(index).getId())));
-        Log.d("Gl", "UpdateUser(" + index + ")");
+        post.add(new BasicNameValuePair("Name", u.getName()));
+        post.add(new BasicNameValuePair("Password", u.getPassword()));
+        post.add(new BasicNameValuePair("Id", String.valueOf(u.getId())));
+        Log.d("Gl", "UpdateUser(" + u.getId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;

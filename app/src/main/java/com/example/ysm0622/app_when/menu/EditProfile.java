@@ -8,11 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -187,9 +184,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
 
         if (u.isImage()) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(u.getImageFilePath());
+            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(u));
             mMyPhoto.clearColorFilter();
-            mMyPhoto.setImageBitmap(getCircleBitmap(Image));
+            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Image));
         }
 
         mMyProfile[0].setText(u.getName());
@@ -345,9 +342,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         TextView Title = (TextView) view.findViewById(R.id.changepw_title);
         View Include0 = (View) view.findViewById(R.id.Include0);
         View Include1 = (View) view.findViewById(R.id.Include1);
+        final EditText NewPW0 = (EditText) Include0.findViewById(R.id.EditText0);
+        final EditText NewPW1 = (EditText) Include0.findViewById(R.id.EditText0);
         TextView Btn1 = (TextView) view.findViewById(R.id.changepw_btn1);
         TextView Btn2 = (TextView) view.findViewById(R.id.changepw_btn2);
 
+        String test = "string";
         Title.setText(R.string.changepw);
         Btn1.setText(R.string.cancel);
         Btn2.setText(R.string.ok);
@@ -362,13 +362,18 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         Btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialBox.cancel();
-                BackgroundTask mTask = new BackgroundTask();
-                mTask.execute(Gl.MyUser);
-                Gl.remove(u);
-                Gl.LogAllUser();
-                setResult(Gl.RESULT_DELETE);
-                finish();
+                if (NewPW0.getText().toString().equals(NewPW1.getText().toString())) {//새로운 비밀번호로 변경
+                    Gl.MyUser.setPassword(NewPW1.getText().toString());
+                    mIntent.putExtra(Gl.USER, Gl.MyUser);
+                    BackgroundTask2 mTask = new BackgroundTask2();
+                    mTask.execute(Gl.MyUser);
+                    Toast.makeText(getApplicationContext(), R.string.changed_pw, Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK, mIntent);
+                    mDialBox.cancel();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.re_input_pw, Toast.LENGTH_SHORT).show();
+                }//새로운 비밀번호를 잘못 입력
             }
         });//확인
 
@@ -440,6 +445,24 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
+    //비밀번호 변경시 콜
+    class BackgroundTask2 extends AsyncTask<User, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(User... args) {
+            ServerConnection.UpdateUser(args[0]);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
@@ -470,27 +493,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
-    //이미지 원형으로 전환
-    public Bitmap getCircleBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        int size = (bitmap.getWidth() / 2);
-        canvas.drawCircle(size, size, size, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
-    }
-
     public void saveBitmaptoJpeg(Bitmap bitmap) {
         try {
             FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
-
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
@@ -508,9 +513,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
-                    mMyPhoto.clearColorFilter();
-                    mMyPhoto.setImageBitmap(getCircleBitmap(photo));
                     saveBitmaptoJpeg(photo);
+                    mMyPhoto.clearColorFilter();
+                    mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));
                     mFabCheck = true;
                     mToolbarAction[1].setVisibility(View.VISIBLE);
                 }

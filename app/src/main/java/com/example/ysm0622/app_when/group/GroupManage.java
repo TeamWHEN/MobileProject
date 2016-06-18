@@ -9,11 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -287,9 +283,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         User user = (User) mIntent.getSerializableExtra(Gl.USER);
 
         if (user.isImage()) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
+            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(user));
             ImageView0.clearColorFilter();
-            ImageView0.setImageBitmap(getCircleBitmap(Image));
+            ImageView0.setImageBitmap(Gl.getCircleBitmap(Image));
         }
 
         TextView0.setText(user.getName());
@@ -554,20 +550,5 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mDialBox.show();
     }
 
-    //이미지 원형으로 전환
-    public Bitmap getCircleBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        int size = (bitmap.getWidth() / 2);
-        canvas.drawCircle(size, size, size, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
-    }
+
 }

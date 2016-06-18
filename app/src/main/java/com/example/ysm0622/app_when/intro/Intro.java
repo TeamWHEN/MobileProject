@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.intro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.example.ysm0622.app_when.server.ServerConnection;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Intro extends AppCompatActivity {
 
@@ -39,6 +41,7 @@ public class Intro extends AppCompatActivity {
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
         new ServerConnection().execute(Gl.SELECT_ALL_USER);
+
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
 
         Calendar c = Calendar.getInstance();
@@ -52,22 +55,32 @@ public class Intro extends AppCompatActivity {
         Gl.initialize(this);
         if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
             noticeInit();
-        if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE_CHECK))//처음 한글 언어 선택
+
+        mSharedPref = getSharedPreferences(Gl.FILE_NAME_LANGUAGE, MODE_PRIVATE);
+
+        if (mSharedPref == null || !mSharedPref.contains(Gl.LANGUAGE_CHECK)) {//처음 한글 언어 선택
             languageInit();
+        } else {//설정된 언어로 표시
+            if (!mSharedPref.getString(Gl.LANGUAGE_CHECK, Gl.LANGUAGE_KOREAN).equalsIgnoreCase(Gl.LANGUAGE_KOREAN)) {
+                setLocale("en");
+            }
+        }
+
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
 
             public void onFinish() {
 //                new JSONParse().execute();
-//                if (PRF_AUTO_LOGIN()) {
-//                    startActivityForResult(mIntent, Gl.INTRO_GROUPLIST);
+                if (PRF_AUTO_LOGIN()) {
+                    startActivityForResult(mIntent, Gl.INTRO_GROUPLIST);
 ////                    new JSONParse().execute();
-//
-//                } else {
-//                    new JSONParse().execute();
-                startActivity(new Intent(Intro.this, Login.class));
-                finish();
+                } else {
+                    startActivity(new Intent(Intro.this, Login.class));
+                    finish();
+                }
+//                else {
+//                    new JSONParse().execute()
 //                }
             }
         }.start();
@@ -120,10 +133,12 @@ public class Intro extends AppCompatActivity {
         if (mSharedPref != null && mSharedPref.contains(Gl.USER_EMAIL)) {
             email = mSharedPref.getString(Gl.USER_EMAIL, "DEFAULT");
             password = mSharedPref.getString(Gl.USER_PASSWORD, "DEFAULT");
-            mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
-            return true;
+            if (isRightPassword(password, isExistEmail(email))) {
+                mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));
+                return true;
+            }
+            return false;
         }
-
         return false;
     }
 
@@ -134,6 +149,23 @@ public class Intro extends AppCompatActivity {
             }
         }
         return -1;
+    }
+
+    private boolean isRightPassword(String s, int i) {
+        if (Gl.getUser(i).getPassword().equals(s)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 언어 설정 메소드
+    public void setLocale(String charicter) {
+        Locale locale = new Locale(charicter);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

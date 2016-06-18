@@ -259,7 +259,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == Gl.LOGIN_GROUPLIST) {
             if (resultCode == Gl.RESULT_DELETE) {
-                Toast.makeText(getApplicationContext(), "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.delete_acc_msg, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == RESULT_CANCELED) {
                 finish();

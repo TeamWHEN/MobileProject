@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.menu;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
+
+import java.util.Locale;
 
 public class Language extends Activity implements View.OnClickListener {
 
@@ -133,12 +136,24 @@ public class Language extends Activity implements View.OnClickListener {
                     mImageViewRadio[i].setImageDrawable(getResources().getDrawable(R.drawable.ic_radio_button_checked_black_24dp));
                     if (i == 0) {
                         mEdit.putString(Gl.LANGUAGE_CHECK, Gl.LANGUAGE_KOREAN);
-                    } else
+                        setLocale("ko");
+                    } else {
                         mEdit.putString(Gl.LANGUAGE_CHECK, Gl.LANGUAGE_ENGLISH);
+                        setLocale("en");
+                    }
                     mEdit.commit();
                 }
             }
-            Toast.makeText(getApplicationContext(), mSharedPref.getString(Gl.LANGUAGE_CHECK, "FAIL"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.restart_msg, Toast.LENGTH_LONG).show();
         }
+    }
+
+    // 언어 설정 메소드
+    public void setLocale(String charicter) {
+        Locale locale = new Locale(charicter);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 }

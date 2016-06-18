@@ -16,7 +16,7 @@ public class User implements Serializable {
     private String Name;
     private String Email;
     private String Password;
-    private String ImageFilePath;
+    private final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
     private long JoinDate;
     private Date Joined;
 
@@ -36,7 +36,7 @@ public class User implements Serializable {
         this.Name = Name;
         this.Email = Email;
         this.Password = Password;
-        this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
+        //this.ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/" + this.Id + ".jpg";
         Calendar c = Calendar.getInstance();
         Date d = c.getTime();
         this.Joined = d;
@@ -86,10 +86,6 @@ public class User implements Serializable {
 
     public String getImageFilePath() {
         return ImageFilePath;
-    }
-
-    public void setImageFilePath(String imageFilePath) {
-        ImageFilePath = imageFilePath;
     }
 
     public long getJoinDate() {
