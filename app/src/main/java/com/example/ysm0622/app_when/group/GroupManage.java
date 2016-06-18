@@ -415,8 +415,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (requestCode == Gl.GROUPMANAGE_CREATEMEET) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Gl.add(0, (Meet) mIntent.getSerializableExtra(Gl.MEET));
+                Gl.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
                 meetData.add(0, (Meet) mIntent.getSerializableExtra(Gl.MEET));
+                MeetAdapter.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
                 meetDataEmptyCheck();
                 MeetAdapter.notifyDataSetChanged();
             }
@@ -442,7 +443,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     if (meetData.get(i).getId() == m.getId()) {
                         int index = meetData.indexOf(meetData.get(i));
                         meetData.remove(meetData.get(i));
+                        MeetAdapter.remove(meetData.get(i));
                         meetData.add(index, m);
+                        MeetAdapter.add(m);
                         break;
                     }
                 }
@@ -468,7 +471,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         }
         if (v.getId() == mToolbarAction[1].getId()) {
             BackgroundTask mTask = new BackgroundTask();
-            mTask.execute();
+            mTask.execute(g);
         }
         if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId() || v.getId() == mTabbarAction[2].getId()) {
             for (int i = 0; i < mTabBtnNum; i++) {
