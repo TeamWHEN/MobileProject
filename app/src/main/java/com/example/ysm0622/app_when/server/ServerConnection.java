@@ -4,10 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.ysm0622.app_when.global.Gl;
+import com.example.ysm0622.app_when.meet.SelectDay;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.MeetDate;
-import com.example.ysm0622.app_when.object.Time;
+import com.example.ysm0622.app_when.object.Times;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 import com.google.gson.Gson;
@@ -94,7 +95,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //                arrayList = SelectMeetDateByMeet(Integer.parseInt(index));
                 break;
             case Gl.SELECT_TIME_BY_MEET:
-                arrayList = SelectTimeByMeet(Integer.parseInt(index));
+//                arrayList = SelectTimeByMeet(Integer.parseInt(index));
                 break;
             case Gl.INSERT_USER:
 //                arrayList = InsertUser(Integer.parseInt(index));
@@ -133,7 +134,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //                arrayList = InsertMeetDate(Integer.parseInt(index));
 //                break;
             case Gl.INSERT_TIME:
-                arrayList = InsertTime(Integer.parseInt(index));
+//                arrayList = InsertTime(Integer.parseInt(index));
                 break;
             case Gl.DELETE_TIME:
                 arrayList = DeleteTime(Integer.parseInt(index));
@@ -273,23 +274,15 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<MeetDate> arrayList = new ArrayList<>();
-            Log.d("Gl", "왜안대11111");
             for (int i = 0; i < data.length(); i++) {
-                Log.d("Gl", "왜안대22121212");
                 MeetDate m = new Gson().fromJson(data.getJSONObject(i).toString(), MeetDate.class);
-                Log.d("Gl", "groupid : " + m.getGroupId() + "meetid : " + m.getMeetId() + " date : " +m.getDate());
+                Log.d("Gl", "groupid : " + m.getGroupId() + "meetid : " + m.getMeetId() + " date : " + m.getDate());
                 arrayList.add(m);
-                Log.d("Gl", "왜안대33333333");
                 Calendar c = Calendar.getInstance();
-                Log.d("Gl", "왜안대444444444");
                 c.setTimeInMillis(m.getDate());
-                Log.d("Gl", "왜안대55555555");
                 Gl.getMeetById(m.getMeetId()).getSelectedDate().add(c);
-                Log.d("Gl", "왜안대6666666666666");
                 Gl.getMeetById(m.getMeetId()).MeetDate.add(m);
-                Log.d("Gl", "왜안대3333333");
             }
-            Log.d("Gl", "7777777777777777");
             Gl.setMeetDate(arrayList);
             Gl.LogAllMeetDate();
         } catch (Exception e) {
@@ -310,69 +303,15 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         try {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
-            ArrayList<Time> arrayList = new ArrayList<>();
+            ArrayList<Times> arrayList = new ArrayList<>();
+            Log.d("Gl","되라아아아아아앙1111111111111");
             for (int i = 0; i < data.length(); i++) {
-                Time t = new Gson().fromJson(data.getJSONObject(i).toString(), Time.class);
+                Times t = new Gson().fromJson(data.getJSONObject(i).toString(), Times.class);
                 arrayList.add(t);
             }
-            Gl.setTime(arrayList);
-//            int n = Gl.getTime(0).getMeetId();
-//            ArrayList<DateTime> dateTime = new ArrayList<>();
-//            ArrayList<ArrayList<Calendar>> arrayLists = new ArrayList<>();
-//            ArrayList<Calendar> arrayList1 = new ArrayList<>();
-//            DateTime dt = new DateTime();
-//            for (int i = 0; i < arrayList.size(); i++) {
-//                if (i + 1 < arrayList.size() && arrayList.get(i).getUserId() == arrayList.get(i + 1).getUserId()) {
-//                    dt.setUser(Gl.getUserById(arrayList.get(i).getUserId()));
-//
-//                } else {
-//                    dateTime.add(dt);
-//                    dt = new DateTime();
-//                }
-//            }
-//
-//
-//            Gl.getMeet(n).setDateTime(dateTime);
-//
-//
-//            ArrayList<ArrayList<Calendar>> selectTime = new ArrayList<>();
-//            while (true) {
-//                ArrayList<Calendar> select = null;
-//                for (int i = 0; i < arrayList.size(); i++) {
-//                    select = new ArrayList<>();
-//                    Date D = new Date(arrayList.get(i).getTime());
-//                    Calendar C = new GregorianCalendar();
-//                    C.setTime(D);
-//                    select.add(C);
-//                }
-//                if (select != null) selectTime.add(select);
-//                else break;
-//            }
-//            Gl.LogAllTimeByMeet(Gl.getMeet(arrayList.get(0).getMeetId()));
-//
-//            int n = 0;
-//            for (int i = 0; i < arrayList.size(); i++) {
-//                arrayList.get(i).setMeetId(Gl.getMeetById(arrayList.get(i).getMeetId()));
-//                arrayList.get(i).setUserId(Gl.getUserById(arrayList.get(i).getUserId()));
-//                arrayList.get(i).setTime(arrayList.get(i).getTime());
-//            }
-//            ArrayList<Calendar> select = new ArrayList<>();
-//            for (int i = 0; i < arrayList.size(); i++) {
-//                Date D1 = new Date(arrayList.get(i).getTime());
-//                Calendar C1 = new GregorianCalendar();
-//                C1.setTime(D1);
-//                select.add(C1);
-//            }
-//            ArrayList<ArrayList<Calendar>> selectTime = new ArrayList<>();
-//            ArrayList<Calendar> tmp = new ArrayList<>();
-//            for (int i = 0; i < select.size(); i++) {
-//                if (isEqual(select.get(i), select.get(i + 1))) {
-//                    tmp.add(select.get(i));
-//                } else {
-//                    selectTime.add(tmp);
-//                    tmp = new ArrayList<>();
-//                }
-//            }
+            Log.d("Gl","되라아아아아아앙2222222222222222");
+            Gl.getMeetById(arrayList.get(0).getMeetId()).setDateTime(SelectDay.TimesToDateTime(arrayList));
+            Log.d("Gl","되라아아아아아앙33333333333333");
             Gl.setTime(arrayList);
             Gl.LogAllTimeByMeet(Gl.getMeet(arrayList.get(0).getMeetId()));
         } catch (Exception e) {
@@ -380,10 +319,10 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         }
     }
 
-    public static ArrayList<NameValuePair> SelectTimeByMeet(int index) {
+    public static ArrayList<NameValuePair> SelectTimeByMeet(Meet m) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("Id", String.valueOf(Gl.getMeet(index).getId())));
-        Log.d("Gl", "SelectTimeByMeet(" + index + ")");
+        post.add(new BasicNameValuePair("MeetId", String.valueOf(m.getId())));
+        Log.d("Gl", "SelectTimeByMeet(" + m.getId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
@@ -505,7 +444,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static ArrayList<NameValuePair> InsertMeetDate(Meet m) {
 
         ArrayList<NameValuePair> post = new ArrayList<>();
-        for(int i=0;i<m.getMeetDate().size();i++) {
+        for (int i = 0; i < m.getMeetDate().size(); i++) {
             post.add(new BasicNameValuePair("GroupId", String.valueOf(m.getMeetDate().get(i).getGroupId())));
             post.add(new BasicNameValuePair("MeetId", String.valueOf(m.getMeetDate().get(i).getMeetId())));
             post.add(new BasicNameValuePair("Date", String.valueOf(m.getMeetDate().get(i).getDate())));
@@ -516,12 +455,14 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public static ArrayList<NameValuePair> InsertTime(int index) {
+    public static ArrayList<NameValuePair> InsertTime(ArrayList<Times> t) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("MeetId", String.valueOf(Gl.getTime(index).getMeetId())));
-        post.add(new BasicNameValuePair("UserId", String.valueOf(Gl.getTime(index).getUserId())));
-        post.add(new BasicNameValuePair("Time", String.valueOf(Gl.getTime(index).getTime())));
-        Log.d("Gl", "InsertTime(" + index + ")");
+        for (int i = 0; i < t.size(); i++) {
+            post.add(new BasicNameValuePair("MeetId", String.valueOf(t.get(i).getMeetId())));
+            post.add(new BasicNameValuePair("UserId", String.valueOf(t.get(i).getUserId())));
+            post.add(new BasicNameValuePair("Time", String.valueOf(t.get(i).getTime())));
+        }
+        Log.d("Gl", "InsertTime(" + t.get(0).getMeetId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
@@ -529,6 +470,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 
     public static ArrayList<NameValuePair> DeleteTime(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
+        post.add(new BasicNameValuePair("MeetId", String.valueOf(Gl.getTime(index).getMeetId())));
         post.add(new BasicNameValuePair("UserId", String.valueOf(Gl.getTime(index).getUserId())));
         Log.d("Gl", "DeleteTime(" + index + ")");
         for (int i = 0; i < post.size(); i++)

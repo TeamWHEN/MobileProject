@@ -21,6 +21,7 @@ import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.MeetDate;
+import com.example.ysm0622.app_when.object.Times;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.server.ServerConnection;
 
@@ -70,6 +71,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
     public ArrayList<ArrayList<Calendar>> allData = new ArrayList<>();
 
     public static final int PROGRESS_DIALOG = 1001;
+    public static final int PROGRESS_DIALOG2 = 1002;
     public ProgressDialog progressDialog;
 
     @Override
@@ -203,6 +205,50 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         mToolbarTitle.setText(Title);
     }
 
+    public static ArrayList<Times> dateTimeToTimes(int meetId, DateTime D) {
+        ArrayList<ArrayList<Calendar>> arrayLists = D.getSelectTime();
+        ArrayList<Times> times = new ArrayList<>();
+
+        for (int i = 0; i < arrayLists.size(); i++) {
+            ArrayList<Calendar> cals = arrayLists.get(i);
+            for (int j = 0; j < cals.size(); j++) {
+                Calendar cal = cals.get(j);
+                Date date = cal.getTime();
+                Times t = new Times(meetId, D.getUser().getId(), date.getTime());
+                times.add(t);
+            }
+        }
+        return times;
+    }
+
+    public static ArrayList<DateTime> TimesToDateTime(ArrayList<Times> times) {
+        ArrayList<DateTime> result = new ArrayList<>();
+        DateTime t = new DateTime();
+        ArrayList<Calendar> arrayList = new ArrayList<>();
+        for (int i = 0; i < times.size(); i++) {
+            if (i == 0 || times.get(i - 1).getUserId() != times.get(i).getUserId()) {
+                if (arrayList.size() != 0) {
+                    t.setTemp(arrayList);
+                    result.add(t);
+                }
+                t = new DateTime();
+                t.setUser(Gl.getUserById(times.get(i).getUserId()));
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(times.get(i).getTime());
+                arrayList.add(cal);
+            } else {
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(times.get(i).getTime());
+                arrayList.add(cal);
+            }
+            if (i == times.size() - 1) {
+                t.setTemp(arrayList);
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
     @Override
     public void onClick(View v) {
         if (mToolbarAction[0].getId() == v.getId()) {
@@ -221,7 +267,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                 ArrayList<MeetDate> dates = new ArrayList<>();
                 for (int i = 0; i < calendars.size(); i++) {
                     Date d = calendars.get(i).getTime();
-                    MeetDate md = new MeetDate(groupid, M.getId(),d.getTime());
+                    MeetDate md = new MeetDate(groupid, M.getId(), d.getTime());
                     dates.add(md);
                 }
                 M.setMeetDate(dates);
@@ -233,10 +279,14 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                 finish();
             } else if (MODE == 1) {
                 DateTime D = new DateTime();
+                Meet m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
                 D.setUser((User) mIntent.getSerializableExtra(Gl.USER));
                 D.setSelectTime(allData);
+                ArrayList<Times> times = dateTimeToTimes(m.getId(), D);
                 Meet M = (Meet) mIntent.getSerializableExtra(Gl.MEET);
                 M = M.addDateTime(D);
+                BackgroundTask2 task = new BackgroundTask2();
+                task.execute(times);
                 mIntent.putExtra(Gl.MEET, M);
                 setResult(RESULT_OK, mIntent);
                 finish();
@@ -297,11 +347,36 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    class BackgroundTask2 extends AsyncTask<ArrayList<Times>, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG2);
+        }
+
+        @Override
+        protected Integer doInBackground(ArrayList<Times>... args) {
+            ArrayList<NameValuePair> param1 = ServerConnection.InsertTime(args[0]);
+            ServerConnection.getStringFromServer(param1, Gl.INSERT_TIME);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMessage(getString(R.string.createmeet_progress));
+
+            return progressDialog;
+        }
+        if (id == PROGRESS_DIALOG2) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.input_saving));
 
             return progressDialog;
         }
@@ -472,7 +547,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         Log.w(TAG, "Load Data(" + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE) + ")");
     }
 
-    private boolean isEqual(Calendar A, Calendar B) {
+    private static boolean isEqual(Calendar A, Calendar B) {
         if (A.get(Calendar.YEAR) == B.get(Calendar.YEAR) && A.get(Calendar.MONTH) == B.get(Calendar.MONTH) && A.get(Calendar.DATE) == B.get(Calendar.DATE)) {
             return true;
         } else return false;

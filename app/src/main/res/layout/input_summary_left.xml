@@ -32,7 +32,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:padding="2dp"
-                android:text="@string/time"
+                android:text="@string/times"
                 android:textColor="@color/colorAccent"
                 android:textSize="8sp" />
         </RelativeLayout>

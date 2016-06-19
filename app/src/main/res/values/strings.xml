@@ -196,7 +196,7 @@
     <string name="ok">확인</string>
     <string name="description">설명</string>
     <string name="date">날짜</string>
-    <string name="time">시간</string>
+    <string name="times">시간</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
     <string name="nogroup_msg">그룹이 없습니다.\n그룹을 생성해보세요!</string>
@@ -225,5 +225,7 @@
     <string name="createmeet_progress">일정 생성중…</string>
     <string name="saving">저장중…</string>
     <string name="hour">시</string>
+    <string name="input_saving">입력 정보를 저장중…</string>
+    <string name="inputtime_progress">시간 정보를 불러오는 중…</string>
 
 </resources>

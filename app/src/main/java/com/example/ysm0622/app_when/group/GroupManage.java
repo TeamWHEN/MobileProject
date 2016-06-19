@@ -83,8 +83,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     // Data
     private Group g;
-    private ArrayList<User> userData;
-    private ArrayList<Meet> meetData;
+    private ArrayList<User> userData = new ArrayList<>();
+    private ArrayList<Meet> meetData = new ArrayList<>();
 
     //Shared Preferences
     private SharedPreferences mSharedPref;
@@ -94,6 +94,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     public static final int PROGRESS_DIALOG = 1001;
     public ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +107,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mIntent = getIntent();
 
         g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
-
-        meetData = Gl.getMeets(g);
+        Log.d("Gl","GroupId : " + g.getId() + "Enter");
         userData = Gl.getUsers(g);
 
         Drawable[] toolbarIcon = new Drawable[2];
@@ -134,7 +134,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         BackgroundTask mTask = new BackgroundTask();
         mTask.execute(g);
 
+
     }
+
 
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
@@ -153,7 +155,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         protected void onPostExecute(Integer a) {
             if (progressDialog != null)
                 progressDialog.dismiss();
-            meetData = Gl.getMeets();
+            meetData = Gl.getMeets(g);
             MeetAdapter.clear();
             MeetAdapter.addAll(meetData);
             meetDataEmptyCheck();
@@ -210,6 +212,18 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     protected void onResume() {
         super.onResume();
         mNavView.setCheckedItem(R.id.nav_group);//nav item home으로 초기화
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause(); //save state data (background color) for future use
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     private void initialize() {
@@ -347,6 +361,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mTabbarImage[v].setColorFilter(getResources().getColor(R.color.white));
         mTabbarLine[v].setBackgroundColor(getResources().getColor(R.color.white));
         mTabContent[v].setVisibility(View.VISIBLE);
+
+
     }
 
     @Override
@@ -437,16 +453,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 Meet m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
-                for (int i = 0; i < meetData.size(); i++) {
-                    if (meetData.get(i).getId() == m.getId()) {
-                        int index = meetData.indexOf(meetData.get(i));
-                        meetData.remove(meetData.get(i));
-                        MeetAdapter.remove(meetData.get(i));
-                        meetData.add(index, m);
-                        MeetAdapter.add(m);
-                        break;
-                    }
-                }
+                Gl.add(m);
+                MeetAdapter.clear();
+                MeetAdapter.addAll(Gl.getMeets(g));
                 MeetAdapter.notifyDataSetChanged();
             }
         }
@@ -482,7 +491,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     mTabbarLine[i].setBackgroundColor(getResources().getColor(R.color.white));
                     mTabContent[i].setVisibility(View.VISIBLE);
                     if (i == 0) mToolbarTitle.setText(getResources().getString(R.string.meet_list));
-                    if (i == 1) mToolbarTitle.setText(getResources().getString(R.string.meet_info));
+                    if (i == 1) {
+                        mToolbarTitle.setText(getResources().getString(R.string.meet_info));
+                    }
                     if (i == 2) mToolbarTitle.setText(getResources().getString(R.string.member));
                 }
             }
@@ -550,6 +561,4 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mDialBox = builder.create();
         mDialBox.show();
     }
-
-
 }
