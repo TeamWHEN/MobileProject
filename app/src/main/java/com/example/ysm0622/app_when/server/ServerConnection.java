@@ -121,8 +121,8 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //                arrayList = DeleteUserGroup(Integer.parseInt(index));
                 break;
             case Gl.INSERT_MEET:
-                arrayList = InsertMeet(Integer.parseInt(index));
-                break;
+//                arrayList = InsertMeet(Integer.parseInt(index));
+//                break;
             case Gl.DELETE_MEET:
                 arrayList = DeleteMeet(Integer.parseInt(index));
                 break;
@@ -130,8 +130,8 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //                arrayList = UpdateMeet(Integer.parseInt(index));
 //                break;
             case Gl.INSERT_MEETDATE:
-                arrayList = InsertMeetDate(Integer.parseInt(index));
-                break;
+//                arrayList = InsertMeetDate(Integer.parseInt(index));
+//                break;
             case Gl.INSERT_TIME:
                 arrayList = InsertTime(Integer.parseInt(index));
                 break;
@@ -279,6 +279,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(m.getDate());
                 Gl.getMeetById(m.getMeetId()).getSelectedDate().add(c);
+                Gl.getMeetById(m.getMeetId()).MeetDate.add(m);
             }
             Gl.setMeetDate(arrayList);
             Gl.LogAllMeet();
@@ -413,7 +414,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static ArrayList<NameValuePair> InsertGroup(Group g) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("Title", g.getTitle()));
-        post.add(new BasicNameValuePair("Desc", g.getDesc()));
+        post.add(new BasicNameValuePair("Descr", g.getDesc()));
         post.add(new BasicNameValuePair("MasterId", String.valueOf(g.getMaster().getId())));
         Log.d("Gl", "InsertGroup(" + g.getId() + ")");
         for (int i = 0; i < post.size(); i++)
@@ -461,14 +462,14 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         return post;
     }
 
-    public static ArrayList<NameValuePair> InsertMeet(int index) {
+    public static ArrayList<NameValuePair> InsertMeet(Meet m) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("GroupId", String.valueOf(Gl.getMeet(index).getGroup().getId())));
-        post.add(new BasicNameValuePair("MasterId", String.valueOf(Gl.getMeet(index).getMaster().getId())));
-        post.add(new BasicNameValuePair("Title", Gl.getMeet(index).getTitle()));
-        post.add(new BasicNameValuePair("Desc", Gl.getMeet(index).getDesc()));
-        post.add(new BasicNameValuePair("Location", Gl.getMeet(index).getLocation()));
-        Log.d("Gl", "InsertMeet(" + index + ")");
+        post.add(new BasicNameValuePair("GroupId", String.valueOf(m.getGroup().getId())));
+        post.add(new BasicNameValuePair("MasterId", String.valueOf(m.getMaster().getId())));
+        post.add(new BasicNameValuePair("Title", m.getTitle()));
+        post.add(new BasicNameValuePair("Descr", m.getDesc()));
+        post.add(new BasicNameValuePair("Location", m.getLocation()));
+        Log.d("Gl", "InsertMeet(" + m.getId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
@@ -492,11 +493,15 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //        return post;
 //    }
 
-    public static ArrayList<NameValuePair> InsertMeetDate(int index) {
+    public static ArrayList<NameValuePair> InsertMeetDate(Meet m) {
+
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("MeetId", String.valueOf(Gl.getMeetDate(index).getMeetId())));
-        post.add(new BasicNameValuePair("Date", String.valueOf(Gl.getMeetDate(index).getDate())));
-        Log.d("Gl", "InsertMeetDate(" + index + ")");
+        for(int i=0;i<m.getMeetDate().size();i++) {
+            post.add(new BasicNameValuePair("GroupId", String.valueOf(m.getMeetDate().get(i).getGroupId())));
+            post.add(new BasicNameValuePair("MeetId", String.valueOf(m.getMeetDate().get(i).getMeetId())));
+            post.add(new BasicNameValuePair("Date", String.valueOf(m.getMeetDate().get(i).getDate())));
+        }
+        Log.d("Gl", "InsertMeetDate(" + m.getId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;

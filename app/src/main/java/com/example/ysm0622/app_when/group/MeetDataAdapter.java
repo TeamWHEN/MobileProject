@@ -21,9 +21,11 @@ import com.example.ysm0622.app_when.meet.PollState;
 import com.example.ysm0622.app_when.meet.SelectDay;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
+import com.example.ysm0622.app_when.object.MeetDate;
 import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
@@ -106,11 +108,14 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mTextView[2].setText(m.getDateTimeNum() + " / " + m.getGroup().getMemberNum());
             mTextView[3].setText(m.getLocation());
 
-//            Calendar cal = m.getSelectedDate().get(0);
-//            String str = cal.get(Calendar.YEAR) + "년 " + cal.get(Calendar.MONTH) + "월 " + cal.get(Calendar.DATE) + "일";
-//            if (m.getSelectedDate().size() != 1)
-//                str += " 외 " + (m.getSelectedDate().size() - 1) + "일";
-//            mTextView[4].setText(str);
+            if (m.MeetDate != null && m.getMeetDate().size() > 0) {
+                MeetDate md = m.getMeetDate().get(0);
+                Date d = new Date(md.getDate());
+                String str = (d.getYear() + 1900) + "년 " + (d.getMonth() + 1) + "월 " + d.getDate() + "일";
+                if (m.getMeetDate().size() != 1)
+                    str += " 외 " + (m.getMeetDate().size() - 1) + "일";
+                mTextView[4].setText(str);
+            }
 
             if (m.getLocation().equals("")) mLocationLayout.setVisibility(View.GONE);
 
@@ -155,6 +160,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     } else {//가장 처음 알림 설정 OFF 하면 발생        설정 안했을시 기본은 알림 설정 ON
                         mEdit.putBoolean(Gl.MEET_NOTICE + m.getId(), false);
                         mImageViewBtn[3].setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_notifications_off));
+                        Toast.makeText(mContext, R.string.noti_off, Toast.LENGTH_SHORT).show();
                     }
                     mEdit.commit();
                 }

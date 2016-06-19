@@ -13,6 +13,18 @@ public class MeetDate implements Serializable {
     private int MeetId;
     private long Date;
 
+    public MeetDate() {
+        this.GroupId = 0;
+        this.MeetId = 0;
+        this.Date = 0;
+    }
+
+    public MeetDate(int GroupId, int MeetId,long Date) {
+        this.GroupId = GroupId;
+        this.MeetId = MeetId;
+        this.Date = Date;
+    }
+
     public int getMeetId() {
         return MeetId;
     }

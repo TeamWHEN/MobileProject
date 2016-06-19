@@ -1,5 +1,7 @@
 package com.example.ysm0622.app_when.object;
 
+import com.example.ysm0622.app_when.global.Gl;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,9 +25,9 @@ public class Meet implements Serializable {
     private Group Group;
     private User Master;
 
-    private Date SelectDate;
-
+    public ArrayList<MeetDate> MeetDate;
     private ArrayList<Calendar> SelectedDate;
+
     private ArrayList<DateTime> DateTime;
 
     public Meet() {
@@ -35,12 +37,31 @@ public class Meet implements Serializable {
         this.Title = "";
         this.Descr = "";
         this.Location = "";
-        this.SelectDate = null;
         this.CreateDate = 0;
+        this.MeetDate = new ArrayList<>();
         this.SelectedDate = new ArrayList<>();
         this.DateTime = new ArrayList<>();
         this.Group = null;
         this.Master = null;
+    }
+
+    public Meet(int GroupId, int MasterId, String Title, String Descr, String Location) {
+        if(Gl.getMeets().size()==0){
+            this.Id = 0;
+        }else {
+            this.Id = Gl.getMeet(Gl.MEETS.size() - 1).getId() + 1;
+        }
+        this.GroupId = GroupId;
+        this.MasterId = MasterId;
+        this.Title = Title;
+        this.Descr = Descr;
+        this.Location = Location;
+        this.CreateDate = 0;
+        this.MeetDate = new ArrayList<>();
+        this.SelectedDate = new ArrayList<>();
+        this.DateTime = new ArrayList<>();
+        this.Group = Gl.getGroupById(GroupId);
+        this.Master = Gl.getUserById(MasterId);
     }
 
     public Group getGroup() {
@@ -147,13 +168,6 @@ public class Meet implements Serializable {
         MasterId = masterId;
     }
 
-    public Date getSelectDate() {
-        return SelectDate;
-    }
-
-    public void setSelectDate(Date selectDate) {
-        SelectDate = selectDate;
-    }
 
     public long getCreateDate() {
         return CreateDate;
@@ -169,5 +183,13 @@ public class Meet implements Serializable {
 
     public void setCreated(Date created) {
         Created = created;
+    }
+
+    public ArrayList<com.example.ysm0622.app_when.object.MeetDate> getMeetDate() {
+        return MeetDate;
+    }
+
+    public void setMeetDate(ArrayList<com.example.ysm0622.app_when.object.MeetDate> meetDate) {
+        MeetDate = meetDate;
     }
 }

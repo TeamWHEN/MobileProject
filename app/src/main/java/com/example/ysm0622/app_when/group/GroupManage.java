@@ -95,6 +95,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     public static final int PROGRESS_DIALOG = 1001;
     public ProgressDialog progressDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +135,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         BackgroundTask mTask = new BackgroundTask();
         mTask.execute(g);
 
+
     }
+
 
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
@@ -212,6 +215,18 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     protected void onResume() {
         super.onResume();
         mNavView.setCheckedItem(R.id.nav_group);//nav item home으로 초기화
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause(); //save state data (background color) for future use
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     private void initialize() {
@@ -349,6 +364,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mTabbarImage[v].setColorFilter(getResources().getColor(R.color.white));
         mTabbarLine[v].setBackgroundColor(getResources().getColor(R.color.white));
         mTabContent[v].setVisibility(View.VISIBLE);
+
+
     }
 
     @Override
@@ -415,8 +432,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (requestCode == Gl.GROUPMANAGE_CREATEMEET) {
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
-                Gl.add(0, (Meet) mIntent.getSerializableExtra(Gl.MEET));
+                Gl.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
                 meetData.add(0, (Meet) mIntent.getSerializableExtra(Gl.MEET));
+                MeetAdapter.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
                 meetDataEmptyCheck();
                 MeetAdapter.notifyDataSetChanged();
             }
@@ -442,7 +460,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     if (meetData.get(i).getId() == m.getId()) {
                         int index = meetData.indexOf(meetData.get(i));
                         meetData.remove(meetData.get(i));
+                        MeetAdapter.remove(meetData.get(i));
                         meetData.add(index, m);
+                        MeetAdapter.add(m);
                         break;
                     }
                 }
@@ -468,7 +488,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         }
         if (v.getId() == mToolbarAction[1].getId()) {
             BackgroundTask mTask = new BackgroundTask();
-            mTask.execute();
+            mTask.execute(g);
         }
         if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId() || v.getId() == mTabbarAction[2].getId()) {
             for (int i = 0; i < mTabBtnNum; i++) {
@@ -481,7 +501,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     mTabbarLine[i].setBackgroundColor(getResources().getColor(R.color.white));
                     mTabContent[i].setVisibility(View.VISIBLE);
                     if (i == 0) mToolbarTitle.setText(getResources().getString(R.string.meet_list));
-                    if (i == 1) mToolbarTitle.setText(getResources().getString(R.string.meet_info));
+                    if (i == 1) {
+                        mToolbarTitle.setText(getResources().getString(R.string.meet_info));
+                    }
                     if (i == 2) mToolbarTitle.setText(getResources().getString(R.string.member));
                 }
             }
@@ -549,6 +571,4 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mDialBox = builder.create();
         mDialBox.show();
     }
-
-
 }

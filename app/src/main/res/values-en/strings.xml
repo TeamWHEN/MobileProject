@@ -179,7 +179,7 @@
     <string name="input_time">Input Time</string>
     <string name="cancel">Cancel</string>
     <string name="leave">Secession</string>
-    <string name="Leave_the_group">Are you want to leave the group?</string>
+    <string name="Leave_the_group">Do you want to leave the group?</string>
     <string name="Leave_group_warn_msg">When leaving the group and discards any input record, you can not join the group until it has been invited back to members</string>
     <string name="language">Language</string>
     <string name="korean">Korean (한국어)</string>
