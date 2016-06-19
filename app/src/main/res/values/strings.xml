@@ -179,10 +179,11 @@
     <string name="input_time">시간 입력</string>
     <string name="cancel">취소</string>
     <string name="leave">탈퇴</string>
+    <string name="delete">탈퇴</string>
     <string name="Leave_the_group">그룹을 탈퇴하시겠습니까?</string>
     <string name="Leave_group_warn_msg">그룹 탈퇴시 모든 입력 기록이 삭제되며, 구성원에게 초대 받기 전까지 다시 그룹에 가입할 수 없습니다.</string>
     <string name="language">언어</string>
-    <string name="korean">한국어 (Korean)</string>
+    <string name="korean">한국어</string>
     <string name="english">영어 (English)</string>
     <string name="rate_msg">도움이 되셨나요?</string>
     <string name="complete">완료</string>
@@ -195,7 +196,7 @@
     <string name="ok">확인</string>
     <string name="description">설명</string>
     <string name="date">날짜</string>
-    <string name="time">시간</string>
+    <string name="times">시간</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
     <string name="nogroup_msg">그룹이 없습니다.\n그룹을 생성해보세요!</string>
@@ -223,6 +224,9 @@
     <string name="restart_msg">변경된 언어는 재시작 후 적용됩니다.</string>
     <string name="createmeet_progress">일정 생성중…</string>
     <string name="saving">저장중…</string>
+    <string name="hour">시</string>
+    <string name="input_saving">입력 정보를 저장중…</string>
+    <string name="inputtime_progress">시간 정보를 불러오는 중…</string>
     <string name="incomplete_vote_msg">투표가 완료되지 않았습니다.</string>
 
 </resources>

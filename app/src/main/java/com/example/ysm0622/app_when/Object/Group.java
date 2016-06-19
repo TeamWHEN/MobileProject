@@ -29,7 +29,11 @@ public class Group implements Serializable {
     }
 
     public Group(String Title, String Descr, int MasterId, User Master, ArrayList<User> Member) {
-        this.Id = Gl.getGroup(Gl.GROUPS.size() - 1).getId() + 1;
+        if(Gl.GROUPS.size()==0){
+            this.Id=1;
+        }else {
+            this.Id = Gl.getGroup(Gl.GROUPS.size() - 1).getId() + 1;
+        }
         this.Title = Title;
         this.Descr = Descr;
         this.MasterId = MasterId;

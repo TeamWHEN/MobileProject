@@ -54,7 +54,7 @@
 
     <string name="pw_errmsg1">The password must be at least 4 letters</string>
 
-    <string name="group_title_errmsg1">Group Title must always be at least one character</string>
+    <string name="group_title_errmsg1">Input must be at least one character</string>
 
     <string name="meet_title_errmsg1">Meeting Title must be at least one character</string>
 
@@ -140,10 +140,10 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_login">Sign in</string>
     <string name="notifications">Notifications</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Edit Profile</string>
     <string name="sound">Sound</string>
     <string name="vibration">Vibration</string>
-    <string name="popup">Popup</string>
+    <string name="popup">Pop up</string>
     <string name="group">Group</string>
     <string name="version_info">Version 1.00.1</string>
     <string name="developer_info">Developer Info</string>
@@ -164,7 +164,7 @@
     <string name="ysm_email">ysm0622@gmail.com</string>
     <string name="jdh_email">ehdguso@naver.com</string>
     <string name="jjh_email">wlwjdgks123@gmail.com</string>
-    <string name="search_hint">Search Name(Alphabet), Email</string>
+    <string name="search_hint">Search Name, Email</string>
     <string name="SUN">SUN</string>
     <string name="MON">MON</string>
     <string name="TUE">TUE</string>
@@ -172,30 +172,31 @@
     <string name="THU">THU</string>
     <string name="FRI">FRI</string>
     <string name="SAT">SAT</string>
-    <string name="select_all">All Select</string>
+    <string name="select_all">All Day</string>
     <string name="group_empty_msg">Empty Group</string>
     <string name="meet_empty_msg">Empty Meeting. Please add Meeting</string>
     <string name="logout">Logout</string>
     <string name="input_time">Input Time</string>
     <string name="cancel">Cancel</string>
-    <string name="leave">Secession</string>
+    <string name="leave">Leave</string>
+    <string name="delete">Delete</string>
     <string name="Leave_the_group">Do you want to leave the group?</string>
     <string name="Leave_group_warn_msg">When leaving the group and discards any input record, you can not join the group until it has been invited back to members</string>
     <string name="language">Language</string>
     <string name="korean">Korean (한국어)</string>
-    <string name="english">English (영어)</string>
-    <string name="rate_msg">WHEN is useful?</string>
+    <string name="english">English</string>
+    <string name="rate_msg">WHEN was useful?</string>
     <string name="complete">Complete</string>
     <string name="groupdescription_title">Group Name</string>
     <string name="groupdescription_description">Description</string>
     <string name="delete_account">Delete Account</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="change_pw">Change PW</string>
+    <string name="change_pw">Change Password</string>
     <string name="state">State</string>
     <string name="ok">OK</string>
     <string name="description">Description</string>
     <string name="date">Date</string>
-    <string name="time">Time</string>
+    <string name="times">Time</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
     <string name="nogroup_msg">No groups.\nTry creating a group!</string>
@@ -207,18 +208,18 @@
     <string name="delete_acc_msg">This account has been deleted.</string>
     <string name="poll_state">Vote status</string>
     <string name="exist_email_msg">Duplicate email.</string>
-    <string name="groupinfo_progress">Group of Information Loading ...</string>
-    <string name="creategroup_progress">Creation of a group ...</string>
-    <string name="signup_progress">Account of creation ...</string>
-    <string name="deletegroup_progress">Delete a group of ...</string>
-    <string name="deleteaccount_progress">Delete the account ...</string>
-    <string name="groupleave_progress">Leave of the group ...</string>
-    <string name="meetInfo_progress">Loading Meeting information...</string>
-    <string name="refresh_progress">Refreshing ...</string>
+    <string name="groupinfo_progress">Group Information Loading…</string>
+    <string name="creategroup_progress">Creation of a group…</string>
+    <string name="signup_progress">Account creation…</string>
+    <string name="deletegroup_progress">Delete a group of…</string>
+    <string name="deleteaccount_progress">Delete the account…</string>
+    <string name="groupleave_progress">Leave of the group…</string>
+    <string name="meetInfo_progress">Meeting information Loading…</string>
+    <string name="refresh_progress">Refreshing…</string>
     <string name="noti_on">Notification ON</string>
     <string name="noti_off">Notification OFF</string>
-    <string name="changepw">Change PW</string>
-    <string name="changed_pw">Complete changed password</string>
+    <string name="changepw">Change Password</string>
+    <string name="changed_pw">Password changed !</string>
     <string name="re_input_pw">Please confirm your password again.</string>
     <string name="restart_msg">The language is changed, it must restart applied.</string>
     <string name="incomplete_vote_msg">Incomplete Vote</string>

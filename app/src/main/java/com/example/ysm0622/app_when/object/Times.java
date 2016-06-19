@@ -2,16 +2,22 @@ package com.example.ysm0622.app_when.object;
 
 import java.io.Serializable;
 
-public class Time implements Serializable {
+public class Times implements Serializable {
 
     // TAG
-    private static final String TAG = Time.class.getName();
+    private static final String TAG = Times.class.getName();
 
     private int MeetId;
     private int UserId;
     private long Time;
 
-    public Time() {
+    public Times() {
+    }
+
+    public Times(int meetId, int userId, long time) {
+        MeetId = meetId;
+        UserId = userId;
+        Time = time;
     }
 
     public int getMeetId() {
