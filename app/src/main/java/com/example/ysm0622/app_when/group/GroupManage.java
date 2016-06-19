@@ -137,7 +137,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     }
 
-
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);

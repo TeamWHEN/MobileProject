@@ -1,6 +1,5 @@
 package com.example.ysm0622.app_when.meet;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -10,33 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
-import com.example.ysm0622.app_when.map.MapApiConst;
 import com.example.ysm0622.app_when.search.Item;
-import com.example.ysm0622.app_when.search.OnFinishSearchListener;
-import com.example.ysm0622.app_when.search.Searcher;
 
-import net.daum.mf.map.api.CalloutBalloonAdapter;
-import net.daum.mf.map.api.CameraUpdateFactory;
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
@@ -146,6 +130,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         mErrMsg[0] = getResources().getString(R.string.group_title_errmsg1);
         mErrMsg[1] = getResources().getString(R.string.desc_errmsg1);
         mErrMsg[2] = getResources().getString(R.string.location_errmsg1);
+
     }
 //        //MapView
 //        mShowMap = false;
