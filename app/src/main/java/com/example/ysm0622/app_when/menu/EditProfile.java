@@ -343,7 +343,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         View Include0 = (View) view.findViewById(R.id.Include0);
         View Include1 = (View) view.findViewById(R.id.Include1);
         final EditText NewPW0 = (EditText) Include0.findViewById(R.id.EditText0);
-        final EditText NewPW1 = (EditText) Include0.findViewById(R.id.EditText0);
+        final EditText NewPW1 = (EditText) Include1.findViewById(R.id.EditText0);
         TextView Btn1 = (TextView) view.findViewById(R.id.changepw_btn1);
         TextView Btn2 = (TextView) view.findViewById(R.id.changepw_btn2);
 
@@ -397,7 +397,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         Title.setText(R.string.remove_title);
         Content.setText(R.string.remove_content);
         Btn1.setText(R.string.cancel);
-        Btn2.setText(R.string.leave);
+        Btn2.setText(R.string.delete);
 
         Btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -467,7 +467,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setMessage(getString(R.string.deleteaccount_progress));
+            progressDialog.setMessage(getResources().getString(R.string.saving));
 
             return progressDialog;
         }

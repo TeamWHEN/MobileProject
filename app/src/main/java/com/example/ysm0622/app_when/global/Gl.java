@@ -397,6 +397,14 @@ public class Gl extends Application {
         }
     }
 
+    public static void LogAllMeetDate() {
+        for (int i = 0; i < MEETS.size(); i++) {
+            MeetDate m = MEET_DATE.get(i);
+            Log.d(TAG, "MeetDate > GroupId : " + m.getGroupId() + " / MeetId : " + m.getMeetId() + " / Date : " + m.getDate());
+
+        }
+    }
+
     public static void LogAllTimeByMeet(Meet m) {
         for (int i = 0; i < m.getDateTimeNum(); i++) {
             DateTime dt = m.getDateTime(i);

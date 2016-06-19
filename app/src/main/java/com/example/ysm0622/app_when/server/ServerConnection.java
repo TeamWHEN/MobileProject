@@ -273,16 +273,25 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<MeetDate> arrayList = new ArrayList<>();
+            Log.d("Gl", "왜안대11111");
             for (int i = 0; i < data.length(); i++) {
+                Log.d("Gl", "왜안대22121212");
                 MeetDate m = new Gson().fromJson(data.getJSONObject(i).toString(), MeetDate.class);
+                Log.d("Gl", "groupid : " + m.getGroupId() + "meetid : " + m.getMeetId() + " date : " +m.getDate());
                 arrayList.add(m);
+                Log.d("Gl", "왜안대33333333");
                 Calendar c = Calendar.getInstance();
+                Log.d("Gl", "왜안대444444444");
                 c.setTimeInMillis(m.getDate());
+                Log.d("Gl", "왜안대55555555");
                 Gl.getMeetById(m.getMeetId()).getSelectedDate().add(c);
+                Log.d("Gl", "왜안대6666666666666");
                 Gl.getMeetById(m.getMeetId()).MeetDate.add(m);
+                Log.d("Gl", "왜안대3333333");
             }
+            Log.d("Gl", "7777777777777777");
             Gl.setMeetDate(arrayList);
-            Gl.LogAllMeet();
+            Gl.LogAllMeetDate();
         } catch (Exception e) {
             e.getMessage();
         }
