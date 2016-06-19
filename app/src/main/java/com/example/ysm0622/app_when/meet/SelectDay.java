@@ -1,7 +1,10 @@
 package com.example.ysm0622.app_when.meet;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,11 +20,16 @@ import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
+import com.example.ysm0622.app_when.object.MeetDate;
 import com.example.ysm0622.app_when.object.User;
+import com.example.ysm0622.app_when.server.ServerConnection;
+
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 public class SelectDay extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -60,6 +68,9 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
     private boolean time[] = new boolean[24];
 
     public ArrayList<ArrayList<Calendar>> allData = new ArrayList<>();
+
+    public static final int PROGRESS_DIALOG = 1001;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,13 +210,24 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         }
         if (mToolbarAction[1].getId() == v.getId()) {
             if (MODE == 0) {
-                Meet M = new Meet();
-                M.setGroup((Group) mIntent.getSerializableExtra(Gl.GROUP));
-                M.setMaster((User) mIntent.getSerializableExtra(Gl.USER));
-                M.setTitle(mIntent.getStringExtra(Gl.MEET_TITLE));
-                M.setDesc(mIntent.getStringExtra(Gl.MEET_DESC));
-                M.setLocation(mIntent.getStringExtra(Gl.MEET_LOCATION));
+                Group G = (Group) mIntent.getSerializableExtra(Gl.GROUP);
+                int groupid = G.getId();
+                int masterid = Gl.MyUser.getId();
+                String title = mIntent.getStringExtra(Gl.MEET_TITLE);
+                String desc = mIntent.getStringExtra(Gl.MEET_DESC);
+                String location = mIntent.getStringExtra(Gl.MEET_LOCATION);
+                Meet M = new Meet(groupid, masterid, title, desc, location);
+                ArrayList<Calendar> calendars = mCalendarView.getDateData();
+                ArrayList<MeetDate> dates = new ArrayList<>();
+                for (int i = 0; i < calendars.size(); i++) {
+                    Date d = calendars.get(i).getTime();
+                    MeetDate md = new MeetDate(groupid, M.getId(),d.getTime());
+                    dates.add(md);
+                }
+                M.setMeetDate(dates);
                 M.setSelectedDate(mCalendarView.getDateData());
+                BackgroundTask mTask = new BackgroundTask();
+                mTask.execute(M);
                 mIntent.putExtra(Gl.MEET, M);
                 setResult(RESULT_OK, mIntent);
                 finish();
@@ -253,6 +275,37 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                 dateClick(i);
             }
         }
+    }
+
+    class BackgroundTask extends AsyncTask<Meet, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(Meet... args) {
+            ArrayList<NameValuePair> param1 = ServerConnection.InsertMeet(args[0]);
+            ArrayList<NameValuePair> param2 = ServerConnection.InsertMeetDate(args[0]);
+            ServerConnection.getStringFromServer(param1, Gl.INSERT_MEET);
+            ServerConnection.getStringFromServer(param2, Gl.INSERT_MEETDATE);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
+
+    public Dialog onCreateDialog(int id) {
+        if (id == PROGRESS_DIALOG) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.createmeet_progress));
+
+            return progressDialog;
+        }
+        return null;
     }
 
     private void dateClick(int i) {

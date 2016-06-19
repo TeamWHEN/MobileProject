@@ -65,6 +65,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     private ArrayList<User> searchUser = new ArrayList<>();
 
     public static final int PROGRESS_DIALOG = 1001;
+    public static final int PROGRESS_DIALOG2 = 1002;
     public ProgressDialog progressDialog;
 
     @Override
@@ -192,16 +193,18 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 User master = Gl.MyUser;
                 ArrayList<User> member = Member;
                 Group g = new Group(title, desc, masterid, master, member);
-                Gl.add(0, g);
+                Gl.add(g);
                 BackgroundTask mTask = new BackgroundTask();
                 mTask.execute(g);
                 mIntent.putExtra(Gl.GROUP, g);
                 setResult(RESULT_OK, mIntent);
                 finish();
             } else if (MODE == 1) {
-//                Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
-//                g.setMember(Member);
-//                mIntent.putExtra(Gl.GROUP, g);
+                Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
+                g.setMember(Member);
+                BackgroundTask2 task = new BackgroundTask2();
+                task.execute(g);
+                mIntent.putExtra(Gl.GROUP, g);
                 setResult(RESULT_OK, mIntent);
                 finish();
             }
@@ -227,7 +230,23 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
             updateListView(mEditText.getText());
         }
     }
+    class BackgroundTask2 extends AsyncTask<Group, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG2);
+        }
 
+        @Override
+        protected Integer doInBackground(Group... args) {
+            ArrayList<NameValuePair> param2 = ServerConnection.InsertUserGroup(args[0]);
+            ServerConnection.getStringFromServer(param2, Gl.INSERT_USERGROUP);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+    }
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);
@@ -253,6 +272,13 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
             progressDialog = new ProgressDialog(this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMessage(getString(R.string.creategroup_progress));
+
+            return progressDialog;
+        }
+        if (id == PROGRESS_DIALOG2) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.saving));
 
             return progressDialog;
         }

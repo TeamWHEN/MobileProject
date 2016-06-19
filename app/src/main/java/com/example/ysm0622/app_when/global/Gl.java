@@ -21,6 +21,7 @@ import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Gl extends Application {
 
@@ -384,7 +385,15 @@ public class Gl extends Application {
     public static void LogAllMeet() {
         for (int i = 0; i < MEETS.size(); i++) {
             Meet m = MEETS.get(i);
-            Log.d(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName() + " / DateTimeNum : " + m.getDateTimeNum());
+            Log.d(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName());
+            for (int j = 0; j < m.MeetDate.size(); j++) {
+                Date d = new Date(m.MeetDate.get(j).getDate());
+                Log.d(TAG, "       SelectDate > Date : " + (d.getYear() + 1900) + "/" + (d.getMonth() + 1) + "/" + d.getDate());
+            }
+            for (int j = 0; j < m.getDateTimeNum(); j++) {
+                Date d = new Date(m.MeetDate.get(j).getDate());
+                Log.d(TAG, "            SelectTime > User : " + m.getDateTime().get(j).getUser().getName());
+            }
         }
     }
 
