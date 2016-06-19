@@ -343,7 +343,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         View Include0 = (View) view.findViewById(R.id.Include0);
         View Include1 = (View) view.findViewById(R.id.Include1);
         final EditText NewPW0 = (EditText) Include0.findViewById(R.id.EditText0);
-        final EditText NewPW1 = (EditText) Include0.findViewById(R.id.EditText0);
+        final EditText NewPW1 = (EditText) Include0.findViewById(R.id.EditText1);
         TextView Btn1 = (TextView) view.findViewById(R.id.changepw_btn1);
         TextView Btn2 = (TextView) view.findViewById(R.id.changepw_btn2);
 

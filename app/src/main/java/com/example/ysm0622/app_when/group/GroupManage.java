@@ -138,7 +138,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     }
 
-
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);
@@ -158,7 +157,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         protected void onPostExecute(Integer a) {
             if (progressDialog != null)
                 progressDialog.dismiss();
-            meetData = Gl.getMeets();
+            meetData = Gl.getMeets(g);
             MeetAdapter.clear();
             MeetAdapter.addAll(meetData);
             meetDataEmptyCheck();

@@ -141,7 +141,11 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    pollStateDialogBox(m);
+                    if ((Gl.MyUser.getId() == m.getMasterId()) || (m.getGroup().Member.size() == m.getDateTimeNum())) {//Complete vote or mater user
+                        pollStateDialogBox(m);
+                    } else {//Incomplete vote
+                        Toast.makeText(mContext, R.string.incomplete_vote_msg, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {

@@ -157,6 +157,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
         mMapView.setVisibility(View.INVISIBLE);
 
+        //MapView Search Event
         mImageView[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,6 +254,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         });
     }
 
+    //MapView Moving
     private void showResult(List<Item> itemList) {
         MapPointBounds mapPointBounds = new MapPointBounds();
 
@@ -394,7 +396,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         }
     }
 
-    //지도 유동적으로 보여주기
+    //Dynamic Show Map
     public void showMap(View v) {
         if (mShowMap) {
             mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
