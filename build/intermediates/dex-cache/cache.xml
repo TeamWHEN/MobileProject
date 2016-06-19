@@ -26,7 +26,7 @@
         jar="D:\ABCDE\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="bb1deb8491c2b774cd4bc5538e99dd33317ba34b">
+        sha1="0229b034bb5f0222e7fdf7a0a2240480de70c111">
         <dex dex="D:\ABCDE\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_80d3e61943bc6cb70a1b0bed380278f6440daa5a.jar" />
     </item>
     <item
@@ -40,7 +40,7 @@
         jar="D:\ABCDE\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="ef51f5bcd387487f6e5d41ee10ee1b6224d089ed">
+        sha1="5246c6de2f62c489e2524a32ac74fd733055203b">
         <dex dex="D:\ABCDE\app\build\intermediates\pre-dexed\debug\instant-run_abd0ea387a37dfde2fc57100a199ea8bb60adafb.jar" />
     </item>
     <item
