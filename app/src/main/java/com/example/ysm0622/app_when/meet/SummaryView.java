@@ -129,8 +129,14 @@ public class SummaryView extends LinearLayout {
                 else AMPM.setText(R.string.pm);
             }
             if (i == 12) AMPM.setText(R.string.pm);
-            if (i > 12) TextView.setText((i - 12) + "시");
-            else TextView.setText(i + "시");
+            if (i > 12){
+                String str = (i - 12) + mContext.getString(R.string.hour);
+                TextView.setText(str);
+            }
+            else {
+                String str = i + mContext.getString(R.string.hour);
+                TextView.setText(str);
+            }
             mLinearLayout[0].addView(v);
         }
     }

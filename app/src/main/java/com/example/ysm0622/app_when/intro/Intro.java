@@ -134,10 +134,10 @@ public class Intro extends AppCompatActivity {
         String email, password;
 
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_LOGIN, MODE_PRIVATE);
-
         //로그인 상태
         if (mSharedPref != null && mSharedPref.contains(Gl.USER_EMAIL)) {
             email = mSharedPref.getString(Gl.USER_EMAIL, "DEFAULT");
+            if(isExistEmail(email)==-1) return false;
             password = mSharedPref.getString(Gl.USER_PASSWORD, "DEFAULT");
             if (isRightPassword(password, isExistEmail(email))) {
                 mIntent.putExtra(Gl.USER, Gl.getUser(isExistEmail(email)));

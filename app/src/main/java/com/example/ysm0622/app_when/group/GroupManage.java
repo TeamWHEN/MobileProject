@@ -83,8 +83,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     // Data
     private Group g;
-    private ArrayList<User> userData;
-    private ArrayList<Meet> meetData;
+    private ArrayList<User> userData = new ArrayList<>();
+    private ArrayList<Meet> meetData = new ArrayList<>();
 
     //Shared Preferences
     private SharedPreferences mSharedPref;
@@ -107,8 +107,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mIntent = getIntent();
 
         g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
-
-        meetData = Gl.getMeets(g);
+        Log.d("Gl","GroupId : " + g.getId() + "Enter");
         userData = Gl.getUsers(g);
 
         Drawable[] toolbarIcon = new Drawable[2];
@@ -138,7 +137,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     }
 
-
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);
@@ -146,10 +144,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         @Override
         protected Integer doInBackground(Group... args) {
-            ArrayList<NameValuePair> param1 = ServerConnection.SelectMeetByGroup(args[0]);
-            ArrayList<NameValuePair> param2 = ServerConnection.SelectMeetDateByGroup(args[0]);
-            String result1 = ServerConnection.getStringFromServer(param1, Gl.SELECT_MEET_BY_GROUP);
-            String result2 = ServerConnection.getStringFromServer(param2, Gl.SELECT_MEETDATE_BY_GROUP);
+            String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEET_BY_GROUP);
+            String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEETDATE_BY_GROUP);
             ServerConnection.SelectMeetByGroup(result1);
             ServerConnection.SelectMeetDateByGroup(result2);
             return null;
@@ -158,7 +154,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         protected void onPostExecute(Integer a) {
             if (progressDialog != null)
                 progressDialog.dismiss();
-            meetData = Gl.getMeets();
+            meetData = Gl.getMeets(g);
             MeetAdapter.clear();
             MeetAdapter.addAll(meetData);
             meetDataEmptyCheck();
@@ -433,7 +429,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 Gl.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
-                meetData.add(0, (Meet) mIntent.getSerializableExtra(Gl.MEET));
+                meetData.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
                 MeetAdapter.add((Meet) mIntent.getSerializableExtra(Gl.MEET));
                 meetDataEmptyCheck();
                 MeetAdapter.notifyDataSetChanged();
@@ -456,16 +452,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             if (resultCode == RESULT_OK) {
                 mIntent = intent;
                 Meet m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
-                for (int i = 0; i < meetData.size(); i++) {
-                    if (meetData.get(i).getId() == m.getId()) {
-                        int index = meetData.indexOf(meetData.get(i));
-                        meetData.remove(meetData.get(i));
-                        MeetAdapter.remove(meetData.get(i));
-                        meetData.add(index, m);
-                        MeetAdapter.add(m);
-                        break;
-                    }
-                }
+                Gl.add(m);
+                MeetAdapter.clear();
+                MeetAdapter.addAll(Gl.getMeets(g));
                 MeetAdapter.notifyDataSetChanged();
             }
         }

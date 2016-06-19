@@ -16,7 +16,7 @@ import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.MeetDate;
-import com.example.ysm0622.app_when.object.Time;
+import com.example.ysm0622.app_when.object.Times;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 
@@ -86,7 +86,7 @@ public class Gl extends Application {
     public static ArrayList<UserGroup> USER_GROUP;
     public static ArrayList<Meet> MEETS;
     public static ArrayList<MeetDate> MEET_DATE;
-    public static ArrayList<Time> TIME;
+    public static ArrayList<Times> TIMES;
 
     public static User MyUser;
     public static Group MyGroup;
@@ -100,7 +100,7 @@ public class Gl extends Application {
         MEETS = new ArrayList<>();
         USER_GROUP = new ArrayList<>();
         MEET_DATE = new ArrayList<>();
-        TIME = new ArrayList<>();
+        TIMES = new ArrayList<>();
     }
 
     // User-Group method
@@ -133,17 +133,17 @@ public class Gl extends Application {
         return MEET_DATE.get(i);
     }
 
-    // Time method
-    public static ArrayList<Time> getTime() {
-        return TIME;
+    // Times method
+    public static ArrayList<Times> getTime() {
+        return TIMES;
     }
 
-    public static void setTime(ArrayList<Time> arrayList) {
-        TIME = arrayList;
+    public static void setTime(ArrayList<Times> arrayList) {
+        TIMES = arrayList;
     }
 
-    public static Time getTime(int i) {
-        return TIME.get(i);
+    public static Times getTime(int i) {
+        return TIMES.get(i);
     }
 
     // User method
@@ -279,7 +279,7 @@ public class Gl extends Application {
     public static ArrayList<Meet> getMeets(Group g) {
         ArrayList<Meet> arrayList = new ArrayList<>();
         for (int i = 0; i < MEETS.size(); i++) {
-            if (MEETS.get(i).getGroup().getId() == g.getId()) {
+            if (MEETS.get(i).getGroupId() == g.getId()) {
                 arrayList.add(MEETS.get(i));
             }
         }
@@ -295,6 +295,12 @@ public class Gl extends Application {
     }
 
     public static void add(Meet m) {
+        for(int i=0;i<MEETS.size();i++){
+            if(m.getId()==MEETS.get(i).getId()){
+                MEETS.remove(i);
+                break;
+            }
+        }
         MEETS.add(m);
     }
 
@@ -394,6 +400,14 @@ public class Gl extends Application {
                 Date d = new Date(m.MeetDate.get(j).getDate());
                 Log.d(TAG, "            SelectTime > User : " + m.getDateTime().get(j).getUser().getName());
             }
+        }
+    }
+
+    public static void LogAllMeetDate() {
+        for (int i = 0; i < MEETS.size(); i++) {
+            MeetDate m = MEET_DATE.get(i);
+            Log.d(TAG, "MeetDate > GroupId : " + m.getGroupId() + " / MeetId : " + m.getMeetId() + " / Date : " + m.getDate());
+
         }
     }
 

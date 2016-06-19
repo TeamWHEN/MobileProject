@@ -29,6 +29,7 @@ public class Meet implements Serializable {
     private ArrayList<Calendar> SelectedDate;
 
     private ArrayList<DateTime> DateTime;
+    private ArrayList<Times> Times;
 
     public Meet() {
         this.Id = 0;
@@ -41,6 +42,7 @@ public class Meet implements Serializable {
         this.MeetDate = new ArrayList<>();
         this.SelectedDate = new ArrayList<>();
         this.DateTime = new ArrayList<>();
+        this.Times = new ArrayList<>();
         this.Group = null;
         this.Master = null;
     }
@@ -60,6 +62,7 @@ public class Meet implements Serializable {
         this.MeetDate = new ArrayList<>();
         this.SelectedDate = new ArrayList<>();
         this.DateTime = new ArrayList<>();
+        this.Times = new ArrayList<>();
         this.Group = Gl.getGroupById(GroupId);
         this.Master = Gl.getUserById(MasterId);
     }
@@ -191,5 +194,13 @@ public class Meet implements Serializable {
 
     public void setMeetDate(ArrayList<com.example.ysm0622.app_when.object.MeetDate> meetDate) {
         MeetDate = meetDate;
+    }
+
+    public ArrayList<Times> getTimes() {
+        return Times;
+    }
+
+    public void setTimes(ArrayList<Times> times) {
+        Times = times;
     }
 }

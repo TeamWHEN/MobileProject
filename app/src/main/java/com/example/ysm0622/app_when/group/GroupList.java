@@ -108,6 +108,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             @Override
             public void onClick(View v) {
                 mIntent.setClass(GroupList.this, CreateGroup.class);
+                mIntent.putExtra(Gl.INVITE_MODE, 0);
                 startActivityForResult(mIntent, Gl.GROUPLIST_CREATEGROUP);
             }
         });

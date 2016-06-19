@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2" />
 
+<<<<<<< HEAD
     <item
         jar="D:\ABCDE\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
         jumboMode="true"
@@ -101,3 +102,5 @@
     </item>
 
 </items>
+=======
+>>>>>>> d60e2f6dd9104d111e5475ab13781d2cebb9336c
