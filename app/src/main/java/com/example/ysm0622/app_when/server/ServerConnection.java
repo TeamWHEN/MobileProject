@@ -1,5 +1,6 @@
 package com.example.ysm0622.app_when.server;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -186,6 +187,10 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 Date d = new Date(u.getJoinDate());
                 u.setJoined(d);
                 arrayList.add(u);
+                if (u.ImageFilePath != null) {
+                    Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
+                    Gl.PROFILES.put(String.valueOf(u.getId()), tmp);
+                }
             }
             Gl.setUsers(arrayList);
             Gl.LogAllUser();
@@ -304,14 +309,14 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<Times> arrayList = new ArrayList<>();
-            Log.d("Gl","되라아아아아아앙1111111111111");
+            Log.d("Gl", "되라아아아아아앙1111111111111");
             for (int i = 0; i < data.length(); i++) {
                 Times t = new Gson().fromJson(data.getJSONObject(i).toString(), Times.class);
                 arrayList.add(t);
             }
-            Log.d("Gl","되라아아아아아앙2222222222222222");
+            Log.d("Gl", "되라아아아아아앙2222222222222222");
             Gl.getMeetById(arrayList.get(0).getMeetId()).setDateTime(SelectDay.TimesToDateTime(arrayList));
-            Log.d("Gl","되라아아아아아앙33333333333333");
+            Log.d("Gl", "되라아아아아아앙33333333333333");
             Gl.setTime(arrayList);
             Gl.LogAllTimeByMeet(Gl.getMeet(arrayList.get(0).getMeetId()));
         } catch (Exception e) {

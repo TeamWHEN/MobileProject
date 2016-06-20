@@ -25,6 +25,7 @@ import com.example.ysm0622.app_when.object.UserGroup;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Gl extends Application {
 
@@ -90,6 +91,8 @@ public class Gl extends Application {
     public static ArrayList<Meet> MEETS;
     public static ArrayList<MeetDate> MEET_DATE;
     public static ArrayList<Times> TIMES;
+
+    public static HashMap<String, Bitmap> PROFILES = new HashMap<String, Bitmap>();
 
     public static User MyUser;
     public static Group MyGroup;
