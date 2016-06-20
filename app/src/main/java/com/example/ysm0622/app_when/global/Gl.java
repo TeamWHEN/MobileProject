@@ -4,11 +4,13 @@ package com.example.ysm0622.app_when.global;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -20,8 +22,10 @@ import com.example.ysm0622.app_when.object.Times;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Gl extends Application {
 
@@ -87,6 +91,8 @@ public class Gl extends Application {
     public static ArrayList<Meet> MEETS;
     public static ArrayList<MeetDate> MEET_DATE;
     public static ArrayList<Times> TIMES;
+
+    public static HashMap<String, Bitmap> PROFILES = new HashMap<String, Bitmap>();
 
     public static User MyUser;
     public static Group MyGroup;
@@ -295,8 +301,8 @@ public class Gl extends Application {
     }
 
     public static void add(Meet m) {
-        for(int i=0;i<MEETS.size();i++){
-            if(m.getId()==MEETS.get(i).getId()){
+        for (int i = 0; i < MEETS.size(); i++) {
+            if (m.getId() == MEETS.get(i).getId()) {
                 MEETS.remove(i);
                 break;
             }
@@ -438,5 +444,30 @@ public class Gl extends Application {
     //이미지 파일 경로
     public static String getImage(User u) {
         return u.getImageFilePath() + u.getId() + ".jpg";
+    }
+
+    public static String BitmapToString(Bitmap bitmap) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String temp = Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        } catch (NullPointerException e) {
+            return null;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+    }
+
+    public static Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

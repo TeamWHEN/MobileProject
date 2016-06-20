@@ -20,7 +20,6 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -39,7 +38,6 @@ import com.example.ysm0622.app_when.server.ServerConnection;
 
 import org.apache.http.NameValuePair;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -189,7 +187,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         // Default setting
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
 
-        if (u.isImage()) {//프로필 이미지가 존재
+        if (u.ImageFilePath!=null) {//프로필 이미지가 존재
             Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(u));
             mMyPhoto.clearColorFilter();
             mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Image));
@@ -323,8 +321,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             User u = (User) mIntent.getSerializableExtra(Gl.USER);
             u.setName(name);
             u.setEmail(email);
-            if (mFabCheck)
-                u.setImage(true);
+//            if (mFabCheck)
             mIntent.putExtra(Gl.USER, u);
             setResult(RESULT_OK, mIntent);
             finish();
@@ -499,31 +496,6 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
-    public static String BitmapToString(Bitmap bitmap) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] b = baos.toByteArray();
-            String temp = Base64.encodeToString(b, Base64.DEFAULT);
-            return temp;
-        } catch (NullPointerException e) {
-            return null;
-        } catch (OutOfMemoryError e) {
-            return null;
-        }
-    }
-
-    public static Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
-    }
-
     public void saveBitmaptoJpeg(Bitmap bitmap) {
         try {
             FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
@@ -545,7 +517,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
                     saveBitmaptoJpeg(photo);
-                    String test = BitmapToString(photo);
+                    String test = Gl.BitmapToString(photo);
                     Log.d("testtest", test);
                     BackgroundTask3 task = new BackgroundTask3();
                     u.setImageFilePath(test);

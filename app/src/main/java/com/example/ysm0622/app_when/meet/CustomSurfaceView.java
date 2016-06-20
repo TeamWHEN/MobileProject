@@ -106,6 +106,12 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private void drawInputs() {
         ArrayList<DateTime> D = m.getDateTime();
         Paint grd = new Paint();
+        int cnt[][] = new int[24][24];
+        for (int i = 0; i < 24; i++) {
+            for (int j = 0; j < 24; j++) {
+                cnt[i][j] = 0;
+            }
+        }
         grd.setColor(getResources().getColor(R.color.colorAccent));
         grd.setAlpha(255 / D.size());
 
@@ -122,7 +128,31 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+                        cnt[h][k]++;
+//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+                    }
+                    n++;
+                    j--;
+                } else {
+                    h++;
+                }
+            }
+        }
+
+        for (int i = 0; i < D.size(); i++) {
+            ArrayList<ArrayList<Calendar>> arrayLists = D.get(i).getSelectTime();
+            int n = 0;
+            int h = 0;
+            for (int j = 0; n < arrayLists.size() && j < m.getSelectedDate().size(); j++) {
+                Calendar A = m.getSelectedDate().get(j);
+                Calendar B = arrayLists.get(n).get(0);
+                if (isEqual(A, B)) {
+                    ArrayList<Calendar> arrayList = arrayLists.get(n);
+                    for (int k = 0; k < arrayList.size(); k++) {
+                        int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
+                        v -= mMin;
+                        cnt[h][k]++;
+//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
                     }
                     n++;
                     j--;
