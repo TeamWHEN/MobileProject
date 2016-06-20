@@ -17,10 +17,9 @@ public class User implements Serializable {
     private String Email;
     private String Password;
     public String ImageFilePath = "";
+
     private long JoinDate;
     private Date Joined;
-
-    private boolean Image;
 
     public User() {
         Id = 0;
@@ -41,7 +40,6 @@ public class User implements Serializable {
         Date d = c.getTime();
         this.Joined = d;
         this.JoinDate = d.getTime();
-        this.Image = false;
     }
 
     public int getId() {
@@ -74,14 +72,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         Password = password;
-    }
-
-    public boolean isImage() {
-        return Image;
-    }
-
-    public void setImage(boolean image) {
-        Image = image;
     }
 
     public String getImageFilePath() {

@@ -441,10 +441,20 @@ public class Gl extends Application {
     }
 
 
-    /**
-     * @param encodedString
-     * @return bitmap (from given string)
-     */
+    public static String BitmapToString(Bitmap bitmap) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String temp = Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        } catch (NullPointerException e) {
+            return null;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+    }
+
     public static Bitmap StringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
@@ -454,13 +464,5 @@ public class Gl extends Application {
             e.getMessage();
             return null;
         }
-    }
-
-    public static String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
     }
 }
