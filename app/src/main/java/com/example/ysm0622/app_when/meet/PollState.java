@@ -1,10 +1,7 @@
 package com.example.ysm0622.app_when.meet;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,11 +13,6 @@ import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
-import com.example.ysm0622.app_when.server.ServerConnection;
-
-import org.apache.http.NameValuePair;
-
-import java.util.ArrayList;
 
 public class PollState extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,10 +39,6 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
 
     private SummaryView mSummaryView;
 
-    public static final int PROGRESS_DIALOG = 1001;
-    public static final int PROGRESS_DIALOG2 = 1002;
-    public ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,38 +56,6 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
         initToolbar(toolbarIcon, toolbarTitle);
 
         initialize();
-    }
-
-    class BackgroundTask extends AsyncTask<Meet, Integer, Integer> {
-        protected void onPreExecute() {
-            showDialog(PROGRESS_DIALOG);
-        }
-
-        @Override
-        protected Integer doInBackground(Meet... args) {
-            ArrayList<NameValuePair> param1 = ServerConnection.SelectTimeByMeet(args[0]);
-            String result = ServerConnection.getStringFromServer(param1, Gl.SELECT_TIME_BY_MEET);
-            ServerConnection.SelectTimeByMeet(result);
-            return null;
-        }
-
-        protected void onPostExecute(Integer a) {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            mIntent.putExtra(Gl.MEET, Gl.getMeetById(m.getId()));
-            mSummaryView.drawState(mIntent);
-        }
-    }
-
-    public Dialog onCreateDialog(int id) {
-        if (id == PROGRESS_DIALOG) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setMessage(getString(R.string.inputtime_progress));
-
-            return progressDialog;
-        }
-        return null;
     }
 
     private void initialize() {
@@ -129,8 +85,7 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
         mSummaryView = (SummaryView) findViewById(R.id.SummaryView);
         CustomSurfaceView mSurfaceView = (CustomSurfaceView) findViewById(R.id.CustomSurfaceView);
         mSummaryView.setLayout(mLinearLayout, mView, mSurfaceView);
-        BackgroundTask task = new BackgroundTask();
-        task.execute(m);
+        mSummaryView.drawState(mIntent);
 
         for (int i = 0; i < COUNT; i++) {
             mImageView[i].setColorFilter(getResources().getColor(R.color.colorPrimary));

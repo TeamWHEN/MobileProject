@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ import com.example.ysm0622.app_when.server.ServerConnection;
 
 import org.apache.http.NameValuePair;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -106,6 +109,10 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         initToolbar(toolbarIcon, toolbarTitle);
 
         initialize();
+
+//        Bitmap photo = StringToBitMap(u.getImageFilePath());
+//        mMyPhoto.clearColorFilter();
+//        mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));
     }
 
     private void initToolbar(Drawable Icon[], String Title) {
@@ -498,6 +505,31 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
+    public static String BitmapToString(Bitmap bitmap) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String temp = Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        } catch (NullPointerException e) {
+            return null;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+    }
+
+    public static Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
     public void saveBitmaptoJpeg(Bitmap bitmap) {
         try {
             FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
@@ -518,14 +550,16 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
-                    //saveBitmaptoJpeg(photo);
+                    saveBitmaptoJpeg(photo);
+                    String test = BitmapToString(photo);
+                    Log.d("testtest", test);
+                    BackgroundTask3 task = new BackgroundTask3();
+                    u.setImageFilePath(test);
+                    task.execute(u);
                     mMyPhoto.clearColorFilter();
                     mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));
-                    u.setImageFilePath(Gl.BitMapToString(photo));
                     mFabCheck = true;
                     mToolbarAction[1].setVisibility(View.VISIBLE);
-                    BackgroundTask3 task = new BackgroundTask3();
-                    task.execute(u);
                 }
             }
         }

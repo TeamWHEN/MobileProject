@@ -205,7 +205,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         mToolbarTitle.setText(Title);
     }
 
-    public static ArrayList<Times> dateTimeToTimes(int meetId, DateTime D) {
+    public static ArrayList<Times> dateTimeToTimes(int groupId, int meetId, DateTime D) {
         ArrayList<ArrayList<Calendar>> arrayLists = D.getSelectTime();
         ArrayList<Times> times = new ArrayList<>();
 
@@ -214,7 +214,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
             for (int j = 0; j < cals.size(); j++) {
                 Calendar cal = cals.get(j);
                 Date date = cal.getTime();
-                Times t = new Times(meetId, D.getUser().getId(), date.getTime());
+                Times t = new Times(groupId, meetId, D.getUser().getId(), date.getTime());
                 times.add(t);
             }
         }
@@ -279,10 +279,11 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                 finish();
             } else if (MODE == 1) {
                 DateTime D = new DateTime();
+                Group g = (Group) mIntent.getSerializableExtra(Gl.GROUP);
                 Meet m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
                 D.setUser((User) mIntent.getSerializableExtra(Gl.USER));
                 D.setSelectTime(allData);
-                ArrayList<Times> times = dateTimeToTimes(m.getId(), D);
+                ArrayList<Times> times = dateTimeToTimes(g.getId(), m.getId(), D);
                 Meet M = (Meet) mIntent.getSerializableExtra(Gl.MEET);
                 M = M.addDateTime(D);
                 BackgroundTask2 task = new BackgroundTask2();

@@ -146,8 +146,11 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         protected Integer doInBackground(Group... args) {
             String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEET_BY_GROUP);
             String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEETDATE_BY_GROUP);
+            ArrayList<NameValuePair> param1 = ServerConnection.SelectTimeByMeet(args[0]);
+            String result = ServerConnection.getStringFromServer(param1, Gl.SELECT_TIME_BY_MEET);
             ServerConnection.SelectMeetByGroup(result1);
             ServerConnection.SelectMeetDateByGroup(result2);
+            ServerConnection.SelectTimeByMeet(result);
             return null;
         }
 

@@ -106,13 +106,16 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private void drawInputs() {
         ArrayList<DateTime> D = m.getDateTime();
         Paint grd = new Paint();
-        grd.setColor(getResources().getColor(R.color.alpha0Accent));
+
+        grd.setColor(getResources().getColor(R.color.colorAccent));
+        grd.setAlpha(255 / D.size());
+
 
         for (int i = 0; i < D.size(); i++) {
             ArrayList<ArrayList<Calendar>> arrayLists = D.get(i).getSelectTime();
             int n = 0;
             int h = 0;
-            for (int j = 0; n<arrayLists.size() && j < m.getSelectedDate().size(); j++) {
+            for (int j = 0; n < arrayLists.size() && j < m.getSelectedDate().size(); j++) {
                 Calendar A = m.getSelectedDate().get(j);
                 Calendar B = arrayLists.get(n).get(0);
                 if (isEqual(A, B)) {

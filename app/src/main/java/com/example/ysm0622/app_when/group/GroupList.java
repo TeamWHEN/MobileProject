@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.menu.About;
+import com.example.ysm0622.app_when.menu.EditProfile;
 import com.example.ysm0622.app_when.menu.Settings;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.User;
@@ -233,10 +234,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         User user = (User) mIntent.getSerializableExtra(Gl.USER);
 
-        if (!user.getImageFilePath().equals("")) {//프로필 이미지가 존재
-            //Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
-            Bitmap Image = Gl.StringToBitMap(user.getImageFilePath());
-            Log.e("TAGGGG",user.getImageFilePath());
+        if (user.ImageFilePath!=null) {//프로필 이미지가 존재
+            Bitmap Image = EditProfile.StringToBitMap(u.getImageFilePath());
             ImageView0.clearColorFilter();
             ImageView0.setImageBitmap(Gl.getCircleBitmap(Image));
         }

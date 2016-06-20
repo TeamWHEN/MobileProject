@@ -16,9 +16,7 @@ public class User implements Serializable {
     private String Name;
     private String Email;
     private String Password;
-
-
-    private String ImageFilePath = "";
+    public String ImageFilePath = "";
     private long JoinDate;
     private Date Joined;
 
@@ -90,10 +88,6 @@ public class User implements Serializable {
         return ImageFilePath;
     }
 
-    public void setImageFilePath(String imageFilePath) {
-        ImageFilePath = imageFilePath;
-    }
-
     public long getJoinDate() {
         return JoinDate;
     }
@@ -108,5 +102,9 @@ public class User implements Serializable {
 
     public void setJoined(Date joined) {
         Joined = joined;
+    }
+
+    public void setImageFilePath(String imageFilePath) {
+        ImageFilePath = imageFilePath;
     }
 }

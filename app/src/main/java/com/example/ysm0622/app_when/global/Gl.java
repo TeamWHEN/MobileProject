@@ -361,7 +361,7 @@ public class Gl extends Application {
     public static final String SELECT_TIME_BY_MEET = SERVER_URL + "selectTime.do";
     public static final String INSERT_USER = SERVER_URL + "insertUserAccount.do";
     public static final String DELETE_USER = SERVER_URL + "deleteUserAccount.do";//
-    public static final String UPDATE_USER = SERVER_URL + "updateAccount.do";
+    public static final String UPDATE_USER = SERVER_URL + "updateUserAccount.do";
     public static final String INSERT_GROUP = SERVER_URL + "insertGroupList.do";
     public static final String DELETE_GROUP = SERVER_URL + "deleteGroupList.do";
     //    public static final String UPDATE_GROUP = SERVER_URL + "updateGroupList.do";
@@ -401,10 +401,10 @@ public class Gl extends Application {
                 Date d = new Date(m.MeetDate.get(j).getDate());
                 Log.d(TAG, "       SelectDate > Date : " + (d.getYear() + 1900) + "/" + (d.getMonth() + 1) + "/" + d.getDate());
             }
-            for (int j = 0; j < m.getDateTimeNum(); j++) {
-                Date d = new Date(m.MeetDate.get(j).getDate());
-                Log.d(TAG, "            SelectTime > User : " + m.getDateTime().get(j).getUser().getName());
-            }
+//            for (int j = 0; j < m.getDateTimeNum(); j++) {
+//                Date d = new Date(m.MeetDate.get(j).getDate());
+//                Log.d(TAG, "            SelectTime > User : " + m.getDateTime().get(j).getUser().getName());
+//            }
         }
     }
 

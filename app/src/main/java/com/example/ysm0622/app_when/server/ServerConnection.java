@@ -319,10 +319,10 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         }
     }
 
-    public static ArrayList<NameValuePair> SelectTimeByMeet(Meet m) {
+    public static ArrayList<NameValuePair> SelectTimeByMeet(Group g) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("MeetId", String.valueOf(m.getId())));
-        Log.d("Gl", "SelectTimeByMeet(" + m.getId() + ")");
+        post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
+        Log.d("Gl", "SelectTimeByGroup(" + g.getId() + ")");
         for (int i = 0; i < post.size(); i++)
             Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
@@ -459,6 +459,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static ArrayList<NameValuePair> InsertTime(ArrayList<Times> t) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         for (int i = 0; i < t.size(); i++) {
+            post.add(new BasicNameValuePair("GroupId", String.valueOf(t.get(i).getGroupId())));
             post.add(new BasicNameValuePair("MeetId", String.valueOf(t.get(i).getMeetId())));
             post.add(new BasicNameValuePair("UserId", String.valueOf(t.get(i).getUserId())));
             post.add(new BasicNameValuePair("Time", String.valueOf(t.get(i).getTime())));
