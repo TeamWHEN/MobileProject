@@ -4,11 +4,13 @@ package com.example.ysm0622.app_when.global;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -20,6 +22,7 @@ import com.example.ysm0622.app_when.object.Times;
 import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -91,6 +94,8 @@ public class Gl extends Application {
     public static User MyUser;
     public static Group MyGroup;
     public static Meet MyMeet;
+
+    public static final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
 
     public static void initialize(Context context) {
         CONTEXT = context;
@@ -295,8 +300,8 @@ public class Gl extends Application {
     }
 
     public static void add(Meet m) {
-        for(int i=0;i<MEETS.size();i++){
-            if(m.getId()==MEETS.get(i).getId()){
+        for (int i = 0; i < MEETS.size(); i++) {
+            if (m.getId() == MEETS.get(i).getId()) {
                 MEETS.remove(i);
                 break;
             }
@@ -435,8 +440,27 @@ public class Gl extends Application {
         return output;
     }
 
-    //이미지 파일 경로
-    public static String getImage(User u) {
-        return u.getImageFilePath() + u.getId() + ".jpg";
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    public static Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+    public static String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 }

@@ -122,10 +122,14 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mIntent.setClass(mContext, PollState.class);
-                    mIntent.putExtra(Gl.MEET, m);
-                    ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_POLLSTATE);
-                    Gl.LogAllMeet();
+                    if ((Gl.MyUser.getId() == m.getMasterId()) || (m.getGroup().Member.size() == m.getDateTimeNum())) {//Complete vote or mater user
+                        mIntent.setClass(mContext, PollState.class);
+                        mIntent.putExtra(Gl.MEET, m);
+                        ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_POLLSTATE);
+                        Gl.LogAllMeet();
+                    } else {//Incomplete vote
+                        Toast.makeText(mContext, R.string.incomplete_vote_msg, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
@@ -141,11 +145,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ((Gl.MyUser.getId() == m.getMasterId()) || (m.getGroup().Member.size() == m.getDateTimeNum())) {//Complete vote or mater user
-                        pollStateDialogBox(m);
-                    } else {//Incomplete vote
-                        Toast.makeText(mContext, R.string.incomplete_vote_msg, Toast.LENGTH_SHORT).show();
-                    }
+                    pollStateDialogBox(m);
                 }
             });
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {

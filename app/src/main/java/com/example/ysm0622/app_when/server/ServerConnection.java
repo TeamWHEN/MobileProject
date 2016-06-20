@@ -350,8 +350,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 
     public static ArrayList<NameValuePair> UpdateUser(User u) {
         ArrayList<NameValuePair> post = new ArrayList<>();
-        post.add(new BasicNameValuePair("Name", u.getName()));
-        post.add(new BasicNameValuePair("Password", u.getPassword()));
+//        post.add(new BasicNameValuePair("Name", u.getName()));
+//        post.add(new BasicNameValuePair("Password", u.getPassword()));
+        post.add(new BasicNameValuePair("ImageFilePath", u.getImageFilePath()));
         post.add(new BasicNameValuePair("Id", String.valueOf(u.getId())));
         Log.d("Gl", "UpdateUser(" + u.getId() + ")");
         for (int i = 0; i < post.size(); i++)

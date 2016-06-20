@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -234,8 +233,10 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         User user = (User) mIntent.getSerializableExtra(Gl.USER);
 
-        if (user.isImage()) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(user));
+        if (!user.getImageFilePath().equals("")) {//프로필 이미지가 존재
+            //Bitmap Image = BitmapFactory.decodeFile(user.getImageFilePath());
+            Bitmap Image = Gl.StringToBitMap(user.getImageFilePath());
+            Log.e("TAGGGG",user.getImageFilePath());
             ImageView0.clearColorFilter();
             ImageView0.setImageBitmap(Gl.getCircleBitmap(Image));
         }

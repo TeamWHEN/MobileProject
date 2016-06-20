@@ -16,7 +16,9 @@ public class User implements Serializable {
     private String Name;
     private String Email;
     private String Password;
-    private final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
+
+
+    private String ImageFilePath = "";
     private long JoinDate;
     private Date Joined;
 
@@ -86,6 +88,10 @@ public class User implements Serializable {
 
     public String getImageFilePath() {
         return ImageFilePath;
+    }
+
+    public void setImageFilePath(String imageFilePath) {
+        ImageFilePath = imageFilePath;
     }
 
     public long getJoinDate() {

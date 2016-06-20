@@ -7,7 +7,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -183,8 +182,10 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         // Default setting
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
 
-        if (u.isImage()) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(u));
+        if (!u.getImageFilePath().equals("")) {//프로필 이미지가 존재
+            //Bitmap Image = BitmapFactory.decodeFile(u.getImageFilePath());
+            Bitmap Image = Gl.StringToBitMap(u.getImageFilePath());
+            Log.e("TAGGGG", u.getImageFilePath());
             mMyPhoto.clearColorFilter();
             mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Image));
         }
@@ -317,8 +318,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             User u = (User) mIntent.getSerializableExtra(Gl.USER);
             u.setName(name);
             u.setEmail(email);
-            if (mFabCheck)
-                u.setImage(true);
+            if (mFabCheck) {
+                //u.setImageFilePath(Gl.ImageFilePath + u.getId() + ".jpg");
+                //Toast.makeText(getApplicationContext(), u.getImageFilePath(), Toast.LENGTH_SHORT).show();
+                // u.setImage(true);
+            }
+
             mIntent.putExtra(Gl.USER, u);
             setResult(RESULT_OK, mIntent);
             finish();
@@ -513,13 +518,34 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
-                    saveBitmaptoJpeg(photo);
+                    //saveBitmaptoJpeg(photo);
                     mMyPhoto.clearColorFilter();
                     mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));
+                    u.setImageFilePath(Gl.BitMapToString(photo));
                     mFabCheck = true;
                     mToolbarAction[1].setVisibility(View.VISIBLE);
+                    BackgroundTask3 task = new BackgroundTask3();
+                    task.execute(u);
                 }
             }
+        }
+    }
+
+    class BackgroundTask3 extends AsyncTask<User, Integer, Integer> {
+        protected void onPreExecute() {
+            showDialog(PROGRESS_DIALOG);
+        }
+
+        @Override
+        protected Integer doInBackground(User... args) {
+            ArrayList<NameValuePair> param1 = ServerConnection.UpdateUser(args[0]);
+            ServerConnection.getStringFromServer(param1, Gl.UPDATE_USER);
+            return null;
+        }
+
+        protected void onPostExecute(Integer a) {
+            if (progressDialog != null)
+                progressDialog.dismiss();
         }
     }
 }

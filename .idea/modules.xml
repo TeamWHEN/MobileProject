@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-=======
-      <module fileurl="file://$PROJECT_DIR$/WHEN.iml" filepath="$PROJECT_DIR$/WHEN.iml" />
->>>>>>> 68ace98e17f6ea952cd4c37f3b5166e114ca6ed5
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpclient-4.2/httpclient-4.2.iml" filepath="$PROJECT_DIR$/httpclient-4.2/httpclient-4.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/when.iml" filepath="$PROJECT_DIR$/when.iml" />
