@@ -105,15 +105,14 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     private void drawInputs() {
         ArrayList<DateTime> D = m.getDateTime();
-        Paint grd = new Paint();
-        int cnt[][] = new int[24][24];
-        for (int i = 0; i < 24; i++) {
-            for (int j = 0; j < 24; j++) {
+        int cnt[][] = new int[100][100];
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
                 cnt[i][j] = 0;
             }
         }
-        grd.setColor(getResources().getColor(R.color.colorAccent));
-        grd.setAlpha(255 / D.size());
+        Paint paintArr[] = null;
+        if (D.size() > 0) paintArr = getPaintArr(D.size());
 
 
         for (int i = 0; i < D.size(); i++) {
@@ -128,7 +127,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        cnt[h][k]++;
+                        cnt[h][v]++;
 //                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
                     }
                     n++;
@@ -151,8 +150,8 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        cnt[h][k]++;
-//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+                        Log.d("TEST","cnt["+h+"]["+v+"] = "+cnt[h][v]);
+//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[cnt[h][v] - 1]);
                     }
                     n++;
                     j--;
@@ -161,6 +160,90 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 }
             }
         }
+    }
+
+    private Paint[] getPaintArr(int len) {
+        Paint arr[] = new Paint[len];
+        for (int i = 0; i < len; i++)
+            arr[i] = new Paint();
+
+        if (len == 1) {
+            arr[0].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 2) {
+            arr[0].setColor(getResources().getColor(R.color.dis4));
+            arr[1].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 3) {
+            arr[0].setColor(getResources().getColor(R.color.dis3));
+            arr[1].setColor(getResources().getColor(R.color.dis6));
+            arr[2].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 4) {
+            arr[0].setColor(getResources().getColor(R.color.dis2));
+            arr[1].setColor(getResources().getColor(R.color.dis4));
+            arr[2].setColor(getResources().getColor(R.color.dis6));
+            arr[3].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 5) {
+            arr[0].setColor(getResources().getColor(R.color.dis1));
+            arr[1].setColor(getResources().getColor(R.color.dis3));
+            arr[2].setColor(getResources().getColor(R.color.dis5));
+            arr[3].setColor(getResources().getColor(R.color.dis7));
+            arr[4].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 6) {
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis1));
+            arr[2].setColor(getResources().getColor(R.color.dis3));
+            arr[3].setColor(getResources().getColor(R.color.dis5));
+            arr[4].setColor(getResources().getColor(R.color.dis7));
+            arr[5].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 7) {
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis1));
+            arr[2].setColor(getResources().getColor(R.color.dis2));
+            arr[3].setColor(getResources().getColor(R.color.dis4));
+            arr[4].setColor(getResources().getColor(R.color.dis6));
+            arr[5].setColor(getResources().getColor(R.color.dis7));
+            arr[6].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 8) {
+            arr[0].setColor(getResources().getColor(R.color.dis1));
+            arr[1].setColor(getResources().getColor(R.color.dis2));
+            arr[2].setColor(getResources().getColor(R.color.dis3));
+            arr[3].setColor(getResources().getColor(R.color.dis4));
+            arr[4].setColor(getResources().getColor(R.color.dis5));
+            arr[5].setColor(getResources().getColor(R.color.dis6));
+            arr[6].setColor(getResources().getColor(R.color.dis7));
+            arr[7].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len == 9) {
+            arr[0].setColor(getResources().getColor(R.color.dis1));
+            arr[1].setColor(getResources().getColor(R.color.dis2));
+            arr[2].setColor(getResources().getColor(R.color.dis3));
+            arr[3].setColor(getResources().getColor(R.color.dis4));
+            arr[4].setColor(getResources().getColor(R.color.dis5));
+            arr[5].setColor(getResources().getColor(R.color.dis6));
+            arr[6].setColor(getResources().getColor(R.color.dis7));
+            arr[7].setColor(getResources().getColor(R.color.dis8));
+            arr[8].setColor(getResources().getColor(R.color.dis9));
+        }
+        if (len >= 10) {
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis1));
+            arr[2].setColor(getResources().getColor(R.color.dis2));
+            arr[3].setColor(getResources().getColor(R.color.dis3));
+            arr[4].setColor(getResources().getColor(R.color.dis4));
+            arr[5].setColor(getResources().getColor(R.color.dis5));
+            arr[6].setColor(getResources().getColor(R.color.dis6));
+            arr[7].setColor(getResources().getColor(R.color.dis7));
+            arr[8].setColor(getResources().getColor(R.color.dis8));
+            arr[9].setColor(getResources().getColor(R.color.dis9));
+        }
+
+        return arr;
     }
 
 

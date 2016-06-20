@@ -495,7 +495,6 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             // Do nothing for now
         }
     }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_FROM_GALLERY) {
             if (resultCode == RESULT_OK) {

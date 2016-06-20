@@ -447,7 +447,6 @@ public class Gl extends Application {
         return output;
     }
 
-
     public static String BitmapToString(Bitmap bitmap) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
