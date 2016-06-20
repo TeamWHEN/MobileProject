@@ -7,7 +7,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -38,9 +37,6 @@ import com.example.ysm0622.app_when.server.ServerConnection;
 
 import org.apache.http.NameValuePair;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -494,28 +490,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             // Do nothing for now
         }
     }
-
-    public void saveBitmaptoJpeg(Bitmap bitmap) {
-        try {
-            FileOutputStream out = openFileOutput(u.getId() + ".jpg", 0);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-
-        } catch (FileNotFoundException exception) {
-            Log.e("FileNotFoundException", exception.getMessage());
-        } catch (IOException exception) {
-            Log.e("IOException", exception.getMessage());
-        }
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_FROM_GALLERY) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
-                    saveBitmaptoJpeg(photo);
                     String test = Gl.BitmapToString(photo);
                     Log.d("testtest", test);
                     BackgroundTask3 task = new BackgroundTask3();

@@ -25,12 +25,16 @@
     <color name="green">#00FF00</color>
     <color name="blue">#0000FF</color>
 
-    <color name="dis1">#32FF0000</color>
-    <color name="dis2">#3200FF00</color>
-    <color name="dis3">#320000FF</color>
-    <color name="dis4">#32FFFF00</color>
-    <color name="dis5">#32FF00FF</color>
-    <color name="dis6">#3200FFFF</color>
+    <color name="dis0">#1900baf2</color>
+    <color name="dis1">#3200baf2</color>
+    <color name="dis2">#4b00baf2</color>
+    <color name="dis3">#6400baf2</color>
+    <color name="dis4">#7d00baf2</color>
+    <color name="dis5">#9600baf2</color>
+    <color name="dis6">#af00baf2</color>
+    <color name="dis7">#c800baf2</color>
+    <color name="dis8">#e100baf2</color>
+    <color name="dis9">#ff00baf2</color>
 
     <color name="red_dark">#FFCC0000</color>
 

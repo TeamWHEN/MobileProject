@@ -232,7 +232,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         User user = (User) mIntent.getSerializableExtra(Gl.USER);
 
-        if (user.ImageFilePath != null) {//프로필 이미지가 존재
+        if (user.ImageFilePath != null && !user.ImageFilePath.equals("")) {//프로필 이미지가 존재
             ImageView0.clearColorFilter();
             ImageView0.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
         }
