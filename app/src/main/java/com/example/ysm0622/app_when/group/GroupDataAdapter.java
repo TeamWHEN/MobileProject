@@ -84,7 +84,12 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             mImageViewBtn[2] = (ImageView) v.findViewById(R.id.ImageView6);
             mImageViewBtn[3] = (ImageView) v.findViewById(R.id.ImageView7);
 
-            mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+            if (!Gl.getUser(g.getMasterId()).getImageFilePath().equals("")) {
+                mImageViewProfile.clearColorFilter();
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(g.getMasterId()))));
+            } else {
+                mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+            }
             for (int i = 0; i < ICON_NUM; i++) {
                 mImageViewIcon[i].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
             }

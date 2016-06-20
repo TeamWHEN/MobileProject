@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.group;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysm0622.app_when.R;
+import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.object.User;
 
 import java.util.ArrayList;
@@ -55,8 +57,13 @@ public class UserDataAdapter extends ArrayAdapter<User> {
 
             mImageViewProfile = (ImageView) v.findViewById(R.id.ImageView0);
 
-            mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
-
+            if (!u.getImageFilePath().equals("")) {
+                Log.e("userDate",u.getId()+"");
+                mImageViewProfile.clearColorFilter();
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
+            } else {
+                mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+            }
             mTextView[0].setText(u.getName());
             mTextView[1].setText(u.getEmail());
         }

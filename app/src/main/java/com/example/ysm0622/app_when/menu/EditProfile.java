@@ -7,7 +7,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -20,8 +19,6 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Base64;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +36,6 @@ import com.example.ysm0622.app_when.server.ServerConnection;
 
 import org.apache.http.NameValuePair;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -189,7 +182,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         // Default setting
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
 
-        if (u.ImageFilePath != null) {//프로필 이미지가 존재
+        if (!u.ImageFilePath.equals("")) {//프로필 이미지가 존재
             mMyPhoto.clearColorFilter();
             mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
         }
@@ -504,9 +497,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
                     String test = Gl.BitmapToString(photo);
-                    Log.d("testtest", test);
-                    BackgroundTask3 task = new BackgroundTask3();
                     u.setImageFilePath(test);
+                    Gl.PROFILES.put(String.valueOf(u.getId()), photo);
+                    BackgroundTask3 task = new BackgroundTask3();
                     task.execute(u);
                     mMyPhoto.clearColorFilter();
                     mMyPhoto.setImageBitmap(Gl.getCircleBitmap(photo));

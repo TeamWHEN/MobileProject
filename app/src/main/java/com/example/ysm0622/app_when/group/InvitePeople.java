@@ -171,7 +171,12 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 mMemberLayout.add(0, LinearLayout);
 
                 TextView.setText(user.getName());
-                ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+                if (!user.getImageFilePath().equals("")) {
+                    ImageView.clearColorFilter();
+                    ImageView.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(user.getId()))));
+                } else {
+                    ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+                }
 
                 mLinearLayout.addView(v, 0);
                 arrayList.remove(i);
@@ -230,6 +235,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
             updateListView(mEditText.getText());
         }
     }
+
     class BackgroundTask2 extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG2);
@@ -247,6 +253,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 progressDialog.dismiss();
         }
     }
+
     class BackgroundTask extends AsyncTask<Group, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);
@@ -344,7 +351,12 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         LinearLayout.setOnClickListener(this);
 
         TextView.setText(searchUser.get(position).getName());
-        ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+        if (!searchUser.get(position).getImageFilePath().equals("")) {
+            ImageView.clearColorFilter();
+            ImageView.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(searchUser.get(position).getId()))));
+        } else {
+            ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+        }
 
         mLinearLayout.addView(v, 0);
         Member.add(0, searchUser.get(position));
