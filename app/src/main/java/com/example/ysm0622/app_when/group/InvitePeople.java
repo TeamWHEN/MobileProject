@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -173,9 +175,12 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 TextView.setText(user.getName());
                 if (!user.getImageFilePath().equals("")) {
                     ImageView.clearColorFilter();
-                    ImageView.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(user.getId()))));
+                    Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
+                    ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
                 } else {
-                    ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+                    ImageView.clearColorFilter();
+                    Bitmap temp = Gl.getDefaultImage(user.getId());
+                    ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
                 }
 
                 mLinearLayout.addView(v, 0);
@@ -353,9 +358,12 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         TextView.setText(searchUser.get(position).getName());
         if (!searchUser.get(position).getImageFilePath().equals("")) {
             ImageView.clearColorFilter();
-            ImageView.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(searchUser.get(position).getId()))));
+            Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + searchUser.get(position).getId() + ".jpg");
+            ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
         } else {
-            ImageView.setColorFilter(getResources().getColor(R.color.colorPrimary));
+            ImageView.clearColorFilter();
+            Bitmap temp = Gl.getDefaultImage(searchUser.get(position).getId());
+            ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
         }
 
         mLinearLayout.addView(v, 0);

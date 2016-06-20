@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,9 +88,12 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
 
             if (!Gl.getUser(g.getMasterId()).getImageFilePath().equals("")) {
                 mImageViewProfile.clearColorFilter();
-                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(g.getMasterId()))));
+                Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + g.getMasterId() + ".jpg");
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             } else {
-                mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                mImageViewProfile.clearColorFilter();
+                Bitmap temp = Gl.getDefaultImage(g.getMasterId());
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             }
             for (int i = 0; i < ICON_NUM; i++) {
                 mImageViewIcon[i].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));

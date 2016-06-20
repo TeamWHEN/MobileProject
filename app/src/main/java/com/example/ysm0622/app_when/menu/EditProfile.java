@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -184,7 +185,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
 
         if (!u.ImageFilePath.equals("")) {//프로필 이미지가 존재
             mMyPhoto.clearColorFilter();
-            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
+            Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
+            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(temp));
+        } else {
+            mMyPhoto.clearColorFilter();
+            Bitmap temp = Gl.getDefaultImage(u.getId());
+            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(temp));
         }
 
         mMyProfile[0].setText(u.getName());

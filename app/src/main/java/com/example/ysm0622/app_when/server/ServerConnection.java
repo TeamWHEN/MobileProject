@@ -84,6 +84,13 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 break;
             default:
         }
+
+        for (User u : Gl.getUsers()) {
+            if (!u.getImageFilePath().equals("")) {
+                Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
+                Gl.saveBitmaptoJpeg(tmp, u.getId());
+            }
+        }
     }
 
     public ArrayList<NameValuePair> getNameValuePair(String index) {
@@ -188,8 +195,8 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 u.setJoined(d);
                 arrayList.add(u);
                 if (u.ImageFilePath != null) {
-                    Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
-                    Gl.PROFILES.put(String.valueOf(u.getId()), tmp);
+//                    Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
+//                    Gl.saveBitmaptoJpeg(tmp, u.getId());
                 }
             }
             Gl.setUsers(arrayList);

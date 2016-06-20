@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -234,7 +236,12 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         if (!user.ImageFilePath.equals("")) {//프로필 이미지가 존재
             ImageView0.clearColorFilter();
-            ImageView0.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(user.getId()))));
+            Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
+            ImageView0.setImageBitmap(Gl.getCircleBitmap(temp));
+        }else{
+            ImageView0.clearColorFilter();
+            Bitmap temp = Gl.getDefaultImage(user.getId());
+            ImageView0.setImageBitmap(Gl.getCircleBitmap(temp));
         }
 
         TextView0.setText(user.getName());

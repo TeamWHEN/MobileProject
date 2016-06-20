@@ -198,29 +198,29 @@
 
             </LinearLayout>
 
-            <!--<LinearLayout-->
-                <!--android:id="@+id/map_layout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="280dp"-->
-                <!--android:layout_marginBottom="16dp"-->
-                <!--android:layout_marginLeft="16dp"-->
-                <!--android:layout_marginRight="16dp"-->
-                <!--android:orientation="vertical">-->
+            <LinearLayout
+                android:id="@+id/map_layout"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/map_imageview"-->
-                    <!--android:layout_width="24dp"-->
-                    <!--android:layout_height="24dp"-->
-                    <!--android:layout_marginRight="16dp"-->
-                    <!--android:onClick="showMap"-->
-                    <!--android:src="@drawable/ic_arrow_drop_up_black_24dp" />-->
-                <!--<net.daum.mf.map.api.MapView-->
-                    <!--android:id="@+id/map_view"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent" />-->
+                <ImageView
+                    android:id="@+id/map_imageview"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="16dp"
+                    android:onClick="showMap"
+                    android:src="@drawable/ic_arrow_drop_up_black_24dp" />
+                <net.daum.mf.map.api.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
 
-            <!--</LinearLayout>-->
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

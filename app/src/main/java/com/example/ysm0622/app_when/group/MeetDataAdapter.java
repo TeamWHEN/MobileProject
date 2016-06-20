@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,9 +99,12 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
             if (!Gl.getUser(m.getMasterId()).getImageFilePath().equals("")) {
                 mImageViewProfile.clearColorFilter();
-                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(m.getMasterId()))));
+                Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + m.getMasterId() + ".jpg");
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             } else {
-                mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                mImageViewProfile.clearColorFilter();
+                Bitmap temp = Gl.getDefaultImage(m.getMasterId());
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             }
             for (int i = 0; i < ICON_NUM; i++) {
                 mImageViewIcon[i].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
@@ -241,9 +246,12 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
                 if (!u.getImageFilePath().equals("")) {
                     mImageView[0].clearColorFilter();
-                    mImageView[0].setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
+                    Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
+                    mImageView[0].setImageBitmap(Gl.getCircleBitmap(temp));
                 } else {
-                    mImageView[0].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                    mImageView[0].clearColorFilter();
+                    Bitmap temp = Gl.getDefaultImage(u.getId());
+                    mImageView[0].setImageBitmap(Gl.getCircleBitmap(temp));
                 }
                 mImageView[1].setColorFilter(mContext.getResources().getColor(R.color.colorAccent));
                 mImageView[1].setVisibility(View.INVISIBLE);
