@@ -95,7 +95,12 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
             LinearLayout mLocationLayout = (LinearLayout) v.findViewById(R.id.LocationLayout);
 
-            mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+            if (!Gl.getUser(m.getMasterId()).getImageFilePath().equals("")) {
+                mImageViewProfile.clearColorFilter();
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(m.getMasterId()))));
+            } else {
+                mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+            }
             for (int i = 0; i < ICON_NUM; i++) {
                 mImageViewIcon[i].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
             }
@@ -234,7 +239,12 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                 mImageView[1] = (ImageView) v.findViewById(R.id.ImageView1);
                 mTextView = (TextView) v.findViewById(R.id.TextView0);
 
-                mImageView[0].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                if (!u.getImageFilePath().equals("")) {
+                    mImageView[0].clearColorFilter();
+                    mImageView[0].setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
+                } else {
+                    mImageView[0].setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                }
                 mImageView[1].setColorFilter(mContext.getResources().getColor(R.color.colorAccent));
                 mImageView[1].setVisibility(View.INVISIBLE);
                 for (int i = 0; i < m.getDateTimeNum(); i++) {

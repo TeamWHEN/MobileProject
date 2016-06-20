@@ -40,8 +40,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="@string/kakaolink_host"
-                    android:scheme="@string/kakao_scheme" />
+                    android:host="kakaolink"
+                    android:scheme="kakao79acd3991f45fc6174db9490494d528d" />
             </intent-filter>
 
         </activity>
@@ -118,7 +118,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
+            android:value="79acd3991f45fc6174db9490494d528d" />
     </application>
 
 </manifest>

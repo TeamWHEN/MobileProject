@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String Email;
     private String Password;
     public String ImageFilePath = "";
+
     private long JoinDate;
     private Date Joined;
 
