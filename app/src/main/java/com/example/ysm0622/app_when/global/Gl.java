@@ -98,6 +98,8 @@ public class Gl extends Application {
     public static Group MyGroup;
     public static Meet MyMeet;
 
+    public static final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
+
     public static void initialize(Context context) {
         CONTEXT = context;
         DENSITY = CONTEXT.getResources().getDisplayMetrics().density;
@@ -441,9 +443,28 @@ public class Gl extends Application {
         return output;
     }
 
-    //이미지 파일 경로
-    public static String getImage(User u) {
-        return u.getImageFilePath() + u.getId() + ".jpg";
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    public static Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+    public static String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     public static String BitmapToString(Bitmap bitmap) {

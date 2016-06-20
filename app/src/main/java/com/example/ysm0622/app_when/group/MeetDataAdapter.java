@@ -145,7 +145,8 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        pollStateDialogBox(m);
+
+                    pollStateDialogBox(m);
                 }
             });
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {

@@ -187,10 +187,9 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         // Default setting
         mMyPhoto.setColorFilter(getResources().getColor(R.color.white));
 
-        if (u.ImageFilePath!=null) {//프로필 이미지가 존재
-            Bitmap Image = BitmapFactory.decodeFile(Gl.getImage(u));
+        if (u.ImageFilePath != null) {//프로필 이미지가 존재
             mMyPhoto.clearColorFilter();
-            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Image));
+            mMyPhoto.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
         }
 
         mMyProfile[0].setText(u.getName());
