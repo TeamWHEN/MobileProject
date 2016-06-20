@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -16,8 +15,6 @@ import com.example.ysm0622.app_when.group.GroupList;
 import com.example.ysm0622.app_when.login.Login;
 import com.example.ysm0622.app_when.server.ServerConnection;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class Intro extends AppCompatActivity {
@@ -44,21 +41,8 @@ public class Intro extends AppCompatActivity {
 
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
 
-        Calendar c = Calendar.getInstance();
-        Date d = c.getTime();
-
-        long test1 = c.getTimeInMillis();
-        long test2 = d.getTime();
-        Date t = new Date(test2);
-        long test3 = t.getTime();
-        c.setTimeInMillis(test3);
-
-        Log.d("testtest", "캘린더 값 : " + test1 + " / c : ");
-        Log.d("testtest", "캘린더받은 데이트 값 : " + test2 + " / d : " + d.toString());
-        Log.d("testtest", "데이트 값 : " + test3 + " / t : " + t.toString());
-        Log.d("testtest", "캘린더 값 : " + c.get(Calendar.YEAR) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.DATE));
-
         Gl.initialize(this);
+
         if (mSharedPref == null || !mSharedPref.contains(Gl.NOTICE_CHECK))
             noticeInit();
 

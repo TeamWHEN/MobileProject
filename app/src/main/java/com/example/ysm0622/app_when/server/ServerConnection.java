@@ -2,7 +2,6 @@ package com.example.ysm0622.app_when.server;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.ysm0622.app_when.global.Gl;
 import com.example.ysm0622.app_when.meet.SelectDay;
@@ -48,7 +47,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... args) {
-        Log.d("Gl", args[0]);
+//        Log.d("Gl", args[0]);
         TYPE = args[0];
         switch (TYPE) {
             case Gl.SELECT_ALL_USER:
@@ -62,7 +61,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Log.d("Gl", result);
+//        Log.d("Gl", result);
         switch (TYPE) {
             case Gl.SELECT_ALL_USER:
                 SelectAllUser(result);
@@ -167,7 +166,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             if (resEntity != null) {
                 result = EntityUtils.toString(resEntity);
             }
-            Log.d("Gl", result);
+//            Log.d("Gl", result);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -181,13 +180,12 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<User> arrayList = new ArrayList<>();
-            Log.d("Gl", data.toString());
             for (int i = 0; i < data.length(); i++) {
                 User u = new Gson().fromJson(data.getJSONObject(i).toString(), User.class);
                 Date d = new Date(u.getJoinDate());
                 u.setJoined(d);
                 arrayList.add(u);
-                if (u.ImageFilePath != null) {
+                if (u.ImageFilePath != null && !u.ImageFilePath.equals("")) {
                     Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
                     Gl.PROFILES.put(String.valueOf(u.getId()), tmp);
                 }
@@ -204,9 +202,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<Group> arrayList = new ArrayList<>();
-            Log.d("Gl", data.toString());
+//            Log.d("Gl", data.toString());
             for (int i = 0; i < data.length(); i++) {
-                Log.d("Gl", data.getJSONObject(i).toString());
+//                Log.d("Gl", data.getJSONObject(i).toString());
                 Group g = new Gson().fromJson(data.getJSONObject(i).toString(), Group.class);
                 arrayList.add(g);
                 User u = Gl.getUserById(g.getMasterId());
@@ -224,7 +222,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<UserGroup> arrayList = new ArrayList<>();
-            Log.d("Gl", data.toString());
+//            Log.d("Gl", data.toString());
             for (int i = 0; i < data.length(); i++) {
                 UserGroup ug = new Gson().fromJson(data.getJSONObject(i).toString(), UserGroup.class);
                 arrayList.add(ug);
@@ -238,7 +236,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 g.addMember(u);
             }
 
-            Gl.LogAllGroup();
+//            Gl.LogAllGroup();
         } catch (Exception e) {
             e.getMessage();
         }
@@ -249,7 +247,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<Meet> arrayList = new ArrayList<>();
-            Log.d("Gl", data.toString());
+//            Log.d("Gl", data.toString());
             for (int i = 0; i < data.length(); i++) {
                 Meet m = new Gson().fromJson(data.getJSONObject(i).toString(), Meet.class);
                 m.setGroup(Gl.getGroupById(m.getGroupId()));
@@ -268,9 +266,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static ArrayList<NameValuePair> SelectMeetByGroup(Group g) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
-        Log.d("Gl", "SelectMeetByGroup(" + g.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "SelectMeetByGroup(" + g.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -281,7 +279,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             ArrayList<MeetDate> arrayList = new ArrayList<>();
             for (int i = 0; i < data.length(); i++) {
                 MeetDate m = new Gson().fromJson(data.getJSONObject(i).toString(), MeetDate.class);
-                Log.d("Gl", "groupid : " + m.getGroupId() + "meetid : " + m.getMeetId() + " date : " + m.getDate());
+//                Log.d("Gl", "groupid : " + m.getGroupId() + "meetid : " + m.getMeetId() + " date : " + m.getDate());
                 arrayList.add(m);
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(m.getDate());
@@ -298,9 +296,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static ArrayList<NameValuePair> SelectMeetDateByGroup(Group g) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
-        Log.d("Gl", "SelectMeetDateByGroup(" + g.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "SelectMeetDateByGroup(" + g.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -309,14 +307,11 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             JSONObject jObject = new JSONObject(result);
             JSONArray data = jObject.getJSONArray("user");
             ArrayList<Times> arrayList = new ArrayList<>();
-            Log.d("Gl", "되라아아아아아앙1111111111111");
             for (int i = 0; i < data.length(); i++) {
                 Times t = new Gson().fromJson(data.getJSONObject(i).toString(), Times.class);
                 arrayList.add(t);
             }
-            Log.d("Gl", "되라아아아아아앙2222222222222222");
             Gl.getMeetById(arrayList.get(0).getMeetId()).setDateTime(SelectDay.TimesToDateTime(arrayList));
-            Log.d("Gl", "되라아아아아아앙33333333333333");
             Gl.setTime(arrayList);
             Gl.LogAllTimeByMeet(Gl.getMeet(arrayList.get(0).getMeetId()));
         } catch (Exception e) {
@@ -327,9 +322,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static ArrayList<NameValuePair> SelectTimeByMeet(Group g) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
-        Log.d("Gl", "SelectTimeByGroup(" + g.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "SelectTimeByGroup(" + g.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -338,18 +333,18 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         post.add(new BasicNameValuePair("Name", u.getName()));
         post.add(new BasicNameValuePair("Email", u.getEmail()));
         post.add(new BasicNameValuePair("Password", u.getPassword()));
-        Log.d("Gl", "InsertUser(" + u.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "InsertUser(" + u.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
     public static ArrayList<NameValuePair> DeleteUser(User u) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("Id", String.valueOf(u.getId())));
-        Log.d("Gl", "DeleteUser(" + u.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "DeleteUser(" + u.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -359,9 +354,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 //        post.add(new BasicNameValuePair("Password", u.getPassword()));
         post.add(new BasicNameValuePair("ImageFilePath", u.getImageFilePath()));
         post.add(new BasicNameValuePair("Id", String.valueOf(u.getId())));
-        Log.d("Gl", "UpdateUser(" + u.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "UpdateUser(" + u.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -370,18 +365,18 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         post.add(new BasicNameValuePair("Title", g.getTitle()));
         post.add(new BasicNameValuePair("Descr", g.getDesc()));
         post.add(new BasicNameValuePair("MasterId", String.valueOf(g.getMaster().getId())));
-        Log.d("Gl", "InsertGroup(" + g.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "InsertGroup(" + g.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
     public static ArrayList<NameValuePair> DeleteGroup(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("Id", String.valueOf(Gl.getGroup(index).getId())));
-        Log.d("Gl", "DeleteGroup(" + index + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "DeleteGroup(" + index + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -400,9 +395,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
             post.add(new BasicNameValuePair("UserId", String.valueOf(g.Member.get(i).getId())));
         }
-        Log.d("Gl", "InsertUserGroup(" + g.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "InsertUserGroup(" + g.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -410,9 +405,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("GroupId", String.valueOf(g.getId())));
         post.add(new BasicNameValuePair("UserId", String.valueOf(Gl.MyUser.getId())));
-        Log.d("Gl", "DeleteUserGroup(" + g.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "DeleteUserGroup(" + g.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -423,18 +418,18 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         post.add(new BasicNameValuePair("Title", m.getTitle()));
         post.add(new BasicNameValuePair("Descr", m.getDesc()));
         post.add(new BasicNameValuePair("Location", m.getLocation()));
-        Log.d("Gl", "InsertMeet(" + m.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "InsertMeet(" + m.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
     public static ArrayList<NameValuePair> DeleteMeet(int index) {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("Id", String.valueOf(Gl.getMeet(index).getId())));
-        Log.d("Gl", "DeleteMeet(" + index + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "DeleteMeet(" + index + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -455,9 +450,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             post.add(new BasicNameValuePair("MeetId", String.valueOf(m.getMeetDate().get(i).getMeetId())));
             post.add(new BasicNameValuePair("Date", String.valueOf(m.getMeetDate().get(i).getDate())));
         }
-        Log.d("Gl", "InsertMeetDate(" + m.getId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "InsertMeetDate(" + m.getId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -469,9 +464,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             post.add(new BasicNameValuePair("UserId", String.valueOf(t.get(i).getUserId())));
             post.add(new BasicNameValuePair("Time", String.valueOf(t.get(i).getTime())));
         }
-        Log.d("Gl", "InsertTime(" + t.get(0).getMeetId() + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "InsertTime(" + t.get(0).getMeetId() + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 
@@ -479,9 +474,9 @@ public class ServerConnection extends AsyncTask<String, String, String> {
         ArrayList<NameValuePair> post = new ArrayList<>();
         post.add(new BasicNameValuePair("MeetId", String.valueOf(Gl.getTime(index).getMeetId())));
         post.add(new BasicNameValuePair("UserId", String.valueOf(Gl.getTime(index).getUserId())));
-        Log.d("Gl", "DeleteTime(" + index + ")");
-        for (int i = 0; i < post.size(); i++)
-            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
+//        Log.d("Gl", "DeleteTime(" + index + ")");
+//        for (int i = 0; i < post.size(); i++)
+//            Log.d("Gl", "post.get(" + i + ") : " + post.get(i).toString());
         return post;
     }
 

@@ -426,7 +426,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
 
                 saveData();
                 mSelect = makeClone(mCalendarArray[i]);
-                Log.w(TAG, "Current Select : " + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE));
+//                Log.w(TAG, "Current Select : " + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE));
                 loadData();
                 if (isAllSelected(time)) {
                     mSwitch.setOnCheckedChangeListener(null);
@@ -482,7 +482,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
                 result.add(n);
             }
         }
-        Log.w(TAG, "Call arrayToCalendar >>> Calendar size : " + result.size());
+//        Log.w(TAG, "Call arrayToCalendar >>> Calendar size : " + result.size());
 
         return result;
     }
@@ -528,7 +528,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
             mToolbarAction[1].setVisibility(View.INVISIBLE);
         }
 
-        Log.w(TAG, "Save Data(" + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE) + ")");
+//        Log.w(TAG, "Save Data(" + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE) + ")");
 
     }
 
@@ -545,7 +545,7 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
             mTimeSelectView[i].setSelected(arr);
             Log.w(TAG, arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3] + " " + arr[4] + " " + arr[5] + " " + arr[6] + " " + arr[7]);
         }
-        Log.w(TAG, "Load Data(" + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE) + ")");
+//        Log.w(TAG, "Load Data(" + mSelect.get(Calendar.YEAR) + "/" + mSelect.get(Calendar.MONTH) + "/" + mSelect.get(Calendar.DATE) + ")");
     }
 
     private static boolean isEqual(Calendar A, Calendar B) {
