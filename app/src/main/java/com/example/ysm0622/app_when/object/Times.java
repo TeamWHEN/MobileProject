@@ -7,6 +7,7 @@ public class Times implements Serializable {
     // TAG
     private static final String TAG = Times.class.getName();
 
+    private int GroupId;
     private int MeetId;
     private int UserId;
     private long Time;
@@ -14,7 +15,8 @@ public class Times implements Serializable {
     public Times() {
     }
 
-    public Times(int meetId, int userId, long time) {
+    public Times(int groupId,int meetId, int userId, long time) {
+        GroupId = groupId;
         MeetId = meetId;
         UserId = userId;
         Time = time;
@@ -42,5 +44,13 @@ public class Times implements Serializable {
 
     public void setTime(long time) {
         Time = time;
+    }
+
+    public int getGroupId() {
+        return GroupId;
+    }
+
+    public void setGroupId(int groupId) {
+        GroupId = groupId;
     }
 }
