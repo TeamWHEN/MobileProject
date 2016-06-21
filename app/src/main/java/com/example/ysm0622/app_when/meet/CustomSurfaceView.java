@@ -103,8 +103,23 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mMax = max;
     }
 
+    private void duplicateDelete(ArrayList<ArrayList<Calendar>> A, ArrayList<ArrayList<Calendar>> B) {
+        for (int i = 0; i < B.size(); i++) {
+            for (int j = 0; j < A.size(); j++) {
+                B.get(i).removeAll(A.get(j));
+            }
+        }
+    }
+
     private void drawInputs() {
         ArrayList<DateTime> D = m.getDateTime();
+
+        for (int i = 0; i < D.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                duplicateDelete(D.get(i).getSelectTime(), D.get(j).getSelectTime());
+            }
+        }
+
         Paint grd = new Paint();
         grd.setColor(getResources().getColor(R.color.colorAccent));
         grd.setAlpha(128);
@@ -124,15 +139,15 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             int h = 0;
             for (int j = 0; n < arrayLists.size() && j < m.getSelectedDate().size(); j++) {
                 Calendar A = m.getSelectedDate().get(j);
-                Calendar B = arrayLists.get(n).get(0);
-                if (isEqual(A, B)) {
+                Calendar B = null;
+                if (n < arrayLists.size() && arrayLists.get(n).size()!=0) B = arrayLists.get(n).get(0);
+                if (A != null && B != null && isEqual(A, B)) {
                     ArrayList<Calendar> arrayList = arrayLists.get(n);
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        cnt[h][v]++;
-
-                       mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+                        cnt[j][v]++;
+//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[i]);
                     }
                     n++;
                     j--;
@@ -142,20 +157,23 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
 
+
         for (int i = 0; i < D.size(); i++) {
+            Log.d("TEST", "D.size : " + D.size());
             ArrayList<ArrayList<Calendar>> arrayLists = D.get(i).getSelectTime();
             int n = 0;
             int h = 0;
             for (int j = 0; n < arrayLists.size() && j < m.getSelectedDate().size(); j++) {
                 Calendar A = m.getSelectedDate().get(j);
-                Calendar B = arrayLists.get(n).get(0);
-                if (isEqual(A, B)) {
+                Calendar B = null;
+                if (n < arrayLists.size() && arrayLists.get(n).size()!=0) B = arrayLists.get(n).get(0);
+                if (A != null && B != null && isEqual(A, B)) {
                     ArrayList<Calendar> arrayList = arrayLists.get(n);
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        Log.d("TEST", "cnt[" + h + "][" + v + "] = " + cnt[h][v]);
-//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[cnt[h][v] - 1]);
+                        Log.d("TEST", "cnt[" + j + "][" + v + "] = " + cnt[j][v]);
+                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[cnt[h][v] - 1]);
                     }
                     n++;
                     j--;
@@ -264,6 +282,21 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     private boolean isEqual(Calendar A, Calendar B) {
         if (A.get(Calendar.YEAR) == B.get(Calendar.YEAR) && A.get(Calendar.MONTH) == B.get(Calendar.MONTH) && A.get(Calendar.DATE) == B.get(Calendar.DATE)) {
+            return true;
+        } else return false;
+    }
+
+    private boolean isEqual(ArrayList<Calendar> A, ArrayList<Calendar> B) {
+        for (int i = 0; i < A.size(); i++) {
+            if (!isEqualH(A.get(i), B.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isEqualH(Calendar A, Calendar B) {
+        if (A.get(Calendar.YEAR) == B.get(Calendar.YEAR) && A.get(Calendar.MONTH) == B.get(Calendar.MONTH) && A.get(Calendar.DATE) == B.get(Calendar.DATE) && A.get(Calendar.HOUR) == B.get(Calendar.HOUR)) {
             return true;
         } else return false;
     }

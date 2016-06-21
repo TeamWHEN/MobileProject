@@ -50,7 +50,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".group.GroupList"
-            android:hardwareAccelerated="false"
             android:label="@string/title_activity_group_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -68,7 +67,6 @@
         <activity
             android:name=".group.GroupManage"
             android:label=""
-            android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
