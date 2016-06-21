@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
@@ -36,7 +37,7 @@ public class Intro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("DEBUG0", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         mIntent = new Intent(Intro.this, GroupList.class);
         setContentView(R.layout.intro_main);
@@ -71,7 +72,7 @@ public class Intro extends AppCompatActivity {
                 setLocale("en");
             }
         }
-
+        Log.d("DEBUG00", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
@@ -178,7 +179,7 @@ public class Intro extends AppCompatActivity {
         if (requestCode == Gl.INTRO_GROUPLIST) {
             if (resultCode == Gl.RESULT_DELETE) {
                 startActivity(new Intent(Intro.this, Login.class));
-                Toast.makeText(getApplicationContext(), R.string.delete_acc_msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.delete_acc_msg, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == Gl.RESULT_LOGOUT) {
                 startActivity(new Intent(Intro.this, Login.class));

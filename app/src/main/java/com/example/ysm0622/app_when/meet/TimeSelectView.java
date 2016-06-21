@@ -72,6 +72,7 @@ public class TimeSelectView extends SurfaceView implements SurfaceHolder.Callbac
         }
     }
 
+
     int lastX, lastY, currX, currY;
     boolean isDeleting;
     Point p = new Point();

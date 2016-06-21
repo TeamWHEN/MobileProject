@@ -90,7 +90,8 @@ public class SelectDay extends AppCompatActivity implements View.OnClickListener
         String toolbarTitle = getResources().getString(R.string.select_day);
         if (MODE == 1) toolbarTitle = getString(R.string.input_time);
 
-        initToolbar(toolbarIcon, toolbarTitle);
+
+                    initToolbar(toolbarIcon, toolbarTitle);
 
         initialize();
     }

@@ -486,7 +486,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         sb.append("latitude=").append(item.latitude).append("\n");
         sb.append("distance=").append(item.distance).append("\n");
         sb.append("direction=").append(item.direction).append("\n");
-        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

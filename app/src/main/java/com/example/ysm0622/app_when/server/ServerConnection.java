@@ -2,6 +2,7 @@ package com.example.ysm0622.app_when.server;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.util.Log;
 
 import com.example.ysm0622.app_when.global.Gl;
@@ -40,6 +41,8 @@ public class ServerConnection extends AsyncTask<String, String, String> {
     public static final String TAG = ServerConnection.class.getName();
 
     public String TYPE;
+
+    public Bitmap tmp;
 
     @Override
     protected void onPreExecute() {
@@ -84,13 +87,16 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 break;
             default:
         }
-
+        Log.d("DEBUG1", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
         for (User u : Gl.getUsers()) {
             if (!u.getImageFilePath().equals("")) {
-                Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
+                tmp = Gl.StringToBitMap(u.ImageFilePath);
                 Gl.saveBitmaptoJpeg(tmp, u.getId());
+                u.setImageFilePath("T");
             }
         }
+        tmp.recycle();
+        Log.d("DEBUG2", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     public ArrayList<NameValuePair> getNameValuePair(String index) {

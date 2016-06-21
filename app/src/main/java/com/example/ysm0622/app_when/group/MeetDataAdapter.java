@@ -53,6 +53,8 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
     SharedPreferences mSharedPref;
     SharedPreferences.Editor mEdit;
 
+    public Bitmap temp;
+
     public MeetDataAdapter(Context context, int resource, ArrayList<Meet> values, Intent intent) {
         super(context, resource, values);
         this.mContext = context;
@@ -99,11 +101,11 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
             if (!Gl.getUser(m.getMasterId()).getImageFilePath().equals("")) {
                 mImageViewProfile.clearColorFilter();
-                Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + m.getMasterId() + ".jpg");
+                temp = BitmapFactory.decodeFile(Gl.ImageFilePath + m.getMasterId() + ".jpg");
                 mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             } else {
                 mImageViewProfile.clearColorFilter();
-                Bitmap temp = Gl.getDefaultImage(m.getMasterId());
+                temp = Gl.getDefaultImage(m.getMasterId());
                 mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             }
             for (int i = 0; i < ICON_NUM; i++) {
@@ -246,11 +248,11 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
                 if (!u.getImageFilePath().equals("")) {
                     mImageView[0].clearColorFilter();
-                    Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
+                    temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
                     mImageView[0].setImageBitmap(Gl.getCircleBitmap(temp));
                 } else {
                     mImageView[0].clearColorFilter();
-                    Bitmap temp = Gl.getDefaultImage(u.getId());
+                    temp = Gl.getDefaultImage(u.getId());
                     mImageView[0].setImageBitmap(Gl.getCircleBitmap(temp));
                 }
                 mImageView[1].setColorFilter(mContext.getResources().getColor(R.color.colorAccent));

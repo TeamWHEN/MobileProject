@@ -13,6 +13,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -95,7 +96,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     public static final int PROGRESS_DIALOG = 1001;
     public ProgressDialog progressDialog;
 
-
+    public Bitmap temp;
+    ImageView ImageView0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,12 +222,16 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     @Override
     protected void onPause() {
         super.onPause(); //save state data (background color) for future use
-
+        Log.d("DEBUG5", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        ImageView0.setImageBitmap(null);
+        temp.recycle();
+        Log.d("DEBUG6", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        initNavigationView();
     }
 
     private void initialize() {
@@ -289,7 +295,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         param.height = (int) (width * 9.0 / 16.0);
         mNavView.getHeaderView(0).setLayoutParams(param);
         setRandomNavHeader((int) (Math.random() * 4));
-        ImageView ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
+         ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
@@ -298,11 +304,11 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         if (user.ImageFilePath != null && !user.ImageFilePath.equals("")) {//프로필 이미지가 존재
             ImageView0.clearColorFilter();
-            Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
+             temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
             ImageView0.setImageBitmap(Gl.getCircleBitmap(temp));
         } else {
             ImageView0.clearColorFilter();
-            Bitmap temp = Gl.getDefaultImage(user.getId());
+             temp = Gl.getDefaultImage(user.getId());
             ImageView0.setImageBitmap(Gl.getCircleBitmap(temp));
         }
 

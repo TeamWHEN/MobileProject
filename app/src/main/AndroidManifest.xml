@@ -10,8 +10,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -50,6 +50,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".group.GroupList"
+            android:hardwareAccelerated="false"
             android:label="@string/title_activity_group_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -67,12 +68,14 @@
         <activity
             android:name=".group.GroupManage"
             android:label=""
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
             android:name=".group.InvitePeople"
+            android:hardwareAccelerated="false"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -116,6 +119,7 @@
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="79acd3991f45fc6174db9490494d528d" />

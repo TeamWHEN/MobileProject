@@ -105,6 +105,9 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     private void drawInputs() {
         ArrayList<DateTime> D = m.getDateTime();
+        Paint grd = new Paint();
+        grd.setColor(getResources().getColor(R.color.colorAccent));
+        grd.setAlpha(128);
         int cnt[][] = new int[100][100];
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 100; j++) {
@@ -128,7 +131,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
                         cnt[h][v]++;
-//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
                     }
                     n++;
                     j--;
@@ -150,7 +153,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        Log.d("TEST","cnt["+h+"]["+v+"] = "+cnt[h][v]);
+                        Log.d("TEST", "cnt[" + h + "][" + v + "] = " + cnt[h][v]);
 //                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[cnt[h][v] - 1]);
                     }
                     n++;

@@ -10,9 +10,11 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,6 +72,9 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     public static final int PROGRESS_DIALOG2 = 1002;
     public ProgressDialog progressDialog;
 
+    public Bitmap temp;
+    ImageView ImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +99,20 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         initData();
         for (int i = 0; i < testAllUser.size(); i++)
             if (testAllUser.get(i).getId() == Gl.MyUser.getId()) testAllUser.remove(i);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause(); //save state data (background color) for future use
+        Log.d("DEBUG7", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        ImageView.setImageBitmap(null);
+        temp.recycle();
+        Log.d("DEBUG8", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     private void initialize() {
@@ -167,7 +186,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 View v = vi.inflate(R.layout.invitepeople_miniprofile, null);
 
                 LinearLayout LinearLayout = (LinearLayout) v.findViewById(R.id.UserLayout);
-                ImageView ImageView = (ImageView) v.findViewById(R.id.UserProfile);
+                 ImageView = (ImageView) v.findViewById(R.id.UserProfile);
                 TextView TextView = (TextView) v.findViewById(R.id.UserName);
 
                 mMemberLayout.add(0, LinearLayout);
@@ -175,11 +194,11 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
                 TextView.setText(user.getName());
                 if (!user.getImageFilePath().equals("")) {
                     ImageView.clearColorFilter();
-                    Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
+                    temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
                     ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
                 } else {
                     ImageView.clearColorFilter();
-                    Bitmap temp = Gl.getDefaultImage(user.getId());
+                    temp = Gl.getDefaultImage(user.getId());
                     ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
                 }
 
@@ -358,11 +377,11 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         TextView.setText(searchUser.get(position).getName());
         if (!searchUser.get(position).getImageFilePath().equals("")) {
             ImageView.clearColorFilter();
-            Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + searchUser.get(position).getId() + ".jpg");
+             temp = BitmapFactory.decodeFile(Gl.ImageFilePath + searchUser.get(position).getId() + ".jpg");
             ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
         } else {
             ImageView.clearColorFilter();
-            Bitmap temp = Gl.getDefaultImage(searchUser.get(position).getId());
+             temp = Gl.getDefaultImage(searchUser.get(position).getId());
             ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
         }
 
