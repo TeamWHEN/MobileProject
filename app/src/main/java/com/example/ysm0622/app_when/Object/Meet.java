@@ -49,7 +49,7 @@ public class Meet implements Serializable {
 
     public Meet(int GroupId, int MasterId, String Title, String Descr, String Location) {
         if(Gl.getMeets().size()==0){
-            this.Id = 0;
+            this.Id = 1;
         }else {
             this.Id = Gl.getMeet(Gl.MEETS.size() - 1).getId() + 1;
         }

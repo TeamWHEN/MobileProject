@@ -15,7 +15,6 @@ import android.util.Log;
 import android.util.TypedValue;
 
 import com.example.ysm0622.app_when.R;
-import com.example.ysm0622.app_when.object.DateTime;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.MeetDate;
@@ -27,11 +26,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
-public class Gl extends Application {
+public class Gl extends Application implements Serializable {
 
     // TAG
     private static final String TAG = Gl.class.getName();
@@ -89,12 +88,18 @@ public class Gl extends Application {
     public static Context CONTEXT;
     public static float DENSITY;
 
-    public static ArrayList<User> USERS;
-    public static ArrayList<Group> GROUPS;
-    public static ArrayList<UserGroup> USER_GROUP;
-    public static ArrayList<Meet> MEETS;
-    public static ArrayList<MeetDate> MEET_DATE;
-    public static ArrayList<Times> TIMES;
+    public static ArrayList<User> USERS = new ArrayList<>();
+    ;
+    public static ArrayList<Group> GROUPS = new ArrayList<>();
+    ;
+    public static ArrayList<UserGroup> USER_GROUP = new ArrayList<>();
+    ;
+    public static ArrayList<Meet> MEETS = new ArrayList<>();
+    ;
+    public static ArrayList<MeetDate> MEET_DATE = new ArrayList<>();
+    ;
+    public static ArrayList<Times> TIMES = new ArrayList<>();
+    ;
 
     public static HashMap<String, Bitmap> PROFILES = new HashMap<String, Bitmap>();
 
@@ -105,14 +110,8 @@ public class Gl extends Application {
     public static final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
 
     public static void initialize(Context context) {
-        CONTEXT = context;
+        CONTEXT = context.getApplicationContext();
         DENSITY = CONTEXT.getResources().getDisplayMetrics().density;
-        USERS = new ArrayList<>();
-        GROUPS = new ArrayList<>();
-        MEETS = new ArrayList<>();
-        USER_GROUP = new ArrayList<>();
-        MEET_DATE = new ArrayList<>();
-        TIMES = new ArrayList<>();
     }
 
     // User-Group method
@@ -384,50 +383,50 @@ public class Gl extends Application {
 
     // Logs
     public static void LogAllUser() {
-        for (int i = 0; i < USERS.size(); i++) {
-            User u = USERS.get(i);
-            Log.d(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword() + " / JoinDate : " + u.getJoinDate());
-        }
+//        for (int i = 0; i < USERS.size(); i++) {
+//            User u = USERS.get(i);
+//            Log.d(TAG, "User > Id : " + u.getId() + " / Name : " + u.getName() + " / Email : " + u.getEmail() + " / PW : " + u.getPassword() + " / JoinDate : " + u.getJoinDate());
+//        }
     }
 
     public static void LogAllGroup() {
-        for (int i = 0; i < GROUPS.size(); i++) {
-            Group g = GROUPS.get(i);
-            Log.d(TAG, "Group > Id : " + GROUPS.get(i).getId() + " / Title : " + GROUPS.get(i).getTitle() + " / Descr : " + GROUPS.get(i).getDesc() + " / MasterId : " + GROUPS.get(i).getMasterId());
-            for (int j = 0; j < g.getMemberNum(); j++) {
-                Log.d(TAG, "        Member > Id : " + g.getMember(j).getId() + " / Name : " + g.getMember(j).getName());
-            }
-        }
+//        for (int i = 0; i < GROUPS.size(); i++) {
+//            Group g = GROUPS.get(i);
+//            Log.d(TAG, "Group > Id : " + GROUPS.get(i).getId() + " / Title : " + GROUPS.get(i).getTitle() + " / Descr : " + GROUPS.get(i).getDesc() + " / MasterId : " + GROUPS.get(i).getMasterId());
+//            for (int j = 0; j < g.getMemberNum(); j++) {
+//                Log.d(TAG, "        Member > Id : " + g.getMember(j).getId() + " / Name : " + g.getMember(j).getName());
+//            }
+//        }
     }
 
     public static void LogAllMeet() {
-        for (int i = 0; i < MEETS.size(); i++) {
-            Meet m = MEETS.get(i);
-            Log.d(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName());
-            for (int j = 0; j < m.MeetDate.size(); j++) {
-                Date d = new Date(m.MeetDate.get(j).getDate());
-                Log.d(TAG, "       SelectDate > Date : " + (d.getYear() + 1900) + "/" + (d.getMonth() + 1) + "/" + d.getDate());
-            }
-//            for (int j = 0; j < m.getDateTimeNum(); j++) {
+//        for (int i = 0; i < MEETS.size(); i++) {
+//            Meet m = MEETS.get(i);
+//            Log.d(TAG, "Meet > Id : " + m.getId() + " / Title : " + m.getTitle() + " / Group : " + m.getGroup().getTitle() + " / Master : " + m.getMaster().getName());
+//            for (int j = 0; j < m.MeetDate.size(); j++) {
 //                Date d = new Date(m.MeetDate.get(j).getDate());
-//                Log.d(TAG, "            SelectTime > User : " + m.getDateTime().get(j).getUser().getName());
+//                Log.d(TAG, "       SelectDate > Date : " + (d.getYear() + 1900) + "/" + (d.getMonth() + 1) + "/" + d.getDate());
 //            }
-        }
+////            for (int j = 0; j < m.getDateTimeNum(); j++) {
+////                Date d = new Date(m.MeetDate.get(j).getDate());
+////                Log.d(TAG, "            SelectTime > User : " + m.getDateTime().get(j).getUser().getName());
+////            }
+//        }
     }
 
     public static void LogAllMeetDate() {
-        for (int i = 0; i < MEETS.size(); i++) {
-            MeetDate m = MEET_DATE.get(i);
-            Log.d(TAG, "MeetDate > GroupId : " + m.getGroupId() + " / MeetId : " + m.getMeetId() + " / Date : " + m.getDate());
-
-        }
+//        for (int i = 0; i < MEETS.size(); i++) {
+//            MeetDate m = MEET_DATE.get(i);
+//            Log.d(TAG, "MeetDate > GroupId : " + m.getGroupId() + " / MeetId : " + m.getMeetId() + " / Date : " + m.getDate());
+//
+//        }
     }
 
     public static void LogAllTimeByMeet(Meet m) {
-        for (int i = 0; i < m.getDateTimeNum(); i++) {
-            DateTime dt = m.getDateTime(i);
-            Log.d(TAG, "DATETIME > GroupId : " + m.getGroup().getId() + " / MeetId : " + m.getId() + " / UserId : " + dt.getUser().getId());
-        }
+//        for (int i = 0; i < m.getDateTimeNum(); i++) {
+//            DateTime dt = m.getDateTime(i);
+//            Log.d(TAG, "DATETIME > GroupId : " + m.getGroup().getId() + " / MeetId : " + m.getId() + " / UserId : " + dt.getUser().getId());
+//        }
     }
 
     //이미지 원형으로 전환
@@ -503,7 +502,7 @@ public class Gl extends Application {
     }
 
     public static void saveBitmaptoJpeg(Bitmap bitmap, int id) {
-        Log.d("Gl",id+"");
+        Log.d("Gl", id + "");
         try {
             FileOutputStream out = CONTEXT.openFileOutput(id + ".jpg", 0);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);

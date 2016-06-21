@@ -131,7 +131,8 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
                         cnt[h][v]++;
-                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
+
+                       mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), grd);
                     }
                     n++;
                     j--;
