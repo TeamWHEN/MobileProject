@@ -30,28 +30,28 @@
             android:layout_height="2dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/Tabbar_Tab1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/selector_btn"
-        android:gravity="center"
-        android:orientation="vertical">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/Tabbar_Tab1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/selector_btn"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
 
-        <ImageView
-            android:id="@+id/Tabbar_Image1"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/ic_assignment_white_48dp" />
+        <!--<ImageView-->
+            <!--android:id="@+id/Tabbar_Image1"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:src="@drawable/ic_assignment_white_48dp" />-->
 
-        <View
-            android:id="@+id/Tabbar_Line1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp" />
-    </LinearLayout>
+        <!--<View-->
+            <!--android:id="@+id/Tabbar_Line1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp" />-->
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/Tabbar_Tab2"

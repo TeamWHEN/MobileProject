@@ -55,7 +55,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     // Const
     private static final int mToolBtnNum = 2;
-    private static final int mTabBtnNum = 3;
+    private static final int mTabBtnNum = 2;
 
     // Intent
     private Intent mIntent;
@@ -98,6 +98,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
     public Bitmap temp;
     ImageView ImageView0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,9 +120,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 0)
             toolbarTitle = getResources().getString(R.string.meet_list);
         if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 1)
-            toolbarTitle = getResources().getString(R.string.meet_info);
-        if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 2)
             toolbarTitle = getResources().getString(R.string.member);
+
+//        if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 2)
+//            toolbarTitle = getResources().getString(R.string.meet_info);
 
         initEmptyScreen();
 
@@ -222,10 +224,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     @Override
     protected void onPause() {
         super.onPause(); //save state data (background color) for future use
-        Log.d("DEBUG5", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        Log.d("DEBUG5", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
         ImageView0.setImageBitmap(null);
         temp.recycle();
-        Log.d("DEBUG6", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        Log.d("DEBUG6", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     @Override
@@ -246,10 +248,10 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         // View allocation
         mFab[0] = (FloatingActionButton) mTabContent[0].findViewById(R.id.fab);
-        mFab[1] = (FloatingActionButton) mTabContent[2].findViewById(R.id.fab);
+        mFab[1] = (FloatingActionButton) mTabContent[1].findViewById(R.id.fab);
 
         mListView[0] = (ListView) mTabContent[0].findViewById(R.id.ListView);
-        mListView[1] = (ListView) mTabContent[2].findViewById(R.id.ListView);
+        mListView[1] = (ListView) mTabContent[1].findViewById(R.id.ListView);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -295,7 +297,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         param.height = (int) (width * 9.0 / 16.0);
         mNavView.getHeaderView(0).setLayoutParams(param);
         setRandomNavHeader((int) (Math.random() * 4));
-         ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
+        ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);
@@ -304,11 +306,11 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         if (user.ImageFilePath != null && !user.ImageFilePath.equals("") && Gl.PROFILES.get(String.valueOf(user.getId())) != null) {//프로필 이미지가 존재
             ImageView0.clearColorFilter();
-             temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
+            temp = BitmapFactory.decodeFile(Gl.ImageFilePath + user.getId() + ".jpg");
             ImageView0.setImageBitmap(Gl.getCircleBitmap(temp));
         } else {
             ImageView0.clearColorFilter();
-             temp = Gl.getDefaultImage(user.getId());
+            temp = Gl.getDefaultImage(user.getId());
             ImageView0.setImageBitmap(Gl.getCircleBitmap(temp));
         }
 
@@ -349,20 +351,20 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         mTabContent = new View[mTabBtnNum];
 
         mTabbarAction[0] = (LinearLayout) findViewById(R.id.Tabbar_Tab0);
-        mTabbarAction[1] = (LinearLayout) findViewById(R.id.Tabbar_Tab1);
-        mTabbarAction[2] = (LinearLayout) findViewById(R.id.Tabbar_Tab2);
+        mTabbarAction[1] = (LinearLayout) findViewById(R.id.Tabbar_Tab2);
+//        mTabbarAction[2] = (LinearLayout) findViewById(R.id.Tabbar_Tab2);
 
         mTabbarImage[0] = (ImageView) findViewById(R.id.Tabbar_Image0);
-        mTabbarImage[1] = (ImageView) findViewById(R.id.Tabbar_Image1);
-        mTabbarImage[2] = (ImageView) findViewById(R.id.Tabbar_Image2);
+        mTabbarImage[1] = (ImageView) findViewById(R.id.Tabbar_Image2);
+//        mTabbarImage[2] = (ImageView) findViewById(R.id.Tabbar_Image2);
 
         mTabbarLine[0] = (View) findViewById(R.id.Tabbar_Line0);
-        mTabbarLine[1] = (View) findViewById(R.id.Tabbar_Line1);
-        mTabbarLine[2] = (View) findViewById(R.id.Tabbar_Line2);
+        mTabbarLine[1] = (View) findViewById(R.id.Tabbar_Line2);
+//        mTabbarLine[2] = (View) findViewById(R.id.Tabbar_Line2);
 
         mTabContent[0] = (View) findViewById(R.id.Include0);
-        mTabContent[1] = (View) findViewById(R.id.Include1);
-        mTabContent[2] = (View) findViewById(R.id.Include2);
+        mTabContent[1] = (View) findViewById(R.id.Include2);
+//        mTabContent[2] = (View) findViewById(R.id.Include2);
 
         for (int i = 0; i < mTabBtnNum; i++) {
             mTabbarAction[i].setOnClickListener(this);
@@ -492,7 +494,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             BackgroundTask mTask = new BackgroundTask();
             mTask.execute(g);
         }
-        if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId() || v.getId() == mTabbarAction[2].getId()) {
+        if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId()) {
             for (int i = 0; i < mTabBtnNum; i++) {
                 mTabbarImage[i].clearColorFilter();
                 mTabbarImage[i].setColorFilter(getResources().getColor(R.color.grey4), PorterDuff.Mode.SRC_ATOP);
@@ -504,9 +506,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                     mTabContent[i].setVisibility(View.VISIBLE);
                     if (i == 0) mToolbarTitle.setText(getResources().getString(R.string.meet_list));
                     if (i == 1) {
-                        mToolbarTitle.setText(getResources().getString(R.string.meet_info));
+                        mToolbarTitle.setText(getResources().getString(R.string.member));
                     }
-                    if (i == 2) mToolbarTitle.setText(getResources().getString(R.string.member));
+//                    if (i == 2)mToolbarTitle.setText(getResources().getString(R.string.meet_info));
                 }
             }
         }
