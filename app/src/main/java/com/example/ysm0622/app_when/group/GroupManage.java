@@ -13,7 +13,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -122,8 +121,6 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 1)
             toolbarTitle = getResources().getString(R.string.member);
 
-//        if (mIntent.getIntExtra(Gl.TAB_NUMBER, 1) == 2)
-//            toolbarTitle = getResources().getString(R.string.meet_info);
 
         initEmptyScreen();
 
@@ -148,8 +145,8 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         @Override
         protected Integer doInBackground(Group... args) {
-            String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEET_BY_GROUP);
-            String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEETDATE_BY_GROUP);
+            String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEET_BY_GROUP);//Meeting 정보 가져오기
+            String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_MEETDATE_BY_GROUP);//Meeting 정보 가져오기
             ArrayList<NameValuePair> param1 = ServerConnection.SelectTimeByMeet(args[0]);
             String result = ServerConnection.getStringFromServer(param1, Gl.SELECT_TIME_BY_MEET);
             ServerConnection.SelectMeetByGroup(result1);
@@ -169,6 +166,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         }
     }
 
+    //로딩 다이어로그
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
@@ -180,6 +178,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         return null;
     }
 
+    //Meeting 데이터 확인
     public void meetDataEmptyCheck() {
         if (meetData.size() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -224,10 +223,9 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
     @Override
     protected void onPause() {
         super.onPause(); //save state data (background color) for future use
-        Log.d("DEBUG5", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
+        //Bitmap이 차지하는 Heap Memory 를 반환한다.
         ImageView0.setImageBitmap(null);
         temp.recycle();
-        Log.d("DEBUG6", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     @Override
@@ -352,19 +350,15 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         mTabbarAction[0] = (LinearLayout) findViewById(R.id.Tabbar_Tab0);
         mTabbarAction[1] = (LinearLayout) findViewById(R.id.Tabbar_Tab2);
-//        mTabbarAction[2] = (LinearLayout) findViewById(R.id.Tabbar_Tab2);
 
         mTabbarImage[0] = (ImageView) findViewById(R.id.Tabbar_Image0);
         mTabbarImage[1] = (ImageView) findViewById(R.id.Tabbar_Image2);
-//        mTabbarImage[2] = (ImageView) findViewById(R.id.Tabbar_Image2);
 
         mTabbarLine[0] = (View) findViewById(R.id.Tabbar_Line0);
         mTabbarLine[1] = (View) findViewById(R.id.Tabbar_Line2);
-//        mTabbarLine[2] = (View) findViewById(R.id.Tabbar_Line2);
 
         mTabContent[0] = (View) findViewById(R.id.Include0);
         mTabContent[1] = (View) findViewById(R.id.Include2);
-//        mTabContent[2] = (View) findViewById(R.id.Include2);
 
         for (int i = 0; i < mTabBtnNum; i++) {
             mTabbarAction[i].setOnClickListener(this);
@@ -398,14 +392,14 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
 
         if (id == R.id.nav_group) {
 
-        } else if (id == R.id.nav_setting) {
+        } else if (id == R.id.nav_setting) {//환경설정
             mIntent.setClass(GroupManage.this, Settings.class);
             startActivityForResult(mIntent, Gl.GROUPMANAGE_SETTINGS);
-        } else if (id == R.id.nav_rate) {
+        } else if (id == R.id.nav_rate) {//앱 평가
             createDialogBox();
-        } else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about) {//개발자 정보
             startActivity(new Intent(GroupManage.this, About.class));
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {//카카오톡 공유
             try {
                 final KakaoLink kakaoLink = KakaoLink.getKakaoLink(this);
                 final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
@@ -428,7 +422,7 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
             } catch (KakaoParameterException e) {
                 e.printStackTrace();
             }
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {//로그아웃
             logout();
             setResult(Gl.RESULT_LOGOUT);
             finish();
@@ -490,11 +484,11 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
         if (v.getId() == mToolbarAction[0].getId()) { // back button
             mDrawer.openDrawer(mNavView);
         }
-        if (v.getId() == mToolbarAction[1].getId()) {
+        if (v.getId() == mToolbarAction[1].getId()) {//Meeting 데이터 새로고침
             BackgroundTask mTask = new BackgroundTask();
             mTask.execute(g);
         }
-        if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId()) {
+        if (v.getId() == mTabbarAction[0].getId() || v.getId() == mTabbarAction[1].getId()) {//일정 목록, 구성원 선택
             for (int i = 0; i < mTabBtnNum; i++) {
                 mTabbarImage[i].clearColorFilter();
                 mTabbarImage[i].setColorFilter(getResources().getColor(R.color.grey4), PorterDuff.Mode.SRC_ATOP);
@@ -512,12 +506,12 @@ public class GroupManage extends Activity implements NavigationView.OnNavigation
                 }
             }
         }
-        if (v.equals(mFab[0])) {
+        if (v.equals(mFab[0])) {//일정 생성
             mIntent.setClass(GroupManage.this, CreateMeet.class);
             mIntent.putExtra(Gl.SELECT_DAY_MODE, 0);
             startActivityForResult(mIntent, Gl.GROUPMANAGE_CREATEMEET);
         }
-        if (v.equals(mFab[1])) {
+        if (v.equals(mFab[1])) {//그룹으로 새로운 유저 초대
             mIntent.setClass(GroupManage.this, InvitePeople.class);
             mIntent.putExtra(Gl.INVITE_MODE, 1);
             startActivityForResult(mIntent, Gl.GROUPMANAGE_INVITEPEOPLE);

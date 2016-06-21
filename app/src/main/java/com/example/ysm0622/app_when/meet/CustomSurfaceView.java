@@ -103,6 +103,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mMax = max;
     }
 
+    //유저가 드래그한 시간 색 칠하기
     private void drawInputs() {
         ArrayList<DateTime> D = m.getDateTime();
         Paint grd = new Paint();
@@ -155,7 +156,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
                         Log.d("TEST", "cnt[" + h + "][" + v + "] = " + cnt[h][v]);
-//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[cnt[h][v] - 1]);
                     }
                     n++;
                     j--;
@@ -166,6 +166,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
+    //누적 인원 비교를 위한 색 톤 설정
     private Paint[] getPaintArr(int len) {
         Paint arr[] = new Paint[len];
         for (int i = 0; i < len; i++)
@@ -320,6 +321,8 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
+
+    //Surfaceview를 이용하기 위한 서브 쓰레드
     public class CThread extends Thread {
 
         private final String TAG = CThread.class.getName();

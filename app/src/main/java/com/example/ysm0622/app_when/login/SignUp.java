@@ -204,16 +204,12 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
                 mTextViewErrMsg[i].setVisibility(View.VISIBLE);
                 mTextViewCounter[i].setTextColor(getResources().getColor(R.color.red_dark));
                 mEditText[i].getBackground().setColorFilter(getResources().getColor(R.color.red_dark), PorterDuff.Mode.SRC_ATOP);
-                //mImageView[i].setColorFilter(getResources().getColor(R.color.red_dark), PorterDuff.Mode.SRC_ATOP);
-                //mTextInputLayout[i].setHintTextAppearance(R.style.TextAppearance_Design_Error_);
             } else if (mEditText[i].getText().toString().length() >= mMinLength[i] && mEditText[i].hasFocus()) {
                 mTextViewErrMsg[i].setText("");
                 mTextViewErrMsg[i].setVisibility(View.INVISIBLE);
                 mTextViewCounter[i].setTextColor(getResources().getColor(R.color.colorAccent));
                 mEditText[i].getBackground().setColorFilter(getResources().getColor(R.color.textPrimary), PorterDuff.Mode.SRC_ATOP);
                 mEditText[i].getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                //mImageView[i].setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                //mTextInputLayout[i].setHintTextAppearance(R.style.TextAppearance_AppCompat_Display1_);
             }
         }
         if (!isValidEmail(mEditText[1].getText()) && mEditText[1].hasFocus()) {
@@ -223,6 +219,7 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
         }
     }
 
+    //Email valid check
     public final static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
@@ -236,7 +233,7 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
             String name = mEditText[0].getText().toString();
             String email = mEditText[1].getText().toString();
             String password = mEditText[2].getText().toString();
-            if (isExistEmail(email)) {
+            if (isExistEmail(email)) {//중복 이메일 확인
                 Toast.makeText(getApplicationContext(), R.string.exist_email_msg, Toast.LENGTH_SHORT).show();
             } else {
                 User u = new User(name, email, password);
@@ -259,7 +256,7 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
         @Override
         protected Integer doInBackground(User... args) {
             ArrayList<NameValuePair> param = ServerConnection.InsertUser(args[0]);
-            ServerConnection.getStringFromServer(param, Gl.INSERT_USER);
+            ServerConnection.getStringFromServer(param, Gl.INSERT_USER);//서버에 신규가입 유저 정보 업데이트
             return null;
         }
 
@@ -280,6 +277,7 @@ public class SignUp extends AppCompatActivity implements View.OnFocusChangeListe
         return null;
     }
 
+    //중복 이메일 확인
     public static final boolean isExistEmail(String email) {
         for (int i = 0; i < Gl.USERS.size(); i++) {
             if (Gl.USERS.get(i).getEmail().equals(email)) {

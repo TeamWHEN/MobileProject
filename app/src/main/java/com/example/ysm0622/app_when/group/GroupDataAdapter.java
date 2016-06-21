@@ -48,7 +48,6 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
 
     public static final int DELETEGROUP_DIALOG = 1002;
 
-
     public GroupDataAdapter(Context context, int resource, ArrayList<Group> values, Intent intent) {
         super(context, resource, values);
         this.mContext = context;
@@ -103,7 +102,6 @@ public class GroupDataAdapter extends ArrayAdapter<Group> {
             }
 
             mTextView[0].setText(g.getTitle());
-//            mTextView[1].setText(Gl.getUserById(g.getMasterId()).getName());
             mTextView[2].setText(String.valueOf(g.getMemberNum()));
 
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {

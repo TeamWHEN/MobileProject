@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -86,8 +85,6 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grouplist_drawer);
 
-//        new ServerConnection().execute(Gl.SELECT_ALL_GROUP);
-//        new ServerConnection().execute(Gl.SELECT_ALL_USERGROUP);
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_LOGIN, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
         mIntent = getIntent();
@@ -108,6 +105,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         initNavigationView();
 
+        //새로운 그룹 생성
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,17 +122,13 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        //선택한 그룹으로 입장
         mListView = (ListView) findViewById(R.id.ListView);
         adapter = new GroupDataAdapter(this, R.layout.group_item, groupData, mIntent);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                Log.e("TAG", "" + position);
-//                mIntent.setClass(GroupList.this, GroupManage.class);
-//                mIntent.putExtra(Gl.GROUP, groupData.get(position));
-//                mIntent.putExtra(Gl.TAB_NUMBER, 1);
-//                startActivityForResult(mIntent, Gl.GROUPLIST_GROUPMANAGE);
                 mIntent.setClass(GroupList.this, GroupManage.class);
                 mIntent.putExtra(Gl.GROUP, groupData.get(position));
                 mIntent.putExtra(Gl.TAB_NUMBER, 0);
@@ -145,6 +139,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mTask.execute();
     }
 
+    //그룹 데이터 확인
     public static void groupDataEmptyCheck() {
         if (groupData.size() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -166,8 +161,8 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         @Override
         protected Integer doInBackground(Integer... arg0) {
-            String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_ALL_GROUP);
-            String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_ALL_USERGROUP);
+            String result1 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_ALL_GROUP);//모든 그룹 정보를 가져온다
+            String result2 = ServerConnection.getStringFromServer(new ArrayList<NameValuePair>(), Gl.SELECT_ALL_USERGROUP);//모든 유저 그룹 정보를 가져온다
             ServerConnection.SelectAllGroup(result1);
             ServerConnection.SelectAllUserGroup(result2);
             return null;
@@ -184,6 +179,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         }
     }
 
+    //로딩 다이어로그
     public Dialog onCreateDialog(int id) {
         progressDialog = new ProgressDialog(this);
         if (id == PROGRESS_DIALOG) {
@@ -230,10 +226,9 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     @Override
     protected void onPause() {
         super.onPause(); //save state data (background color) for future use
-        Log.d("DEBUG3", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
+        //Bitmap이 차지하는 Heap Memory 를 반환한다.
         ImageView0.setImageBitmap(null);
         temp.recycle();
-        Log.d("DEBUG4", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     @Override
@@ -273,6 +268,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mNavView.setNavigationItemSelectedListener(this);
     }
 
+    //Nav의 바탕화면을 4가지 이미지로 랜덤 생성한다
     private void setRandomNavHeader(int i) {
         if (i == 0)
             mNavView.getHeaderView(0).setBackground(getResources().getDrawable(R.drawable.wallpaper1_resize));
@@ -317,14 +313,14 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
         if (id == R.id.nav_group) {
 
-        } else if (id == R.id.nav_setting) {
+        } else if (id == R.id.nav_setting) {//환경설정
             mIntent.setClass(GroupList.this, Settings.class);
             startActivityForResult(mIntent, Gl.GROUPLIST_SETTINGS);
-        } else if (id == R.id.nav_rate) {
+        } else if (id == R.id.nav_rate) {//앱 평가
             createDialogBox();
-        } else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about) {//개발자 정보
             startActivity(new Intent(GroupList.this, About.class));
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {//카카오톡 공유
             try {
                 final KakaoLink kakaoLink = KakaoLink.getKakaoLink(this);
                 final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
@@ -347,7 +343,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
             } catch (KakaoParameterException e) {
                 e.printStackTrace();
             }
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {//로그아웃
             logout();
             setResult(Gl.RESULT_LOGOUT);
             finish();
