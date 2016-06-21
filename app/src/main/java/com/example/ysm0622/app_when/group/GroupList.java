@@ -80,6 +80,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
 
     public Bitmap temp;
     ImageView ImageView0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,12 +130,15 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Log.e("TAG", "" + position);
+//                Log.e("TAG", "" + position);
+//                mIntent.setClass(GroupList.this, GroupManage.class);
+//                mIntent.putExtra(Gl.GROUP, groupData.get(position));
+//                mIntent.putExtra(Gl.TAB_NUMBER, 1);
+//                startActivityForResult(mIntent, Gl.GROUPLIST_GROUPMANAGE);
                 mIntent.setClass(GroupList.this, GroupManage.class);
                 mIntent.putExtra(Gl.GROUP, groupData.get(position));
-                mIntent.putExtra(Gl.TAB_NUMBER, 1);
+                mIntent.putExtra(Gl.TAB_NUMBER, 0);
                 startActivityForResult(mIntent, Gl.GROUPLIST_GROUPMANAGE);
-
             }
         });
         BackgroundTask mTask = new BackgroundTask();
@@ -226,10 +230,10 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
     @Override
     protected void onPause() {
         super.onPause(); //save state data (background color) for future use
-        Log.d("DEBUG3", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        Log.d("DEBUG3", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
         ImageView0.setImageBitmap(null);
         temp.recycle();
-        Log.d("DEBUG4", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        Log.d("DEBUG4", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     @Override
@@ -247,7 +251,7 @@ public class GroupList extends Activity implements NavigationView.OnNavigationIt
         param.height = (int) (width * 9.0 / 16.0);
         mNavView.getHeaderView(0).setLayoutParams(param);
         setRandomNavHeader((int) (Math.random() * 4));
-         ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
+        ImageView0 = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.MyProfile);
         ImageView0.setColorFilter(getResources().getColor(R.color.white));
         TextView TextView0 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyName);
         TextView TextView1 = (TextView) mNavView.getHeaderView(0).findViewById(R.id.MyEmail);

@@ -502,7 +502,7 @@ public class Gl extends Application implements Serializable {
     }
 
     public static void saveBitmaptoJpeg(Bitmap bitmap, int id) {
-        Log.d("Gl", id + "");
+        //Log.d("Gl", id + "");
         try {
             FileOutputStream out = CONTEXT.openFileOutput(id + ".jpg", 0);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
