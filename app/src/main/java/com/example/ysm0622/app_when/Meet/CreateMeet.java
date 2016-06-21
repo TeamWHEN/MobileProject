@@ -13,17 +13,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
-import com.example.ysm0622.app_when.search.Item;
-
-import net.daum.mf.map.api.MapView;
-
-import java.util.HashMap;
 
 
-public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener {
+public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeListener, TextWatcher, View.OnClickListener{
 
     // TAG
     private static final String TAG = CreateMeet.class.getName();
@@ -49,11 +45,11 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
 
-    //MapView
-    private boolean mShowMap;
-    private ImageView mMapViewImageView;
-    private MapView mMapView;
-    private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
+//    //MapView
+//    private boolean mShowMap;
+//    private ImageView mMapViewImageView;
+//    private MapView mMapView;
+//    private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
 
 
     @Override
@@ -131,7 +127,6 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         mErrMsg[1] = getResources().getString(R.string.desc_errmsg1);
         mErrMsg[2] = getResources().getString(R.string.location_errmsg1);
 
-    }
 //        //MapView
 //        mShowMap = false;
 //        mMapViewImageView = (ImageView) findViewById(R.id.map_imageview);
@@ -173,8 +168,8 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
 //                });
 //            }
 //        });
-//    }
-//
+    }
+
 //    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
 //
 //        private final View mCalloutBalloon;
@@ -204,40 +199,35 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
 //
 //    }
 //
-//    private Drawable createDrawableFromUrl(String url) {
-//        try {
-//            InputStream is = (InputStream) this.fetch(url);
-//            Drawable d = Drawable.createFromStream(is, "src");
-//            return d;
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            return null;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    private Object fetch(String address) throws MalformedURLException, IOException {
-//        URL url = new URL(address);
-//        Object content = url.getContent();
-//        return content;
-//    }
-//
 //    private void hideSoftKeyboard() {
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.hideSoftInputFromWindow(mEditText[2].getWindowToken(), 0);
 //    }
-//
-//    private void showToast(final String text) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(CreateMeet.this, text, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
+
+
+    private void initToolbar(Drawable Icon[], String Title) {
+        mToolbarAction = new ImageView[2];
+        mToolbarAction[0] = (ImageView) findViewById(R.id.Toolbar_Action0);
+        mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
+        mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
+
+        for (int i = 0; i < mToolBtnNum; i++) {
+            mToolbarAction[i].setOnClickListener(this);
+            mToolbarAction[i].setImageDrawable(Icon[i]);
+            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
+        }
+        mToolbarTitle.setText(Title);
+    }
+
+    private void showToast(final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(CreateMeet.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 //    private void showResult(List<Item> itemList) {
 //        MapPointBounds mapPointBounds = new MapPointBounds();
 //
@@ -268,20 +258,26 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
 //            mMapView.selectPOIItem(poiItems[0], false);
 //        }
 //    }
-
-    private void initToolbar(Drawable Icon[], String Title) {
-        mToolbarAction = new ImageView[2];
-        mToolbarAction[0] = (ImageView) findViewById(R.id.Toolbar_Action0);
-        mToolbarAction[1] = (ImageView) findViewById(R.id.Toolbar_Action1);
-        mToolbarTitle = (TextView) findViewById(R.id.Toolbar_Title);
-
-        for (int i = 0; i < mToolBtnNum; i++) {
-            mToolbarAction[i].setOnClickListener(this);
-            mToolbarAction[i].setImageDrawable(Icon[i]);
-            mToolbarAction[i].setBackground(getResources().getDrawable(R.drawable.selector_btn));
-        }
-        mToolbarTitle.setText(Title);
-    }
+//
+//    private Drawable createDrawableFromUrl(String url) {
+//        try {
+//            InputStream is = (InputStream) this.fetch(url);
+//            Drawable d = Drawable.createFromStream(is, "src");
+//            return d;
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//            return null;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//    private Object fetch(String address) throws MalformedURLException, IOException {
+//        URL url = new URL(address);
+//        Object content = url.getContent();
+//        return content;
+//    }
 
     @Override
     public void onClick(View v) {
@@ -379,31 +375,20 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         }
     }
 
-//    //지도 유동적으로 보여주기
-//    public void showMap(View v) {
-//        if (mShowMap) {
-//            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-//            mMapView.setVisibility(View.INVISIBLE);
-//            mShowMap = false;
-//        } else {
-//            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
-//            mMapView.setVisibility(View.VISIBLE);
-//            mShowMap = true;
-//        }
-//    }
-//
 //    @Override
 //    public void onMapViewInitialized(MapView mapView) {
+//
 //        mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(37.450647, 127.12887), 2, true);
 //
 //        Searcher searcher = new Searcher();
+//        String query = mEditText[2].getText().toString();
 //        double latitude = 37.450647;
 //        double longitude = 127.12887;
 //        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
 //        int page = 1;
 //        String apikey = MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY;
 //
-//        searcher.searchKeyword(getApplicationContext(), "제주도", latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
+//        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
 //            @Override
 //            public void onSuccess(final List<Item> itemList) {
 //                showResult(itemList);
@@ -411,7 +396,7 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
 //
 //            @Override
 //            public void onFail() {
-//                showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
+//                //showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
 //            }
 //        });
 //    }
@@ -488,4 +473,18 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
 //    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
 //
 //    }
+//
+//    //지도 유동적으로 보여주기
+//    public void showMap(View v) {
+//        if (mShowMap) {
+//            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+//            mMapView.setVisibility(View.INVISIBLE);
+//            mShowMap = false;
+//        } else {
+//            mMapViewImageView.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+//            mMapView.setVisibility(View.VISIBLE);
+//            mShowMap = true;
+//        }
+//    }
+
 }

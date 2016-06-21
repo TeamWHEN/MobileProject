@@ -39,6 +39,8 @@ public class Intro extends AppCompatActivity {
         setContentView(R.layout.intro_main);
         new ServerConnection().execute(Gl.SELECT_ALL_USER);
 
+        Gl g = new Gl();
+        mIntent.putExtra("G",g);
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_NOTICE, MODE_PRIVATE);
 
         Gl.initialize(this);

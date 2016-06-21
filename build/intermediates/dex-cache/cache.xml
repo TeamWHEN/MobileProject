@@ -1,3 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\libs\gson-2.6.2.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\gson-2.6.2_665d82da63d94b9e47c65adaf8ccc9f37baf71cf.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="81955639bed83b180ec3097ab76be23c8b0ea71d">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_fbe93cddf5cba9c0c07fee95ba6bb286a5c0c460.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_bb46057bd3ce0a5ed509ad314dd419bf5d74c5f3.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="92309b0a977c6e087de46684d05f57a95a201ead">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\instant-run_0f5794696d7a866b6de20ff01edc961400b328a6.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\libs\libDaumMapAndroid.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a2ca14c67023cf9dfb7f79261593e4c014675ac6">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\libDaumMapAndroid_f5eea6e3aafe90077882cd6f993850bd04bec785.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.4.0_b7b968c060b7e79ab869c73cee9dd8fbe991a68f.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.kakao.sdk\kakaolink\1.1.15\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a1fcbc8617ea8feac82a1983fe14686ed1c6c6fd">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.kakao.sdk-kakaolink-1.1.15_cc27d30c243de45dde5f6e01157123f122cbabcd.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_6eb9c27f6ea7bdd2806edac5bc76f191ef2fe630.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_273ebe542e2cceacf3b0037687c12083b0ee0d14.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.4.0_caa3a9b1436cf505187dd8633cb8291ca0178636.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_9ccd9a78e2b099960daad10939f9eb536ebd98dd.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_9bca91e7b43c36ae1bbee83b6ec248c83caecf4f.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\exploded-aar\com.kakao.sdk\util\1.1.15\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="9b6c04880b8c85669ed262069986c83fdd356242">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\com.kakao.sdk-util-1.1.15_fbbc5e4a0b07941b4cea2ee364463c68ac8bd4f1.jar" />
+    </item>
+    <item
+        jar="C:\Users\ysm0622\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\Users\ysm0622\AndroidStudioProjects\Android\App_When\WHEN\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_8cf57259280982a54fc0756bb7a031dadf0f6db5.jar" />
+    </item>
+
+</items>

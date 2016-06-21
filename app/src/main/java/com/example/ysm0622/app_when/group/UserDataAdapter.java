@@ -2,6 +2,8 @@ package com.example.ysm0622.app_when.group;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,9 +62,12 @@ public class UserDataAdapter extends ArrayAdapter<User> {
             if (!u.getImageFilePath().equals("")) {
                 Log.e("userDate",u.getId()+"");
                 mImageViewProfile.clearColorFilter();
-                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(Gl.PROFILES.get(String.valueOf(u.getId()))));
+                Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             } else {
-                mImageViewProfile.setColorFilter(mContext.getResources().getColor(R.color.colorPrimary));
+                mImageViewProfile.clearColorFilter();
+                Bitmap temp = Gl.getDefaultImage(u.getId());
+                mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
             }
             mTextView[0].setText(u.getName());
             mTextView[1].setText(u.getEmail());

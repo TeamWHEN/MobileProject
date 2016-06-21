@@ -11,8 +11,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.util.Base64;
+import android.util.Log;
 import android.util.TypedValue;
 
+import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.object.Group;
 import com.example.ysm0622.app_when.object.Meet;
 import com.example.ysm0622.app_when.object.MeetDate;
@@ -21,6 +23,9 @@ import com.example.ysm0622.app_when.object.User;
 import com.example.ysm0622.app_when.object.UserGroup;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,12 +88,18 @@ public class Gl extends Application implements Serializable {
     public static Context CONTEXT;
     public static float DENSITY;
 
-    public static ArrayList<User> USERS = new ArrayList<>();;
-    public static ArrayList<Group> GROUPS = new ArrayList<>();;
-    public static ArrayList<UserGroup> USER_GROUP = new ArrayList<>();;
-    public static ArrayList<Meet> MEETS = new ArrayList<>();;
-    public static ArrayList<MeetDate> MEET_DATE = new ArrayList<>();;
-    public static ArrayList<Times> TIMES = new ArrayList<>();;
+    public static ArrayList<User> USERS = new ArrayList<>();
+    ;
+    public static ArrayList<Group> GROUPS = new ArrayList<>();
+    ;
+    public static ArrayList<UserGroup> USER_GROUP = new ArrayList<>();
+    ;
+    public static ArrayList<Meet> MEETS = new ArrayList<>();
+    ;
+    public static ArrayList<MeetDate> MEET_DATE = new ArrayList<>();
+    ;
+    public static ArrayList<Times> TIMES = new ArrayList<>();
+    ;
 
     public static HashMap<String, Bitmap> PROFILES = new HashMap<String, Bitmap>();
 
@@ -99,7 +110,7 @@ public class Gl extends Application implements Serializable {
     public static final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
 
     public static void initialize(Context context) {
-        CONTEXT = context;
+        CONTEXT = context.getApplicationContext();
         DENSITY = CONTEXT.getResources().getDisplayMetrics().density;
     }
 
@@ -457,6 +468,51 @@ public class Gl extends Application implements Serializable {
         } catch (Exception e) {
             e.getMessage();
             return null;
+        }
+    }
+
+    public static Bitmap getDefaultImage(int id) {
+        Bitmap result;
+        if (id % 12 == 0) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default0);
+        } else if (id % 12 == 1) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default1);
+        } else if (id % 12 == 2) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default2);
+        } else if (id % 12 == 3) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default3);
+        } else if (id % 12 == 4) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default4);
+        } else if (id % 12 == 5) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default5);
+        } else if (id % 12 == 6) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default6);
+        } else if (id % 12 == 7) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default7);
+        } else if (id % 12 == 8) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default8);
+        } else if (id % 12 == 9) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default9);
+        } else if (id % 12 == 10) {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default10);
+        } else {
+            result = BitmapFactory.decodeResource(CONTEXT.getResources(), R.drawable.default11);
+        }
+        return result;
+    }
+
+    public static void saveBitmaptoJpeg(Bitmap bitmap, int id) {
+        Log.d("Gl", id + "");
+        try {
+            FileOutputStream out = CONTEXT.openFileOutput(id + ".jpg", 0);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (FileNotFoundException exception) {
+            Log.e("FileNotFoundException", exception.getMessage());
+        } catch (IOException exception) {
+            Log.e("IOException", exception.getMessage());
         }
     }
 }

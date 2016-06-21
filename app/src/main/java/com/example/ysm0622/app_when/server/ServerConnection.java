@@ -83,6 +83,13 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 break;
             default:
         }
+
+        for (User u : Gl.getUsers()) {
+            if (!u.getImageFilePath().equals("")) {
+                Bitmap tmp = Gl.StringToBitMap(u.ImageFilePath);
+                Gl.saveBitmaptoJpeg(tmp, u.getId());
+            }
+        }
     }
 
     public ArrayList<NameValuePair> getNameValuePair(String index) {
