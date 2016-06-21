@@ -87,7 +87,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 break;
             default:
         }
-        Log.d("DEBUG1", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        Log.d("DEBUG1", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
         for (User u : Gl.getUsers()) {
             if (!u.getImageFilePath().equals("")) {
                 tmp = Gl.StringToBitMap(u.ImageFilePath);
@@ -96,7 +96,7 @@ public class ServerConnection extends AsyncTask<String, String, String> {
             }
         }
         tmp.recycle();
-        Log.d("DEBUG2", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        Log.d("DEBUG2", "Heap Size : " + Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     public ArrayList<NameValuePair> getNameValuePair(String index) {
@@ -325,7 +325,16 @@ public class ServerConnection extends AsyncTask<String, String, String> {
                 Times t = new Gson().fromJson(data.getJSONObject(i).toString(), Times.class);
                 arrayList.add(t);
             }
-            Gl.getMeetById(arrayList.get(0).getMeetId()).setDateTime(SelectDay.TimesToDateTime(arrayList));
+            for (int i = 0; i < arrayList.size(); i++) {
+                Gl.getMeetById(arrayList.get(0).getMeetId()).setDateTime(SelectDay.TimesToDateTime(arrayList));
+            }
+
+//
+//            for (int i = 0; i < arrayList.size(); i++) {
+//                Meet m = Gl.getMeetById(arrayList.get(i).getMeetId());
+//                if (m.getId() == arrayList.get(i).getMeetId())
+//                    m.setDateTime(SelectDay.TimesToDateTime(arrayList));
+//            }
             Gl.setTime(arrayList);
             Gl.LogAllTimeByMeet(Gl.getMeet(arrayList.get(0).getMeetId()));
         } catch (Exception e) {
