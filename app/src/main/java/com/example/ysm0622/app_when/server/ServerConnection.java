@@ -51,7 +51,6 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... args) {
-//        Log.d("Gl", args[0]);
         TYPE = args[0];
         switch (TYPE) {
             case Gl.SELECT_ALL_USER:
@@ -65,7 +64,6 @@ public class ServerConnection extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-//        Log.d("Gl", result);
         switch (TYPE) {
             case Gl.SELECT_ALL_USER:
                 SelectAllUser(result);

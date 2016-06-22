@@ -59,7 +59,6 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         mSoundId = mSound.load(this, R.raw.metal_clang, 1);
         mVibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
         String toolbarTitle = getResources().getString(R.string.notifications);
@@ -145,7 +144,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         if (v.equals(mToolbarAction[0])) {
             super.onBackPressed();
         }
-        for (int i = 0; i < COUNT; i++) {
+        for (int i = 0; i < COUNT; i++) {//유동적으로 선택한 switch 표시
             if (v.equals(mLinearLayout[i])) {
                 if (mSwitch[i].isChecked()) {
                     mSwitch[i].setChecked(false);
@@ -184,6 +183,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         }
     }
 
+    //알람 설정
     public void setNotice(int index, boolean state) {
 
         if (index == 0) {
@@ -199,6 +199,7 @@ public class Notifications extends Activity implements View.OnClickListener, Com
         sampleNotice(index, state);
     }
 
+    //알람 정보 얻기
     public boolean getNotice(int index) {
         boolean result;
         if (index == 0) {

@@ -101,7 +101,7 @@ public class Language extends Activity implements View.OnClickListener {
             mImageViewRadio[i].setColorFilter(getResources().getColor(R.color.colorAccent));
         }
 
-
+        //유동적으로 선택한 언어 표시
         if (mSharedPref.contains(Gl.LANGUAGE_CHECK)) {
             if (mSharedPref.getString(Gl.LANGUAGE_CHECK, Gl.LANGUAGE_KOREAN).equalsIgnoreCase(Gl.LANGUAGE_KOREAN)) {
                 mCheck[0] = true;
@@ -119,12 +119,10 @@ public class Language extends Activity implements View.OnClickListener {
             mCheck[0] = true;
             mCheck[1] = false;
         }
-
-
     }
 
     @Override
-    public void onClick(View v) { // 해당 언어 클릭시 바로 언어 변경 이벤트처리해야함
+    public void onClick(View v) { // 해당 언어 클릭시 언어 변경 이벤트 처리
         if (v.equals(mToolbarAction[0])) {
             super.onBackPressed();
         } else {

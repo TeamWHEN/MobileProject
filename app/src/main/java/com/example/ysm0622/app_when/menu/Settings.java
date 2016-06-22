@@ -107,14 +107,14 @@ public class Settings extends Activity implements View.OnClickListener {
             setResult(RESULT_OK, mIntent);
             super.onBackPressed();
         }
-        if (v.equals(mLinearLayout[0])) {
+        if (v.equals(mLinearLayout[0])) {//유저 정보 수정
             mIntent.setClass(Settings.this, EditProfile.class);
             startActivityForResult(mIntent, Gl.SETTINGS_EDITPROFILE);
         }
-        if (v.equals(mLinearLayout[1])) {
+        if (v.equals(mLinearLayout[1])) {//알람 설정
             startActivity(new Intent(Settings.this, Notifications.class));
         }
-        if (v.equals(mLinearLayout[2])) {
+        if (v.equals(mLinearLayout[2])) {//언어 설정
             startActivity(new Intent(Settings.this, Language.class));
         }
     }
