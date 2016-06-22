@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -140,13 +141,14 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             for (int j = 0; n < arrayLists.size() && j < m.getSelectedDate().size(); j++) {
                 Calendar A = m.getSelectedDate().get(j);
                 Calendar B = null;
-                if (n < arrayLists.size() && arrayLists.get(n).size()!=0) B = arrayLists.get(n).get(0);
+                if (n < arrayLists.size() && arrayLists.get(n).size() != 0)
+                    B = arrayLists.get(n).get(0);
                 if (A != null && B != null && isEqual(A, B)) {
                     ArrayList<Calendar> arrayList = arrayLists.get(n);
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        cnt[j][v]++;
+                        cnt[h][v]++;
 //                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[i]);
                     }
                     n++;
@@ -157,7 +159,11 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
 
-
+        int maxCount = -1;
+        Calendar start, end;
+        start = Calendar.getInstance();
+        end = Calendar.getInstance();
+        boolean sw = false;
         for (int i = 0; i < D.size(); i++) {
             Log.d("TEST", "D.size : " + D.size());
             ArrayList<ArrayList<Calendar>> arrayLists = D.get(i).getSelectTime();
@@ -166,14 +172,23 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             for (int j = 0; n < arrayLists.size() && j < m.getSelectedDate().size(); j++) {
                 Calendar A = m.getSelectedDate().get(j);
                 Calendar B = null;
-                if (n < arrayLists.size() && arrayLists.get(n).size()!=0) B = arrayLists.get(n).get(0);
+                if (n < arrayLists.size() && arrayLists.get(n).size() != 0)
+                    B = arrayLists.get(n).get(0);
                 if (A != null && B != null && isEqual(A, B)) {
                     ArrayList<Calendar> arrayList = arrayLists.get(n);
                     for (int k = 0; k < arrayList.size(); k++) {
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
-                        Log.d("TEST", "cnt[" + j + "][" + v + "] = " + cnt[j][v]);
+                        Log.d("TEST", "cnt[" + h + "][" + v + "] = " + cnt[h][v]);
                         mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[cnt[h][v] - 1]);
+                        if (cnt[h][v] > maxCount) {
+                            maxCount = cnt[h][v];
+                            start = arrayList.get(k);
+                            sw = true;
+                        }
+                        if (sw && cnt[h][v] == maxCount) {
+                            end = arrayList.get(k);
+                        }
                     }
                     n++;
                     j--;
@@ -182,6 +197,10 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 }
             }
         }
+
+        String str = start.get(Calendar.YEAR) + "/" + (start.get(Calendar.MONTH)+1) + "/" + start.get(Calendar.DATE) + " " + start.get(Calendar.HOUR_OF_DAY) + ":00 ~ ";
+        str += end.get(Calendar.YEAR) + "/" + (end.get(Calendar.MONTH)+1) + "/" + end.get(Calendar.DATE) + " " + (end.get(Calendar.HOUR_OF_DAY)+1) + ":00" + "\n총 " + maxCount + "명입니다";
+        if(maxCount!=-1)Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
     }
 
     private Paint[] getPaintArr(int len) {
@@ -193,63 +212,63 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             arr[0].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 2) {
-            arr[0].setColor(getResources().getColor(R.color.dis4));
+            arr[0].setColor(getResources().getColor(R.color.dis0));
             arr[1].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 3) {
-            arr[0].setColor(getResources().getColor(R.color.dis3));
-            arr[1].setColor(getResources().getColor(R.color.dis6));
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis3));
             arr[2].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 4) {
-            arr[0].setColor(getResources().getColor(R.color.dis2));
-            arr[1].setColor(getResources().getColor(R.color.dis4));
-            arr[2].setColor(getResources().getColor(R.color.dis6));
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis2));
+            arr[2].setColor(getResources().getColor(R.color.dis5));
             arr[3].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 5) {
-            arr[0].setColor(getResources().getColor(R.color.dis1));
-            arr[1].setColor(getResources().getColor(R.color.dis3));
-            arr[2].setColor(getResources().getColor(R.color.dis5));
-            arr[3].setColor(getResources().getColor(R.color.dis7));
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis2));
+            arr[2].setColor(getResources().getColor(R.color.dis4));
+            arr[3].setColor(getResources().getColor(R.color.dis5));
             arr[4].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 6) {
             arr[0].setColor(getResources().getColor(R.color.dis0));
             arr[1].setColor(getResources().getColor(R.color.dis1));
-            arr[2].setColor(getResources().getColor(R.color.dis3));
-            arr[3].setColor(getResources().getColor(R.color.dis5));
-            arr[4].setColor(getResources().getColor(R.color.dis7));
+            arr[2].setColor(getResources().getColor(R.color.dis2));
+            arr[3].setColor(getResources().getColor(R.color.dis4));
+            arr[4].setColor(getResources().getColor(R.color.dis5));
             arr[5].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 7) {
             arr[0].setColor(getResources().getColor(R.color.dis0));
             arr[1].setColor(getResources().getColor(R.color.dis1));
             arr[2].setColor(getResources().getColor(R.color.dis2));
-            arr[3].setColor(getResources().getColor(R.color.dis4));
-            arr[4].setColor(getResources().getColor(R.color.dis6));
-            arr[5].setColor(getResources().getColor(R.color.dis7));
+            arr[3].setColor(getResources().getColor(R.color.dis3));
+            arr[4].setColor(getResources().getColor(R.color.dis4));
+            arr[5].setColor(getResources().getColor(R.color.dis5));
             arr[6].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 8) {
-            arr[0].setColor(getResources().getColor(R.color.dis1));
-            arr[1].setColor(getResources().getColor(R.color.dis2));
-            arr[2].setColor(getResources().getColor(R.color.dis3));
-            arr[3].setColor(getResources().getColor(R.color.dis4));
-            arr[4].setColor(getResources().getColor(R.color.dis5));
-            arr[5].setColor(getResources().getColor(R.color.dis6));
-            arr[6].setColor(getResources().getColor(R.color.dis7));
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis1));
+            arr[2].setColor(getResources().getColor(R.color.dis2));
+            arr[3].setColor(getResources().getColor(R.color.dis3));
+            arr[4].setColor(getResources().getColor(R.color.dis4));
+            arr[5].setColor(getResources().getColor(R.color.dis5));
+            arr[6].setColor(getResources().getColor(R.color.dis6));
             arr[7].setColor(getResources().getColor(R.color.dis9));
         }
         if (len == 9) {
-            arr[0].setColor(getResources().getColor(R.color.dis1));
-            arr[1].setColor(getResources().getColor(R.color.dis2));
-            arr[2].setColor(getResources().getColor(R.color.dis3));
-            arr[3].setColor(getResources().getColor(R.color.dis4));
-            arr[4].setColor(getResources().getColor(R.color.dis5));
-            arr[5].setColor(getResources().getColor(R.color.dis6));
-            arr[6].setColor(getResources().getColor(R.color.dis7));
-            arr[7].setColor(getResources().getColor(R.color.dis8));
+            arr[0].setColor(getResources().getColor(R.color.dis0));
+            arr[1].setColor(getResources().getColor(R.color.dis1));
+            arr[2].setColor(getResources().getColor(R.color.dis2));
+            arr[3].setColor(getResources().getColor(R.color.dis3));
+            arr[4].setColor(getResources().getColor(R.color.dis4));
+            arr[5].setColor(getResources().getColor(R.color.dis5));
+            arr[6].setColor(getResources().getColor(R.color.dis6));
+            arr[7].setColor(getResources().getColor(R.color.dis7));
             arr[8].setColor(getResources().getColor(R.color.dis9));
         }
         if (len >= 10) {
