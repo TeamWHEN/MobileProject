@@ -99,11 +99,11 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
             LinearLayout mLocationLayout = (LinearLayout) v.findViewById(R.id.LocationLayout);
 
-            if (!Gl.getUser(m.getMasterId()).getImageFilePath().equals("")) {
+            if (!Gl.getUser(m.getMasterId()).getImageFilePath().equals("")) {//유저 프로필 이미지 존재
                 mImageViewProfile.clearColorFilter();
                 temp = BitmapFactory.decodeFile(Gl.ImageFilePath + m.getMasterId() + ".jpg");
                 mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
-            } else {
+            } else {//default 이미지 사용
                 mImageViewProfile.clearColorFilter();
                 temp = Gl.getDefaultImage(m.getMasterId());
                 mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
@@ -120,6 +120,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mTextView[2].setText(m.getDateTimeNum() + " / " + m.getGroup().getMemberNum());
             mTextView[3].setText(m.getLocation());
 
+            //년, 월, 일 시간 표시
             if (m.MeetDate != null && m.getMeetDate().size() > 0) {
                 MeetDate md = m.getMeetDate().get(0);
                 Date d = new Date(md.getDate());
@@ -131,6 +132,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
 
             if (m.getLocation().equals("")) mLocationLayout.setVisibility(View.GONE);
 
+            //투표 현황
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -144,6 +146,8 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     }
                 }
             });
+
+            //일정 날짜 선택
             mImageViewBtn[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -154,6 +158,8 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     Gl.LogAllMeet();
                 }
             });
+
+            //투표한 그룹원 표시
             mImageViewBtn[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -161,6 +167,8 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                     pollStateDialogBox(m);
                 }
             });
+
+            //Meeting 알람 설정
             mImageViewBtn[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -186,6 +194,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
         return v;
     }
 
+    //투표한 유저 확인
     public void pollStateDialogBox(final Meet m) {
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -246,11 +255,11 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
                 mImageView[1] = (ImageView) v.findViewById(R.id.ImageView1);
                 mTextView = (TextView) v.findViewById(R.id.TextView0);
 
-                if (!u.getImageFilePath().equals("")) {
+                if (!u.getImageFilePath().equals("")) {//유저 이미지가 존재
                     mImageView[0].clearColorFilter();
                     temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
                     mImageView[0].setImageBitmap(Gl.getCircleBitmap(temp));
-                } else {
+                } else {//default 이미지 사용
                     mImageView[0].clearColorFilter();
                     temp = Gl.getDefaultImage(u.getId());
                     mImageView[0].setImageBitmap(Gl.getCircleBitmap(temp));

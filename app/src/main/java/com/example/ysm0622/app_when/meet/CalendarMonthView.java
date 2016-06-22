@@ -80,12 +80,10 @@ public class CalendarMonthView extends LinearLayout {
         mHeight = getHeight();
         float h = mHeight / mRow;
         float w = mWidth / mCol;
-//        Log.w(TAG, "W = " + w + " H = " + h);
         h -= (int) (2 * Gl.DENSITY + 0.5f);
         w = w - h;
         w /= 2;
         mParam[1].setMargins((int) w, (int) (1 * Gl.DENSITY + 0.5f), (int) w, (int) (1 * Gl.DENSITY + 0.5f));
-//        Log.w(TAG, "Height : " + (mTextView[0].getHeight() - (2 * Gl.DENSITY + 0.5f)) + " Width : " + (mTextView[0].getWidth() - w * 2));
     }
 
 
@@ -173,22 +171,8 @@ public class CalendarMonthView extends LinearLayout {
         return New;
     }
 
-//    public void setSavedData(Intent intent) {
-//        mIntent = intent;
-//        User u = (User) mIntent.getSerializableExtra(Gl.USER);
-//        Meet m = (Meet) mIntent.getSerializableExtra(Gl.MEET);
-//        for (int i = 0; i < m.getDateTimeNum(); i++) {
-//            if (m.getDATETIME().get(i).getUser().getId() == u.getId()) {
-//                for (int j = 0; j < m.getDATETIME().get(i).getStartTime().size(); j++) {
-//                    savedData.add(m.getDATETIME().get(i).getStartTime());
-//                    savedData.add(m.getDATETIME().get(i).getEndTime());
-//                }
-//            }
-//        }
-//        Log.w(TAG, "m.getDATETIME Num : " + m.getDateTimeNum());
-//        Log.w(TAG, "savedData Num : " + savedData.size());
-//    }
 
+    //사용자의 선택에 따라서 유동적으로 달력 화면 출력
     public void reDisplay(Calendar C) {
         curYear = C.get(Calendar.YEAR);
         curMonth = C.get(Calendar.MONTH);
@@ -292,7 +276,4 @@ public class CalendarMonthView extends LinearLayout {
         this.mIntent = mIntent;
     }
 
-//    public void setSavedData(ArrayList<ArrayList<Calendar>> savedData) {
-//        this.savedData = savedData;
-//    }
 }

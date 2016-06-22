@@ -104,6 +104,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mMax = max;
     }
 
+    //유저가 드래그한 시간 색 칠하기
     private void duplicateDelete(ArrayList<ArrayList<Calendar>> A, ArrayList<ArrayList<Calendar>> B) {
         for (int i = 0; i < B.size(); i++) {
             for (int j = 0; j < A.size(); j++) {
@@ -203,6 +204,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         if(maxCount!=-1)Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
     }
 
+    //누적 인원 비교를 위한 색 톤 설정
     private Paint[] getPaintArr(int len) {
         Paint arr[] = new Paint[len];
         for (int i = 0; i < len; i++)
@@ -372,6 +374,8 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
+
+    //Surfaceview를 이용하기 위한 서브 쓰레드
     public class CThread extends Thread {
 
         private final String TAG = CThread.class.getName();

@@ -127,6 +127,7 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
         if (mToolbarAction[0].getId() == v.getId()) {
             super.onBackPressed();
         }
+        //그룹으로 초대할 유저 검색
         if (mToolbarAction[1].getId() == v.getId()) {
             mIntent.setClass(CreateGroup.this, InvitePeople.class);
             mIntent.putExtra(Gl.GROUP_TITLE, mEditText[0].getText().toString());
@@ -178,7 +179,8 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
 
     }
 
-    private void validationCheck() { // 인풋 확인
+    //Input 데이터 확인
+    private void validationCheck() {
         for (int i = 0; i < mInputNum; i++) {
             if (mEditText[i].hasFocus()) {
                 mTextViewCounter[i].setText(mEditText[i].getText().toString().length() + " / " + mMinLength[i] + "–" + mMaxLength[i]);
@@ -188,16 +190,12 @@ public class CreateGroup extends AppCompatActivity implements View.OnFocusChange
                 mTextViewErrMsg[i].setVisibility(View.VISIBLE);
                 mTextViewCounter[i].setTextColor(getResources().getColor(R.color.red_dark));
                 mEditText[i].getBackground().setColorFilter(getResources().getColor(R.color.red_dark), PorterDuff.Mode.SRC_ATOP);
-                //mImageView[i].setColorFilter(getResources().getColor(R.color.red_dark), PorterDuff.Mode.SRC_ATOP);
-                //mTextInputLayout[i].setHintTextAppearance(R.style.TextAppearance_Design_Error_);
             } else if (mEditText[i].getText().toString().length() >= mMinLength[i] && mEditText[i].hasFocus()) {
                 mTextViewErrMsg[i].setText("");
                 mTextViewErrMsg[i].setVisibility(View.INVISIBLE);
                 mTextViewCounter[i].setTextColor(getResources().getColor(R.color.colorAccent));
                 mEditText[i].getBackground().setColorFilter(getResources().getColor(R.color.textPrimary), PorterDuff.Mode.SRC_ATOP);
                 mEditText[i].getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                //mImageView[i].setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                //mTextInputLayout[i].setHintTextAppearance(R.style.TextAppearance_AppCompat_Display1_);
             }
         }
     }

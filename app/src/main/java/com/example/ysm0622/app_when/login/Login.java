@@ -171,7 +171,6 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         }
 
         protected void onPostExecute(Integer a) {
-//            Toast.makeText(getApplicationContext(), mResult, Toast.LENGTH_SHORT).show();
             Log.w(TAG, mResult);
 
             if (progressDialog != null)
@@ -229,7 +228,6 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
             HttpPost post = new HttpPost(mURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("msg", mEditText[0].getText().toString()));
-            //params.add(new BasicNameValuePair("pass", "xyz"));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -245,6 +243,7 @@ public class Login extends AppCompatActivity implements TextWatcher, View.OnClic
         return mResult;
     }
 
+    //로딩 다이어로그
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);

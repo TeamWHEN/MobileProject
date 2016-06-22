@@ -10,11 +10,9 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -104,10 +102,9 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
     @Override
     protected void onPause() {
         super.onPause(); //save state data (background color) for future use
-        Log.d("DEBUG7", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+        //Bitmap이 차지하는 Heap Memory 를 반환한다.
         ImageView.setImageBitmap(null);
         temp.recycle();
-        Log.d("DEBUG8", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
     }
 
     @Override
@@ -179,6 +176,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         mAdapter.notifyDataSetChanged();
     }
 
+    //검색어에 입력된 단어를 바탕으로 유저를 검색
     private void findMember(ArrayList<User> arrayList, User user) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).getId() == user.getId()) {
@@ -214,7 +212,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         if (mToolbarAction[0].getId() == v.getId()) {
             super.onBackPressed();
         }
-        if (mToolbarAction[1].getId() == v.getId()) {
+        if (mToolbarAction[1].getId() == v.getId()) {//구성원 초대 완료
             if (MODE == 0) {
                 String title = mIntent.getStringExtra(Gl.GROUP_TITLE);
                 String desc = mIntent.getStringExtra(Gl.GROUP_DESC);
@@ -268,7 +266,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         @Override
         protected Integer doInBackground(Group... args) {
             ArrayList<NameValuePair> param2 = ServerConnection.InsertUserGroup(args[0]);
-            ServerConnection.getStringFromServer(param2, Gl.INSERT_USERGROUP);
+            ServerConnection.getStringFromServer(param2, Gl.INSERT_USERGROUP);//새로 추가한 유저 데이터 서버에 업데이트
             return null;
         }
 
@@ -287,8 +285,8 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         protected Integer doInBackground(Group... args) {
             ArrayList<NameValuePair> param1 = ServerConnection.InsertGroup(args[0]);
             ArrayList<NameValuePair> param2 = ServerConnection.InsertUserGroup(args[0]);
-            ServerConnection.getStringFromServer(param1, Gl.INSERT_GROUP);
-            ServerConnection.getStringFromServer(param2, Gl.INSERT_USERGROUP);
+            ServerConnection.getStringFromServer(param1, Gl.INSERT_GROUP);//새로 추가한 그룹 데이터 서버에 업데이트
+            ServerConnection.getStringFromServer(param2, Gl.INSERT_USERGROUP);//새로 추가한 유저 그룹 데이터 서버에 업데이트
             return null;
         }
 
@@ -298,6 +296,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         }
     }
 
+    //로딩 다이어로그
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
@@ -326,6 +325,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         updateListView(s);
     }
 
+    //동적으로 유저 리스트 표현
     private void updateListView(CharSequence s) {
         mAdapter.clear();
         if (mEditText.getText().toString().length() >= 1) {
@@ -362,6 +362,7 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         }
     }
 
+    //새로운 유저 추가
     private void addMember(int position) {
         if (mMemberLayout.size() == 0) mLinearLayout.removeAllViews();
         LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -375,11 +376,11 @@ public class InvitePeople extends AppCompatActivity implements View.OnFocusChang
         LinearLayout.setOnClickListener(this);
 
         TextView.setText(searchUser.get(position).getName());
-        if (!searchUser.get(position).getImageFilePath().equals("")) {
+        if (!searchUser.get(position).getImageFilePath().equals("")) {//유저 프로필 사진이 존재
             ImageView.clearColorFilter();
              temp = BitmapFactory.decodeFile(Gl.ImageFilePath + searchUser.get(position).getId() + ".jpg");
             ImageView.setImageBitmap(Gl.getCircleBitmap(temp));
-        } else {
+        } else {//default image 사용
             ImageView.clearColorFilter();
              temp = Gl.getDefaultImage(searchUser.get(position).getId());
             ImageView.setImageBitmap(Gl.getCircleBitmap(temp));

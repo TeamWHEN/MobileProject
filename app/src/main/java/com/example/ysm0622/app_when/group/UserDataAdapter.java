@@ -59,12 +59,12 @@ public class UserDataAdapter extends ArrayAdapter<User> {
 
             mImageViewProfile = (ImageView) v.findViewById(R.id.ImageView0);
 
-            if (!u.getImageFilePath().equals("")) {
+            if (!u.getImageFilePath().equals("")) {//유저 이미지가 존재
                 Log.e("userDate",u.getId()+"");
                 mImageViewProfile.clearColorFilter();
                 Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
                 mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));
-            } else {
+            } else {//default 이미지 사용
                 mImageViewProfile.clearColorFilter();
                 Bitmap temp = Gl.getDefaultImage(u.getId());
                 mImageViewProfile.setImageBitmap(Gl.getCircleBitmap(temp));

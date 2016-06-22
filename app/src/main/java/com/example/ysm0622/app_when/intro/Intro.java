@@ -59,46 +59,26 @@ public class Intro extends AppCompatActivity {
                 setLocale("en");
             }
         }
-        Log.d("DEBUG00", "Heap Size : "+Long.toString(Debug.getNativeHeapAllocatedSize()));
+
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
 
             public void onFinish() {
-//                new JSONParse().execute();
                 if (PRF_AUTO_LOGIN()) {
                     startActivityForResult(mIntent, Gl.INTRO_GROUPLIST);
-////                    new JSONParse().execute();
                 } else {
                     startActivity(new Intent(Intro.this, Login.class));
                     finish();
                 }
-//                else {
-//                    new JSONParse().execute()
-//                }
             }
         }.start();
-//
-//        Gl.USERS.add(new User("지정한", "wlwjdgks123@gmail.com", "1234"));
-//        Gl.USERS.add(new User("조동현", "ehdguso@naver.com", "1234"));
-//        Gl.USERS.add(new User("조동현", "aa.com", "1234"));
-//
-//        Gl.USERS.add(new User("조서형", "westbro00@naver.com", "1234"));
-//        Gl.USERS.add(new User("김영송", "infall346@naver.com", "1234"));
-//        Gl.USERS.add(new User("장영준", "cyj9212@gmail.com", "1234"));
-//        Gl.USERS.add(new User("유영준", "yyj@gmail.com", "1234"));
-//        Gl.USERS.add(new User("김원", "wonkimtx@gachon.ac.kr", "1234"));
-//        Gl.USERS.add(new User("정옥란", "orjeong@gachon.ac.kr", "1234"));
-//        Gl.USERS.add(new User("최재혁", "jchoi@gachon.ac.kr", "1234"));
-//        Gl.USERS.add(new User("유준", "joon.yoo@gachon.ac.kr", "1234"));
-//        Gl.USERS.add(new User("노웅기", "wkloh2@gachon.ac.kr", "1234"));
-//        Gl.USERS.add(new User("최아영", "aychoi@gachon.ac.kr", "1234"));
-//        Gl.USERS.add(new User("정용주", "coolyj.jung@gmail.com", "1234"));
     }
 
     public void onBackPressed() {
     }
 
+    //언어 초기화
     public void languageInit() {
         mSharedPref = getSharedPreferences(Gl.FILE_NAME_LANGUAGE, MODE_PRIVATE);
         mEdit = mSharedPref.edit();
@@ -118,6 +98,7 @@ public class Intro extends AppCompatActivity {
         mEdit.apply();
     }
 
+    //자동 로그인 기능
     public boolean PRF_AUTO_LOGIN() {
         String email, password;
 
@@ -136,6 +117,7 @@ public class Intro extends AppCompatActivity {
         return false;
     }
 
+    //이메일 valid check
     private int isExistEmail(String s) {
         for (int i = 0; i < Gl.getUserCount(); i++) {
             if (Gl.getUser(i).getEmail().equals(s)) {
@@ -145,6 +127,7 @@ public class Intro extends AppCompatActivity {
         return -1;
     }
 
+    //비밀번혼 valid check
     private boolean isRightPassword(String s, int i) {
         if (Gl.getUser(i).getPassword().equals(s)) {
             return true;

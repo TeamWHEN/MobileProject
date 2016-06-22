@@ -89,24 +89,26 @@ public class Gl extends Application implements Serializable {
     public static float DENSITY;
 
     public static ArrayList<User> USERS = new ArrayList<>();
-    ;
+
     public static ArrayList<Group> GROUPS = new ArrayList<>();
-    ;
+
     public static ArrayList<UserGroup> USER_GROUP = new ArrayList<>();
-    ;
+
     public static ArrayList<Meet> MEETS = new ArrayList<>();
-    ;
+
     public static ArrayList<MeetDate> MEET_DATE = new ArrayList<>();
-    ;
+
     public static ArrayList<Times> TIMES = new ArrayList<>();
-    ;
+
 
     public static HashMap<String, Bitmap> PROFILES = new HashMap<String, Bitmap>();
 
+    //로그인한 사용자 정보
     public static User MyUser;
     public static Group MyGroup;
     public static Meet MyMeet;
 
+    //프로필 이미지 파일 공통 경로
     public static final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
 
     public static void initialize(Context context) {
@@ -229,20 +231,6 @@ public class Gl extends Application implements Serializable {
         return result;
     }
 
-//    public static ArrayList<Group> getGroups(User u) {
-//        ArrayList<Group> arrayList = new ArrayList<>();
-//        for (int i = 0; i < GROUPS.size(); i++) {
-//            ArrayList<User> arrayList1 = GROUPS.get(i).getMember();
-//            for (int j = 0; j < arrayList1.size(); j++) {
-//                if (u.getId() == arrayList1.get(j).getId()) {
-//                    arrayList.add(GROUPS.get(i));
-//                    break;
-//                }
-//            }
-//        }
-//        return arrayList;
-//    }
-
     public static Group getGroup(int i) {
         return GROUPS.get(i);
     }
@@ -338,7 +326,7 @@ public class Gl extends Application implements Serializable {
     }
 
 
-    // Shared Preferences
+    // Shared Preferences File Name
     public static final String FILE_NAME_NOTICE = "NOTICE_DATA";
     public static final String FILE_NAME_LOGIN = "LOGIN_DATA";
     public static final String FILE_NAME_LANGUAGE = "LANGUAGE_DATA";
@@ -352,6 +340,7 @@ public class Gl extends Application implements Serializable {
     public static final String LANGUAGE_ENGLISH = "ENGLISH";
     public static final String MEET_NOTICE = "MEET_";
 
+    //dp를 px로 전환
     public static float dpToPx(Context context, float dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
         return px;
@@ -370,18 +359,19 @@ public class Gl extends Application implements Serializable {
     public static final String UPDATE_USER = SERVER_URL + "updateUserAccount.do";
     public static final String INSERT_GROUP = SERVER_URL + "insertGroupList.do";
     public static final String DELETE_GROUP = SERVER_URL + "deleteGroupList.do";
+
     //    public static final String UPDATE_GROUP = SERVER_URL + "updateGroupList.do";
     public static final String INSERT_USERGROUP = SERVER_URL + "insertUserGroup.do";
     public static final String DELETE_USERGROUP = SERVER_URL + "deleteUserGroup.do";
     public static final String INSERT_MEET = SERVER_URL + "insertMeet.do";
     public static final String DELETE_MEET = SERVER_URL + "deleteMeet.do";
+
     //    public static final String UPDATE_MEET = SERVER_URL + "updateMeet.do";
     public static final String INSERT_MEETDATE = SERVER_URL + "insertMeetDate.do";
     public static final String INSERT_TIME = SERVER_URL + "insertTime.do";
     public static final String DELETE_TIME = SERVER_URL + "deleteTime.do";
 
-
-    // Logs
+    // 서버로 부터 받은 데이터 확인하는 Log
     public static void LogAllUser() {
 //        for (int i = 0; i < USERS.size(); i++) {
 //            User u = USERS.get(i);
@@ -446,6 +436,7 @@ public class Gl extends Application implements Serializable {
         return output;
     }
 
+    //Bitmap을 String으로 전환
     public static String BitmapToString(Bitmap bitmap) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -460,6 +451,7 @@ public class Gl extends Application implements Serializable {
         }
     }
 
+    //String을 Bitmap으로 전환
     public static Bitmap StringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
@@ -471,6 +463,7 @@ public class Gl extends Application implements Serializable {
         }
     }
 
+    //Default 이미지
     public static Bitmap getDefaultImage(int id) {
         Bitmap result;
         if (id % 12 == 0) {
@@ -501,6 +494,7 @@ public class Gl extends Application implements Serializable {
         return result;
     }
 
+    //Bitmap을 jpg 파일로 저장
     public static void saveBitmaptoJpeg(Bitmap bitmap, int id) {
         //Log.d("Gl", id + "");
         try {
