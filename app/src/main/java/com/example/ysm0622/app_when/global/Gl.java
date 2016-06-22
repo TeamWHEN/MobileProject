@@ -111,6 +111,16 @@ public class Gl extends Application implements Serializable {
     //프로필 이미지 파일 공통 경로
     public static final String ImageFilePath = "/data/data/com.example.ysm0622.app_when/files/";
 
+    public static String getRecommmendationTime() {
+        return RecommmendationTime;
+    }
+
+    public static void setRecommmendationTime(String recommmendationTime) {
+        RecommmendationTime = recommmendationTime;
+    }
+
+    public static String RecommmendationTime = "";
+
     public static void initialize(Context context) {
         CONTEXT = context.getApplicationContext();
         DENSITY = CONTEXT.getResources().getDisplayMetrics().density;

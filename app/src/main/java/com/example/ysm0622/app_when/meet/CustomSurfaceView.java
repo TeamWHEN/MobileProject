@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -150,7 +149,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                         int v = arrayList.get(k).get(Calendar.HOUR_OF_DAY);
                         v -= mMin;
                         cnt[h][v]++;
-//                        mCanvas.drawRect(mWunit * h, mHunit * v, mWunit * (h + 1), mHunit * (v + 1), paintArr[i]);
                     }
                     n++;
                     j--;
@@ -201,7 +199,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         String str = start.get(Calendar.YEAR) + "/" + (start.get(Calendar.MONTH)+1) + "/" + start.get(Calendar.DATE) + " " + start.get(Calendar.HOUR_OF_DAY) + ":00 ~ ";
         str += end.get(Calendar.YEAR) + "/" + (end.get(Calendar.MONTH)+1) + "/" + end.get(Calendar.DATE) + " " + (end.get(Calendar.HOUR_OF_DAY)+1) + ":00" + "\n총 " + maxCount + "명입니다";
-        if(maxCount!=-1)Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
+        if(maxCount!=-1)Gl.setRecommmendationTime(str);
     }
 
     //누적 인원 비교를 위한 색 톤 설정

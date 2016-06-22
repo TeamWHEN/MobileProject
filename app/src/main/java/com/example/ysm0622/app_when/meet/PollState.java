@@ -118,22 +118,24 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.getId() == mToolbarAction[0].getId()) { // back button
+            Gl.setRecommmendationTime("");//추천 시간 초기화
             super.onBackPressed();
         } else if (v.getId() == mToolbarAction[1].getId()) {// recommendation time
             //일정추천 다이어로그
-            recommendationDialogBox("일정 보내줘~");
+            recommendationDialogBox();
         }
     }
 
     //일정 추천 다이어로그
-    public void recommendationDialogBox(String r) {
+    public void recommendationDialogBox() {
         LayoutInflater inflater = (LayoutInflater) PollState.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.recommendation_time_alert, null);
 
         TextView Title = (TextView) view.findViewById(R.id.recommendation_title);
         TextView Btn = (TextView) view.findViewById(R.id.recommendation_btn);
 
-        Title.setText(r);
+        if(!Gl.getRecommmendationTime().equals(""))//추천 시간이 있을때만 표시
+            Title.setText(Gl.getRecommmendationTime());
 
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
