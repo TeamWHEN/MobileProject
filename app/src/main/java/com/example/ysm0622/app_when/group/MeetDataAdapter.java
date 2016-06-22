@@ -136,7 +136,7 @@ public class MeetDataAdapter extends ArrayAdapter<Meet> {
             mImageViewBtn[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ((Gl.MyUser.getId() == m.getMasterId()) || (m.getGroup().Member.size() == m.getDateTimeNum())) {//Complete vote or mater user
+                    if ((Gl.MyUser.getId() == m.getMasterId()) || (m.getGroup().Member.size() == m.getDateTimeNum())) {//Complete vote or master user
                         mIntent.setClass(mContext, PollState.class);
                         mIntent.putExtra(Gl.MEET, m);
                         ((Activity) mContext).startActivityForResult(mIntent, Gl.GROUPMANAGE_POLLSTATE);

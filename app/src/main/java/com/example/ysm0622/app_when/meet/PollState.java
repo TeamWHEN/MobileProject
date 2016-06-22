@@ -1,9 +1,12 @@
 package com.example.ysm0622.app_when.meet;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +37,9 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
     private ImageView mImageView[] = new ImageView[COUNT];
     private TextView mTextView[] = new TextView[COUNT];
 
+    //Dialog
+    private AlertDialog mDialBox;
+
     private Group g;
     private Meet m;
 
@@ -51,6 +57,7 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
 
         Drawable[] toolbarIcon = new Drawable[2];
         toolbarIcon[0] = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+        toolbarIcon[1] = getResources().getDrawable((R.drawable.ic_recommendation_time));
         String toolbarTitle = getString(R.string.state);
 
         initToolbar(toolbarIcon, toolbarTitle);
@@ -112,6 +119,33 @@ public class PollState extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         if (v.getId() == mToolbarAction[0].getId()) { // back button
             super.onBackPressed();
+        } else if (v.getId() == mToolbarAction[1].getId()) {// recommendation time
+            //일정추천 다이어로그
+            recommendationDialogBox("일정 보내줘~");
         }
+    }
+
+    //일정 추천 다이어로그
+    public void recommendationDialogBox(String r) {
+        LayoutInflater inflater = (LayoutInflater) PollState.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.recommendation_time_alert, null);
+
+        TextView Title = (TextView) view.findViewById(R.id.recommendation_title);
+        TextView Btn = (TextView) view.findViewById(R.id.recommendation_btn);
+
+        Title.setText(r);
+
+        Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialBox.cancel();
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(PollState.this);
+        builder.setView(view);
+
+        mDialBox = builder.create();
+        mDialBox.show();
     }
 }

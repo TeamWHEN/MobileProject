@@ -11,9 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ysm0622.app_when.R;
 import com.example.ysm0622.app_when.global.Gl;
@@ -40,7 +38,6 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
     private EditText mEditText[] = new EditText[mInputNum];
     private TextView mTextViewErrMsg[] = new TextView[mInputNum];
     private TextView mTextViewCounter[] = new TextView[mInputNum];
-    private LinearLayout mMapContainer;
     private int mMinLength[] = new int[mInputNum];
     private int mMaxLength[] = new int[mInputNum];
     private String mErrMsg[] = new String[mInputNum];
@@ -137,16 +134,6 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
         mToolbarTitle.setText(Title);
     }
 
-    private void showToast(final String text) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(CreateMeet.this, text, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
     @Override
     public void onClick(View v) {
         if (mToolbarAction[0].getId() == v.getId()) {
@@ -157,12 +144,6 @@ public class CreateMeet extends AppCompatActivity implements View.OnFocusChangeL
             mIntent.putExtra(Gl.MEET_TITLE, mEditText[0].getText().toString());
             mIntent.putExtra(Gl.MEET_DESC, mEditText[1].getText().toString());
             mIntent.putExtra(Gl.MEET_LOCATION, mEditText[2].getText().toString());
-//            mMapView.setVisibility(View.GONE);
-
-            //지도 위도, 경도 얻고 삭제
-            //mMapContainer.removeView(mMapView);
-            //mMapView.releaseUnusedMapTileImageResources();
-            //mMapView.destroyDrawingCache();
             startActivityForResult(mIntent, Gl.CREATEMEET_SELECTDAY);
         }
     }

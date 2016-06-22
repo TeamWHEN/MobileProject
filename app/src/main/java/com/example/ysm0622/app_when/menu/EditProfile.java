@@ -187,7 +187,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             mMyPhoto.clearColorFilter();
             Bitmap temp = BitmapFactory.decodeFile(Gl.ImageFilePath + u.getId() + ".jpg");
             mMyPhoto.setImageBitmap(Gl.getCircleBitmap(temp));
-        } else {
+        } else {//default 이미지 사용
             mMyPhoto.clearColorFilter();
             Bitmap temp = Gl.getDefaultImage(u.getId());
             mMyPhoto.setImageBitmap(Gl.getCircleBitmap(temp));
@@ -237,7 +237,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
     }
 
     @Override
-    public void onFocusChange(View v, boolean hasFocus) {
+    public void onFocusChange(View v, boolean hasFocus) {//유동적으로 유저 정보 변경시 업데이트 버튼 표시
         for (int i = 0; i < mInputNum; i++) {
             if (v.equals(mEditText[i])) {
                 mImageView[i].clearColorFilter();
@@ -287,16 +287,12 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
                 mTextViewErrMsg[i].setVisibility(View.VISIBLE);
                 mTextViewCounter[i].setTextColor(getResources().getColor(R.color.red_dark));
                 mEditText[i].getBackground().setColorFilter(getResources().getColor(R.color.red_dark), PorterDuff.Mode.SRC_ATOP);
-                //mImageView[i].setColorFilter(getResources().getColor(R.color.red_dark), PorterDuff.Mode.SRC_ATOP);
-                //mTextInputLayout[i].setHintTextAppearance(R.style.TextAppearance_Design_Error_);
             } else if (mEditText[i].getText().toString().length() >= mMinLength[i] && mEditText[i].hasFocus()) {
                 mTextViewErrMsg[i].setText("");
                 mTextViewErrMsg[i].setVisibility(View.INVISIBLE);
                 mTextViewCounter[i].setTextColor(getResources().getColor(R.color.colorAccent));
                 mEditText[i].getBackground().setColorFilter(getResources().getColor(R.color.textPrimary), PorterDuff.Mode.SRC_ATOP);
                 mEditText[i].getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                //mImageView[i].setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                //mTextInputLayout[i].setHintTextAppearance(R.style.TextAppearance_AppCompat_Display1_);
             }
         }
         if (!isValidEmail(mEditText[1].getText()) && mEditText[1].hasFocus()) {
@@ -306,6 +302,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
+    //Email valid check
     public final static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
@@ -321,18 +318,17 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
             User u = (User) mIntent.getSerializableExtra(Gl.USER);
             u.setName(name);
             u.setEmail(email);
-//            if (mFabCheck)
             mIntent.putExtra(Gl.USER, u);
             setResult(RESULT_OK, mIntent);
             finish();
         }
-        if (v.equals(mFab)) {
+        if (v.equals(mFab)) {//갤러리 연결
             callGallery();
         }
-        if (v.equals(mButton)) {
+        if (v.equals(mButton)) {//다이얼로그 닫기
             removeDialogBox();
         }
-        if (v.equals(mLinearLayoutPW)) {
+        if (v.equals(mLinearLayoutPW)) {//비밀번호 다이얼로그
             changepwDialogBox();
         }
     }
@@ -430,6 +426,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         mDialBox.show();
     }
 
+    //계정 삭제시 서버에 존재하는 유저 정보 삭제
     class BackgroundTask extends AsyncTask<User, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);
@@ -449,6 +446,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
     }
 
     //비밀번호 변경시 콜
+    //변경된 비밀번호 업데이트
     class BackgroundTask2 extends AsyncTask<User, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);
@@ -466,6 +464,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
+    //로딩 다이얼로그
     public Dialog onCreateDialog(int id) {
         if (id == PROGRESS_DIALOG) {
             progressDialog = new ProgressDialog(this);
@@ -477,6 +476,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         return null;
     }
 
+    //갤러리 연결
     public void callGallery() {
         Intent intent = new Intent();
         // Gallery 호출
@@ -515,6 +515,7 @@ public class EditProfile extends AppCompatActivity implements View.OnFocusChange
         }
     }
 
+    //프로필 이미지 변경시 서버에 저장된 이미지 업데이트
     class BackgroundTask3 extends AsyncTask<User, Integer, Integer> {
         protected void onPreExecute() {
             showDialog(PROGRESS_DIALOG);

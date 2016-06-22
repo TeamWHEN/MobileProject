@@ -223,5 +223,6 @@
     <string name="re_input_pw">Please confirm your password again.</string>
     <string name="restart_msg">The language is changed, it must restart applied.</string>
     <string name="incomplete_vote_msg">Incomplete Vote</string>
+    <string name="recommendation_title">Recommendation Meeting</string>
 
 </resources>
