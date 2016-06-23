@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ysm0622.app_when">
+    package="com.teamw.ysm0622.app_when">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -17,7 +17,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".global.Gl"
+        android:name="com.teamw.ysm0622.app_when.global.Gl"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/product_icon0"
@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".intro.Intro"
+            android:name="com.teamw.ysm0622.app_when.intro.Intro"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,74 +46,74 @@
 
         </activity>
         <activity
-            android:name=".login.Login"
+            android:name="com.teamw.ysm0622.app_when.login.Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".group.GroupList"
+            android:name="com.teamw.ysm0622.app_when.group.GroupList"
             android:label="@string/title_activity_group_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
-            android:name=".login.SignUp"
+            android:name="com.teamw.ysm0622.app_when.login.SignUp"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".group.CreateGroup"
+            android:name="com.teamw.ysm0622.app_when.group.CreateGroup"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".group.GroupManage"
+            android:name="com.teamw.ysm0622.app_when.group.GroupManage"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
-            android:name=".group.InvitePeople"
+            android:name="com.teamw.ysm0622.app_when.group.InvitePeople"
             android:hardwareAccelerated="false"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".menu.Settings"
+            android:name="com.teamw.ysm0622.app_when.menu.Settings"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".menu.Notifications"
+            android:name="com.teamw.ysm0622.app_when.menu.Notifications"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".menu.About"
+            android:name="com.teamw.ysm0622.app_when.menu.About"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".menu.Language"
+            android:name="com.teamw.ysm0622.app_when.menu.Language"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".menu.EditProfile"
+            android:name="com.teamw.ysm0622.app_when.menu.EditProfile"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".meet.CreateMeet"
+            android:name="com.teamw.ysm0622.app_when.meet.CreateMeet"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".meet.SelectDay"
+            android:name="com.teamw.ysm0622.app_when.meet.SelectDay"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".meet.PollState"
+            android:name="com.teamw.ysm0622.app_when.meet.PollState"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

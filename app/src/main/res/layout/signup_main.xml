@@ -7,7 +7,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:theme="@style/AlertDialog.AppCompat.Light"
-    tools:context="com.example.ysm0622.app_when.login.SignUp">
+    tools:context="com.teamw.ysm0622.app_when.login.SignUp">
 
     <include layout="@layout/toolbar" />
 

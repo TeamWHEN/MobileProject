@@ -5,13 +5,13 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.example.ysm0622.app_when"
+        applicationId "com.teamw.ysm0622.app_when"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
-        testApplicationId "com.example.ysm0622.app_when.test"
+        testApplicationId "com.teamw.ysm0622.app_when.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true

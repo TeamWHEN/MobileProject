@@ -51,7 +51,7 @@
             android:id="@+id/Include0"
             layout="@layout/timeinput_scale" />
 
-        <com.example.ysm0622.app_when.meet.TimeSelectView
+        <com.teamw.ysm0622.app_when.meet.TimeSelectView
             android:id="@+id/TimeSelectView0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:id="@+id/Include1"
             layout="@layout/timeinput_scale" />
 
-        <com.example.ysm0622.app_when.meet.TimeSelectView
+        <com.teamw.ysm0622.app_when.meet.TimeSelectView
             android:id="@+id/TimeSelectView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:id="@+id/Include2"
             layout="@layout/timeinput_scale" />
 
-        <com.example.ysm0622.app_when.meet.TimeSelectView
+        <com.teamw.ysm0622.app_when.meet.TimeSelectView
             android:id="@+id/TimeSelectView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

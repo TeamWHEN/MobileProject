@@ -124,7 +124,7 @@
         android:layout_height="1dp"
         android:background="@color/textLightPrimary" />
 
-    <com.example.ysm0622.app_when.meet.CalendarMonthView
+    <com.teamw.ysm0622.app_when.meet.CalendarMonthView
         android:id="@+id/CalendarView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

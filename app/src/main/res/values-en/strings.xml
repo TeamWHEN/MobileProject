@@ -224,5 +224,9 @@
     <string name="restart_msg">The language is changed, it must restart applied.</string>
     <string name="incomplete_vote_msg">Incomplete Vote</string>
     <string name="recommendation_title">Recommendation Meeting</string>
-
+    <string name="createmeet_progress">Creating Meeting…</string>
+    <string name="saving">Saving…</string>
+    <string name="hour">Hour</string>
+    <string name="input_saving">Saving input information…</string>
+    <string name="inputtime_progress">Loading Meeting information…</string>
 </resources>

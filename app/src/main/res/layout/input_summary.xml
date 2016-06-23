@@ -1,4 +1,4 @@
-<com.example.ysm0622.app_when.meet.SummaryView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.teamw.ysm0622.app_when.meet.SummaryView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/SummaryView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -42,7 +42,7 @@
                     android:layout_height="1dp"
                     android:background="@color/colorPrimary" />
 
-                <com.example.ysm0622.app_when.meet.CustomSurfaceView
+                <com.teamw.ysm0622.app_when.meet.CustomSurfaceView
                     android:id="@+id/CustomSurfaceView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -51,4 +51,4 @@
 
         </HorizontalScrollView>
     </LinearLayout>
-</com.example.ysm0622.app_when.meet.SummaryView>
+</com.teamw.ysm0622.app_when.meet.SummaryView>
