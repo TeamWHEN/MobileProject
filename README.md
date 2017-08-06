@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-![ICON](app/src/main/res/drawable/product_icon0.png)<br><br>
+<img src="https://github.com/TeamWHEN/WHEN/blob/master/app/src/main/res/drawable/product_icon0.png?raw=true"/><br><br>
 WHEN<br>
 <a href="#"><strong>Group Schedule Manager</strong></a>
 <br><br><br>
