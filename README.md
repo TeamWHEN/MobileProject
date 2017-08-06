@@ -1,2 +1,2 @@
-# MobileProject
-Mobile Programming Term Project WHEN
+# WHEN
+Group Schedule Management Application ' WHEN '
