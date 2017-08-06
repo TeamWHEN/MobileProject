@@ -2,12 +2,12 @@
 <p align="center">
 <img src="https://github.com/TeamWHEN/WHEN/blob/master/app/src/main/res/drawable/product_icon0.png?raw=true"/><br><br>
 WHEN<br>
-<a href="#"><strong>Group Schedule Manager</strong></a>
+<a href="#"><strong>&laquo; Group Schedule Manager &raquo;</strong></a>
 <br><br><br>
 </p>
 
 [![PLATFORM](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](#)
-[![PLATFORM](https://img.shields.io/travis/USER/REPO.svg)](#)
+[![PLATFORM](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
 [![MIT LICENSE](https://img.shields.io/badge/License-MIT-orange.svg)](#)
 
 ## WHEN
