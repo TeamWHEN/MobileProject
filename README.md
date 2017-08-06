@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-[ICON](app/src/main/res/drawable/product_icon0.png)<br><br>
+![ICON](app/src/main/res/drawable/product_icon0.png)<br><br>
 WHEN<br>
 <a href="#"><strong>Group Schedule Manager</strong></a>
 <br><br><br>
@@ -12,7 +12,6 @@ WHEN<br>
 
 ## WHEN
 WHEN is android application that help for group schedule management.<br>
-You will most likely find video under [HERE](https://www.youtube.com/watch?v=YaPik26iVvU&t=56s).
 
 ## Technology
 * Android
